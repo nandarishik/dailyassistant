@@ -1,0 +1,264 @@
+﻿Loading workbook: c:\Users\Admin\Desktop\BrainPowerInternship\Sales Report.xlsx
+Total sheets found: 50
+
+  [  1/50] Profiling: 'DSR' ... TRANSACTIONAL
+  [  2/50] Profiling: 'Aggregator Details' ... TRANSACTIONAL
+  [  3/50] Profiling: 'MenuMix from 0 to 704' ... PARTIAL
+  [  4/50] Profiling: 'Menu Mix Summary' ... SUMMARY/PIVOT
+  [  5/50] Profiling: 'Bill Register from 0 to 1552' ... SUMMARY/PIVOT
+  [  6/50] Profiling: 'CreditCardType' ... PARTIAL
+  [  7/50] Profiling: 'Bill wise Item wise NC Sales' ... TRANSACTIONAL
+  [  8/50] Profiling: 'VoidOrderRegister' ... TRANSACTIONAL
+  [  9/50] Profiling: 'IDEAL CONSUMPTION STORE BRAND' ... SUMMARY/PIVOT
+  [ 10/50] Profiling: 'FC Product' ... PARTIAL
+  [ 11/50] Profiling: 'PRODUCTWISE IDEAL' ... PARTIAL
+  [ 12/50] Profiling: 'Tax Charge' ... TRANSACTIONAL
+  [ 13/50] Profiling: 'Cancel Order Register' ... PARTIAL
+  [ 14/50] Profiling: 'Cancel Order Menu Mix' ... PARTIAL
+  [ 15/50] Profiling: 'Bill Wise Cancel Order Menu Mix' ... TRANSACTIONAL
+  [ 16/50] Profiling: 'SETTLEMENT SUMMARY' ... SUMMARY/PIVOT
+  [ 17/50] Profiling: 'Card Wise Detail Report' ... SUMMARY/PIVOT
+  [ 18/50] Profiling: 'Discount Report Item Wise' ... SUMMARY/PIVOT
+  [ 19/50] Profiling: 'Online Orders Register' ... PARTIAL
+  [ 20/50] Profiling: 'HOURLY SALE' ... TRANSACTIONAL
+  [ 21/50] Profiling: 'AGGREGATOR HOURLY SALE' ... TRANSACTIONAL
+  [ 22/50] Profiling: 'ITEM WISE HOURLY SALE' ... TRANSACTIONAL
+  [ 23/50] Profiling: 'RESETTLEMENT' ... PARTIAL
+  [ 24/50] Profiling: 'Counter Wise Summary' ... SUMMARY/PIVOT
+  [ 25/50] Profiling: 'Cashier Wise Menu Mix' ... TRANSACTIONAL
+  [ 26/50] Profiling: 'Item Wise NC Sales' ... PARTIAL
+  [ 27/50] Profiling: 'Indent Details' ... PARTIAL
+  [ 28/50] Profiling: 'Indent vs STN' ... PARTIAL
+  [ 29/50] Profiling: 'Indent Register' ... PARTIAL
+  [ 30/50] Profiling: 'HOLD_INDET_LIST' ... PARTIAL
+  [ 31/50] Profiling: 'PHYSICAL STOCK REPORT   ' ... SUMMARY/PIVOT
+  [ 32/50] Profiling: 'Stock Report' ... SUMMARY/PIVOT
+  [ 33/50] Profiling: 'STN details' ... TRANSACTIONAL
+  [ 34/50] Profiling: 'Monthwise STN details' ... SUMMARY/PIVOT
+  [ 35/50] Profiling: 'STN Fill Rate' ... PARTIAL
+  [ 36/50] Profiling: ' GRN Against STN Details' ... TRANSACTIONAL
+  [ 37/50] Profiling: 'GRN Against STN Register-' ... PARTIAL
+  [ 38/50] Profiling: 'Grn Against STN Analysis' ... PARTIAL
+  [ 39/50] Profiling: 'GRN Register' ... TRANSACTIONAL
+  [ 40/50] Profiling: 'Supplier_GRN_Details' ... SUMMARY/PIVOT
+  [ 41/50] Profiling: 'Monthwise supplier details' ... PARTIAL
+  [ 42/50] Profiling: 'GRN with PO Inward details' ... TRANSACTIONAL
+  [ 43/50] Profiling: 'Material Return against GRN' ... SUMMARY/PIVOT
+  [ 44/50] Profiling: 'PRODUCT CONSUMPTION REPORT ' ... SUMMARY/PIVOT
+  [ 45/50] Profiling: 'STOCK VARIANCE REPORT' ... SUMMARY/PIVOT
+  [ 46/50] Profiling: 'Ordering  Report' ... SUMMARY/PIVOT
+  [ 47/50] Profiling: 'Issue Note REGISTER' ... TRANSACTIONAL
+  [ 48/50] Profiling: 'GRN DETAILS' ... TRANSACTIONAL
+  [ 49/50] Profiling: 'GRN DETAILS-1' ... TRANSACTIONAL
+  [ 50/50] Profiling: 'WASTAGE  REPORT' ... SUMMARY/PIVOT
+
+================================================================================
+EXCEL WORKBOOK PROFILE REPORT
+================================================================================
+File        : c:\Users\Admin\Desktop\BrainPowerInternship\Sales Report.xlsx
+Total Sheets: 50
+  TRANSACTIONAL    : 17
+  PARTIAL          : 17
+  SUMMARY/PIVOT    : 16
+  EMPTY            : 0
+  NON_TRANSACTIONAL: 0
+  ERROR            : 0
+
+================================================================================
+CORE SALES SHEETS ΓÇö STRUCTURED DATA SUMMARY
+================================================================================
+#     Sheet Name                            Rows  Cols   Date    Revenue   Qty    Outlet   Item  Header Row
+----------------------------------------------------------------------------------------------------
+1     DSR                                     46    43    Y         Y       Y       Y       Y             6
+2     Aggregator Details                      35    11    Y         Y       Y       Y       Y             1
+3     Bill wise Item wise NC Sales            50    15    Y         Y       Y       Y       Y             3
+4     VoidOrderRegister                        6    20    Y         Y       Y       Y       Y             3
+5     Tax Charge                            4140    54    Y         Y       Y       Y       Y             3
+6     Bill Wise Cancel Order Menu Mix          4    15    Y         Y       Y       Y       Y             3
+7     HOURLY SALE                            596    14    Y         Y       Y       Y       Y             3
+8     AGGREGATOR HOURLY SALE                 115    14    Y         Y       Y       Y       Y             3
+9     ITEM WISE HOURLY SALE                 3452    15    Y         Y       Y       Y       Y             3
+10    Cashier Wise Menu Mix                 1815    18    Y         Y       Y       Y       Y             3
+11    STN details                           1076    16    Y         Y       Y       Y       Y             1
+12     GRN Against STN Details               831    24    Y         Y       Y               Y             1
+13    GRN Register                           216    48    Y         Y       Y       Y       Y             3
+14    GRN with PO Inward details             215    29    Y         Y       Y       Y       Y             4
+15    Issue Note REGISTER                   1076    17    Y         Y       Y       Y       Y             1
+16    GRN DETAILS                            115    11    Y         Y       Y                             4
+17    GRN DETAILS-1                          114    12    Y         Y       Y                             5
+
+================================================================================
+PARTIAL SHEETS (missing some core columns but have useful data)
+================================================================================
+#     Sheet Name                            Rows  Cols Detected Columns
+--------------------------------------------------------------------------------
+1     MenuMix from 0 to 704                  708    14 Revenue/Total, Quantity, Outlet, Item
+2     CreditCardType                         312     9 Date, Outlet
+3     FC Product                            1817    26 Revenue/Total, Quantity, Outlet, Item
+4     PRODUCTWISE IDEAL                     1397    16 Quantity, Outlet, Item
+5     Cancel Order Register                    1    21 Date, Revenue/Total, Outlet, Item
+6     Cancel Order Menu Mix                    4    11 Revenue/Total, Quantity, Outlet, Item
+7     Online Orders Register                  96    13 Date, Revenue/Total, Outlet, Item
+8     RESETTLEMENT                            70    20 Date, Quantity, Outlet, Item
+9     Item Wise NC Sales                      50    21 Revenue/Total, Quantity, Outlet, Item
+10    Indent Details                         205    11 Revenue/Total, Item
+11    Indent vs STN                         1049    13 Revenue/Total, Quantity, Outlet, Item
+12    Indent Register                       1046    20 Date, Quantity, Outlet, Item
+13    HOLD_INDET_LIST                          4    11 Date, Quantity, Outlet, Item
+14    STN Fill Rate                         1076    12 Date, Quantity, Outlet, Item
+15    GRN Against STN Register-              233     4 Revenue/Total, Item
+16    Grn Against STN Analysis               234     3 Revenue/Total, Quantity, Item
+17    Monthwise supplier details              28     3 Revenue/Total, Item
+
+================================================================================
+FLAGGED SHEETS
+================================================================================
+
+EMPTY SHEETS (0):
+
+SUMMARY/PIVOT SHEETS (16):
+  - Menu Mix Summary                    | PIVOT/SUMMARY: Sheet name suggests summary/pivot; NO_DATE_COLUMN: No date/time column detected
+  - Bill Register from 0 to 1552        | PIVOT/SUMMARY: Contains pivot keywords: ['total']
+  - IDEAL CONSUMPTION STORE BRAND       | PIVOT/SUMMARY: Contains pivot keywords: ['total']
+  - SETTLEMENT SUMMARY                  | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - Card Wise Detail Report             | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - Discount Report Item Wise           | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - Counter Wise Summary                | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - PHYSICAL STOCK REPORT               | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - Stock Report                        | PIVOT/SUMMARY: Sheet name suggests summary/pivot; NO_DATE_COLUMN: No date/time column detected
+  - Monthwise STN details               | PIVOT/SUMMARY: Contains pivot keywords: ['sum']; NO_DATE_COLUMN: No date/time column detected
+  - Supplier_GRN_Details                | PIVOT/SUMMARY: Contains pivot keywords: ['grand total', 'total']
+  - Material Return against GRN         | PIVOT/SUMMARY: Contains pivot keywords: ['grand total', 'total']; NO_DATE_COLUMN: No date/time column detected
+  - PRODUCT CONSUMPTION REPORT          | PIVOT/SUMMARY: Sheet name suggests summary/pivot; NO_DATE_COLUMN: No date/time column detected
+  - STOCK VARIANCE REPORT               | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - Ordering  Report                    | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+  - WASTAGE  REPORT                     | PIVOT/SUMMARY: Sheet name suggests summary/pivot
+
+NON-TRANSACTIONAL SHEETS (0):
+
+================================================================================
+DATA SAMPLES ΓÇö First 3 rows of TRANSACTIONAL sheets
+================================================================================
+
+>>> Sheet: 'DSR'  (header_row=6)
+    Detected columns: {'Date': ['DATE'], 'Revenue/Total': ['TOTAL GROSS SALE', 'TOTAL DISCOUNT', 'TOTAL NET SALE', 'DINE IN NET SALE', 'CARRY OUT NET SALE', 'DELIVERY NET SALE', 'TOTAL ORDER COUNT', 'TOTAL PAYMENT', 'TOTAL BILL AMT'], 'Quantity': ['PAX COUNT', 'TOTAL DISCOUNT', 'DINE IN ORDER COUNT', 'CARRY  OUT ORDER COUNT', 'DELIVERY ORDER COUNT', 'TOTAL ORDER COUNT', 'CANCEL COUNT', 'VOID BILL COUNT'], 'Outlet': ['RESTAURANT ID', 'RESTAURANT NAME'], 'Item': ['BRAND NAME', 'RESTAURANT NAME', 'FOOD SALE']}
+     CITY     STATE RM AM RESTAURANT ID BRAND NAME RESTAURANT NAME                DATE PAX COUNT TOTAL GROSS SALE TOTAL DISCOUNT TOTAL NET SALE DINE IN NET SALE DINE IN ORDER COUNT CARRY OUT NET SALE CARRY  OUT ORDER COUNT DELIVERY NET SALE DELIVERY ORDER COUNT TOTAL ORDER COUNT BEVERAGE SALE FOOD SALE LIQUOR SALE SERVICE CHARGE     GST Add. Cess VAT OTHER CHARGES(DELIVERY + PACKAGING) CASH AMT CREDITCARD AMT UPI AMT CREDITCUST AMT VOUCHER AMT CRM AMT BILLAMT TOTAL PAYMENT ROUNDAMT REFUNDAMT VOID ORDER AMT TOTAL BILL AMT CANCEL COUNT VOID BILL COUNT CANCEL   AMT VOID BILL AMT
+HYDERABAD TELANGANA             QOH0221   QAFFEINE QAFFEINE-BHOOJA 2025-12-01 00:00:00                      17506              0          17506            15305                  30               2201                      6                 0                    0                36         12776      4730           0              0  875.74         0   0                                   0     4171           4904    9306              0           0       0   18381         18381    -0.74         0              0       18380.26            0               0            0             0
+HYDERABAD TELANGANA             QOH0221   QAFFEINE QAFFEINE-BHOOJA 2025-12-02 00:00:00                      17159              0          17159            15321                  25               1838                      6                 0                    0                31         12420      4739           0              0   858.3         0   0                                   0     4907           3749    9357              0           0       0   18013         18013     -4.3         0              0        18008.7            0               0            0             0
+HYDERABAD TELANGANA             QOH0221   QAFFEINE QAFFEINE-BHOOJA 2025-12-03 00:00:00                      27631           1363          26268            20194                  30               6074                      9                 0                    0                39         19319      6949           0              0 1313.96         0   0                                   0     1998           7298   18285              0           0       0   27581         27581    -0.96         0              0       27580.04            0               0            0             0
+
+>>> Sheet: 'Aggregator Details'  (header_row=1)
+    Detected columns: {'Date': ['Date'], 'Revenue/Total': ['Net sales'], 'Quantity': ['Order Count'], 'Outlet': ['Restaurant Id', 'Restaurant Name'], 'Item': ['BRAND NAME', 'Restaurant Name', 'Aggregator Name']}
+Restaurant Id BRAND NAME       Restaurant Name                Date Aggregator Name Order Count Net sales GST DELIVERY CHARGES PACKAGING CHARGES BILL AMT
+      QOH0221   QAFFEINE       QAFFEINE-BHOOJA 2025-12-05 00:00:00          SWIGGY           1       224   0                0                20      244
+      QOH0233   QAFFEINE QAFFFEINE-MUSARAMBAGH 2025-12-01 00:00:00          SWIGGY           5   1702.01   0                0               100  1802.01
+      QOH0233   QAFFEINE QAFFFEINE-MUSARAMBAGH 2025-12-01 00:00:00          ZOMATO           8    4269.9   0                0               160   4429.9
+
+>>> Sheet: 'Bill wise Item wise NC Sales'  (header_row=3)
+    Detected columns: {'Date': ['Date'], 'Revenue/Total': ['NCVALUE', 'BASIC VALUE'], 'Quantity': ['NCQTY'], 'Outlet': ['LOCATION NAME'], 'Item': ['LOCATION NAME', 'CUSTOMER NAME', 'SPECIAL CATEGORY NAME', 'PRODUCT NAME']}
+   LOCATION NAME       Date              BILL NO CUSTOMER NAME PHONE  CASHIER  MANAGER REMARK  NC REMARK SPECIAL CATEGORY NAME                     PRODUCT NAME NCQTY NCRATE NCVALUE BASIC VALUE
+QAFFEINE-PHOENIX 2025-12-07 QPX/IN/1/000466/2025     No Number            qpm      qpm        FOOD TRIAL                  FOOD              HONEY CINNAMON ROLL     4                        796
+QAFFEINE-PHOENIX 2025-12-07 QPX/IN/1/000466/2025     No Number            qpm      qpm        FOOD TRIAL                  FOOD SPICY SMOKE CHICKEN HAM SANDWICH     2                        618
+ QAFFEINE-BHOOJA 2025-12-06 QAB/IN/1/009284/2025     No Number       BHOOJA 3 BHOOJA 3            MD SIR             BEVERAGES                ALMOND QAPPUCCINO     3                        837
+
+>>> Sheet: 'VoidOrderRegister'  (header_row=3)
+    Detected columns: {'Date': ['Date', 'Order Start Time', 'Order End Time', 'Product Punch Time', 'Item Void Time', 'Time Difference'], 'Revenue/Total': ['Void Amount', 'NET Amount'], 'Quantity': ['Bill No.1', 'Void Qty'], 'Outlet': ['Location Name', 'Store Code'], 'Item': ['Location Name', 'Product Punch Time', 'Item Void Time', 'Product Name', 'Item void by']}
+   Location Name Store Code Bill No            Bill No.1 Table No       Date    Order Start Time      Order End Time  Product Punch Time      Item Void Time Time Difference             Product Name             Void Reason Void Remark Void Qty Void Amount NET Amount          User       Cashier  Item void by
+QAFFEINE-GVK-ONE               7188 QAG/IN/1/007188/2025          2025-12-07 2025-12-07 13:17:49 2025-12-07 13:24:40 2025-12-07 13:17:02 2025-12-07 13:24:09        00:06:20             IRISH COFFEE GUEST CHANGED THE ORDER                    1         269          0 GVK CASHIER 1 GVK CASHIER 1 GVK CASHIER 1
+QAFFEINE-PHOENIX                413 QPX/IN/1/000413/2025          2025-12-03 2025-12-03 13:39:42 2025-12-03 14:39:13 2025-12-03 13:38:13 2025-12-03 14:30:02        00:50:20 CHICKEN THAI GREEN CURRY GUEST CHANGED THE ORDER                    2         658      263.2           qpm           qpm           qpm
+QAFFEINE-PHOENIX                413 QPX/IN/1/000413/2025          2025-12-03 2025-12-03 13:39:42 2025-12-03 14:39:13 2025-12-03 13:39:40 2025-12-03 14:27:58        00:48:16       ICED TURKISH LATTE GUEST CHANGED THE ORDER                    1         279          0           qpm           qpm           qpm
+
+>>> Sheet: 'Tax Charge'  (header_row=3)
+    Detected columns: {'Date': ['DATE', 'KOT PRINT TIME'], 'Revenue/Total': ['NET AMT', 'TOTAL GST AMT', 'TOTAL TAX AMOUNT', 'TOTAL VALUE'], 'Quantity': ['COUNTERID', 'SALES QTY', 'DISCOUNT RATE', 'DISCOUNT AMT', 'VOID QTY', 'REFUND QTY'], 'Outlet': ['LOCATION NAME'], 'Item': ['LOCATION NAME', 'BRAND NAME', 'CUSTOMER_NAME', 'Product Special Category', 'Product Group', 'GST CATEGORY ID', 'GST CATEGORY', 'PRODUCTID', 'PRODUCT NAME', 'POS DISPLAY NAME', 'Add On Item', 'ITEM REMARK']}
+               DATE   WOKID        LOCATION NAME BRAND NAME      CITY CHANNEL TYPE              BILL NO INVOICE TYPE           ORDER TAKER TABLE NO PAX PHONE CUSTOMER_NAME CARD NO COUNTERID Product Special Category                Product Group GST CATEGORY ID        GST CATEGORY PRODUCTID           PRODUCT NAME       POS DISPLAY NAME Add On Item ITEM REMARK      KOT PRINT TIME HSN CODE BAISCRATE SALES QTY BASICAMT DISCOUNT RATE DISCOUNT AMT Packing Charge VOID QTY REFUND QTY VOID AMT REFUND AMT NET AMT SERVICE CHG RATE SERVICE CHG AMT VAT RATE VAT AMT CGST RATE CGST AMT SGST RATE SGST AMT IGST RATE IGST AMT GST CESS RATE GST CESS AMT TOTAL GST AMT TOTAL TAX AMOUNT TOTAL VALUE SERVICE CHARGE CGST SERVICE CHARGE SGST
+2025-12-01 00:00:00 QOH0012 QAFFEINE HITECH CITY   QAFFEINE HYDERABAD    Carry-Out QAH/IN/1/018906/2025              HITECH CITY CASHIER 1                        No Number                 9                BEVERAGES                Q THICK SHAKE               2 5% Common Use Items     12027 STRAWBERRY THICK SHAKE STRAWBERRY THICK SHAKE                         2025-12-01 08:56:37                203         1      203             0            0              0        0          0        0          0     203                0               0        0       0       2.5     5.08       2.5     5.08         0        0             0            0         10.16            10.16      213.16                   0                   0
+2025-12-01 00:00:00 QOH0012 QAFFEINE HITECH CITY   QAFFEINE HYDERABAD    Carry-Out QAH/IN/1/018906/2025              HITECH CITY CASHIER 1                        No Number                 9                BEVERAGES Q CLASSIC COFFEE HOUSE BLEND               2 5% Common Use Items      8869     CAPPUCCINO ( HOT )     CAPPUCCINO ( HOT )                         2025-12-01 08:56:37                154         1      154             0            0              0        0          0        0          0     154                0               0        0       0       2.5     3.85       2.5     3.85         0        0             0            0           7.7              7.7       161.7                   0                   0
+2025-12-01 00:00:00 QOH0012 QAFFEINE HITECH CITY   QAFFEINE HYDERABAD    Carry-Out QAH/IN/1/018906/2025              HITECH CITY CASHIER 1                        No Number                 9                     FOOD                   CROISSANTS               2 5% Common Use Items     20639 CLASSIC CHICKEN POTPIE CLASSIC CHICKEN POTPIE                         2025-12-01 08:56:37                132         1      132             0            0              0        0          0        0          0     132                0               0        0       0       2.5      3.3       2.5      3.3         0        0             0            0           6.6              6.6       138.6                   0                   0
+
+>>> Sheet: 'Bill Wise Cancel Order Menu Mix'  (header_row=3)
+    Detected columns: {'Date': ['DATE'], 'Revenue/Total': ['NET SALE'], 'Quantity': ['QTY'], 'Outlet': ['LOCATION NAME'], 'Item': ['LOCATION NAME', 'BRAND NAME', 'SPL.CATEGORY NAME', 'GROUP NAME', 'PRODUCT NAME', 'POS DISPLAY NAME']}
+ WOK ID    LOCATION NAME BRAND NAME      CITY                DATE AGGREGATOR              BILL NO CLIENT ORDER NO SPL.CATEGORY NAME                   GROUP NAME             PRODUCT NAME          POS DISPLAY NAME ORDER TYPE QTY NET SALE
+QOH0201 QAFFEINE-PHOENIX   QAFFEINE HYDERABAD 2025-12-01 00:00:00            QPX/IN/1/000385/2025                              FOOD                   SANDWICHES  BANH MI PANEER SANDWICH   BANH MI PANEER SANDWICH     Eat-In   1      289
+QOH0201 QAFFEINE-PHOENIX   QAFFEINE HYDERABAD 2025-12-01 00:00:00            QPX/IN/1/000385/2025                              FOOD                   SANDWICHES BRIOCHE CHICKEN SANDWICH BRIOCHE CHICKEN SANDWICH      Eat-In   1      309
+QOH0201 QAFFEINE-PHOENIX   QAFFEINE HYDERABAD 2025-12-01 00:00:00            QPX/IN/1/000385/2025                         BEVERAGES Q CLASSIC COFFEE HOUSE BLEND  SIGNATURE HOT CHOCOLATE   SIGNATURE HOT CHOCOLATE     Eat-In   1      284
+
+>>> Sheet: 'HOURLY SALE'  (header_row=3)
+    Detected columns: {'Date': ['DATE', 'DAYNO', 'DAY OF WEEK'], 'Revenue/Total': ['NET AMT'], 'Quantity': ['ORDER COUNT', 'DISCOUNT AMT'], 'Outlet': ['LOCATION'], 'Item': ['BRAND NAME']}
+            LOCATION BRAND NAME  WOK ID                DATE DAYNO DAY OF WEEK HOURS      TYPE ORDER COUNT PAX BASIC AMT DISCOUNT AMT VOID AMT NET AMT
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY      8-9 Carry-Out           1   0       489            0        0     489
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY     9-10 Carry-Out           1   0    456.14            0        0  456.14
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY    10-11 Carry-Out           4   0   1758.28       119.55        0 1638.73
+
+>>> Sheet: 'AGGREGATOR HOURLY SALE'  (header_row=3)
+    Detected columns: {'Date': ['DATE', 'DAYNO', 'DAY OF WEEK'], 'Revenue/Total': ['NET AMT'], 'Quantity': ['ORDER COUNT', 'DISCOUNT AMT'], 'Outlet': ['LOCATION'], 'Item': ['BRAND NAME']}
+            LOCATION BRAND NAME  WOK ID                DATE DAYNO DAY OF WEEK HOURS      TYPE AGGREGATOR ORDER COUNT BASIC AMT DISCOUNT AMT VOID AMT NET AMT
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY    10-11 Carry-Out      BTC Q           1       154         30.8        0   123.2
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY    12-13 Carry-Out      BTC Q           1       396         79.2        0   316.8
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY    14-15 Carry-Out      BTC Q           1       154         30.8        0   123.2
+
+>>> Sheet: 'ITEM WISE HOURLY SALE'  (header_row=3)
+    Detected columns: {'Date': ['DATE', 'DAYNO', 'DAY OF WEEK'], 'Revenue/Total': ['NET AMT'], 'Quantity': ['QTY', 'DISCOUNT AMT'], 'Outlet': ['LOCATION'], 'Item': ['BRAND NAME', 'PRODUCTID', 'PRODUCT NAME']}
+            LOCATION BRAND NAME  WOK ID                DATE DAYNO DAY OF WEEK HOURS      TYPE PRODUCTID           PRODUCT NAME QTY BASIC AMT DISCOUNT AMT VOID AMT NET AMT
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY      8-9 Carry-Out      8869     CAPPUCCINO ( HOT )   1       154            0        0     154
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY      8-9 Carry-Out     12027 STRAWBERRY THICK SHAKE   1       203            0        0     203
+QAFFEINE HITECH CITY   QAFFEINE QOH0012 2025-12-01 00:00:00     1   MONDAY      8-9 Carry-Out     20639 CLASSIC CHICKEN POTPIE   1       132            0        0     132
+
+>>> Sheet: 'Cashier Wise Menu Mix'  (header_row=3)
+    Detected columns: {'Date': ['DATE'], 'Revenue/Total': ['NETAMT', 'GROSSAMT'], 'Quantity': ['COUNTERID', 'COUNTERNO', 'COUNTER NAME', 'QTY'], 'Outlet': ['LOCATION_NAME', 'STORE CODE'], 'Item': ['LOCATION_NAME', 'COUNTER NAME', 'POS CATEGORY', 'POS SUB CATEGORY', 'PRODUCTID', 'PRODUCT_NAME']}
+       LOCATION_NAME STORE CODE                DATE CASHIER COUNTERID COUNTERNO  COUNTER NAME POS CATEGORY POS SUB CATEGORY PRODUCTID        PRODUCT_NAME QTY BASICAMT CGSTAMT SGSTAMT NETAMT GROSSAMT GSTCESSAMT
+QAFFEINE HITECH CITY    QOH0012 2025-12-01 00:00:00                 9         1 HITECH CITY-1       ADDONS                        407 EXTRA ESPRESSO SHOT   4      196    4.92    4.92    196   205.84          0
+QAFFEINE HITECH CITY    QOH0012 2025-12-01 00:00:00                 9         1 HITECH CITY-1       ADDONS                       8640            HAZELNUT   1       49    1.23    1.23     49    51.46          0
+QAFFEINE HITECH CITY    QOH0012 2025-12-01 00:00:00                 9         1 HITECH CITY-1       ADDONS                       8642               IRISH   1       49    1.23    1.23     49    51.46          0
+
+>>> Sheet: 'STN details'  (header_row=1)
+    Detected columns: {'Date': ['STN UPDATE DATE'], 'Revenue/Total': ['NETAMT'], 'Quantity': ['QTY'], 'Outlet': ['From Location', 'To Location'], 'Item': ['PRODUCTID', 'GROUP NAME', 'PRODUCT NAME', 'PRODUCT CATEGORY']}
+             From Location To Location           STN NO              STN DT PRODUCTID STN MONTH       GROUP NAME  PRODUCT NAME UOM BATCH NO EXP DT QTY RATE NETAMT PRODUCT CATEGORY     STN UPDATE DATE
+QAFFEINE CENTRAL WAREHOUSE    Q BAKERY QCW/STN/566/2526 2025-12-01 00:00:00     11496  December             FOOD        PANEER  KG                   5  280   1400             FOOD 2025-12-01 16:13:37
+QAFFEINE CENTRAL WAREHOUSE    Q BAKERY QCW/STN/566/2526 2025-12-01 00:00:00     10464  December RAW MATERIAL-NEW GREEN LETTUCE  KG                   2  140    280             FOOD 2025-12-01 16:13:37
+QAFFEINE CENTRAL WAREHOUSE    Q BAKERY QCW/STN/566/2526 2025-12-01 00:00:00     10466  December       VEGETABLES       PARSLEY  KG                 0.2  140     28             FOOD 2025-12-01 16:13:37
+
+>>> Sheet: ' GRN Against STN Details'  (header_row=1)
+    Detected columns: {'Date': ['TRANSACTION DATE', 'STN_DATE'], 'Revenue/Total': ['RECEIVED QTY VALUE', 'NET AMOUNT', 'BASIC AMOUNT'], 'Quantity': ['RECEIVED QTY', 'RECEIVED QTY VALUE', 'CONVERTED QTY'], 'Item': ['COMPANY NAME', 'PRODUCT_CAT', 'PRODUCT NAME', 'SPLCATEGORY_NAME', 'CONVERTED PRODUCT']}
+TRANSACTION ID     COMPANY NAME    TRANSACTION DATE     MONTH   TRANSACTION NO DOC_STATUS                     SENDER RECEIVER PRODUCT_CAT                               PRODUCT NAME MEASURE BATCH NO MFG DT EXP DT RECEIVED QTY RECEIVED QTY VALUE     RATE NET AMOUNT BASIC AMOUNT            STN_NO            STN_DATE SPLCATEGORY_NAME CONVERTED PRODUCT CONVERTED QTY
+       4155013 QAFFEINE PVT LTD 2025-12-03 00:00:00 DECEMBER  QBR/FRN/508/2526   Approved QAFFEINE CENTRAL WAREHOUSE Q BAKERY        FOOD OLIVES BLACK PITTED ITALIAN GARDEN 450 GMS     NOS                                   1             131.25 131.2525     131.25       131.25 QCW/STI/1144/2526 2025-11-29 00:00:00             FOOD                               0
+       4155013 QAFFEINE PVT LTD 2025-12-03 00:00:00 DECEMBER  QBR/FRN/508/2526   Approved QAFFEINE CENTRAL WAREHOUSE Q BAKERY   BEVERAGES        MAPLE SYRUP 710 ML(AMERICAN GARDEN)      NO                                   1              520.8    520.8      520.8        520.8 QCW/STI/1144/2526 2025-11-29 00:00:00        BEVERAGES                               0
+       4155013 QAFFEINE PVT LTD 2025-12-03 00:00:00 DECEMBER  QBR/FRN/508/2526   Approved QAFFEINE CENTRAL WAREHOUSE Q BAKERY        FOOD                      ANGEL DRY YEAST 500GM     NOS                                   2             346.66 173.3317     346.66       346.66 QCW/STI/1144/2526 2025-11-29 00:00:00             FOOD                               0
+
+>>> Sheet: 'GRN Register'  (header_row=3)
+    Detected columns: {'Date': ['EXP DATE', 'INVOICE  DATE'], 'Revenue/Total': ['NETAMT'], 'Quantity': ['QTY', 'FREEQTY', 'DISCOUNT AMT'], 'Outlet': ['LOCATION NAME'], 'Item': ['LOCATION NAME', 'SUPPLIER NAME', 'GROUP NAME', 'PRODUCT NAME', 'GST CATEGORY', 'RAW MATERIAL CATEGORY', 'SPL CATEGORY', 'TAX CATEGORY']}
+    STATE           GSTNO              LOCATION NAME PO NO PO DT            GRN NO              GRN DT GRN MONTH SUPP_STATE      SUPP_GSTNO                SUPPLIER NAME       GROUP NAME         PRODUCT NAME HSN CODE PACKING PURCHASEUOM STOCKUOM CONSUMPTIONUOM QTY FREEQTY RATE BASIC AMT DISCOUNT AMT TAX RATE TAX AMT FREIGHTAMT TCSAMT OTHERAMT NETAMT BATCH NO EXP DATE INVOICE NO       INVOICE  DATE    GST CATEGORY CGST_RATE CGSTAMT SGST_RATE SGSTAMT IGST_RATE IGSTAMT GSTCESS_RATE GSTCESSAMT GST_AMT RAW MATERIAL CATEGORY SPL CATEGORY TAX CATEGORY PREPARED BY GRN_REMARKS
+TELANGANA 36AAACQ7353B1ZN QAFFEINE CENTRAL WAREHOUSE             QCW/GRN/1269/2526 2025-12-01 00:00:00 DECEMBER   TELANGANA                                  CHICKEN.COM           FOOD-2 CHICKEN LEG BONELESS               KG          KG       KG             KG   8       0  298      2384            0        0       0          0               0   2384                         2922 2025-12-01 00:00:00 Essential Items         0       0         0       0         0       0            0          0       0                  FOOD         FOOD                    STORE            
+TELANGANA 36AAACQ7353B1ZN QAFFEINE CENTRAL WAREHOUSE             QCW/GRN/1270/2526 2025-12-01 00:00:00 DECEMBER   TELANGANA 36CDXPR9492K2Z4 SRI VENKATESWARA ENTERPRISES RAW MATERIAL-NEW        GREEN LETTUCE               KG          KG       KG             KG   2       0  140       280            0        0       0          0               0    280                        16707 2025-12-01 00:00:00 Essential Items         0       0         0       0         0       0            0          0       0                  FOOD         FOOD                    STORE            
+TELANGANA 36AAACQ7353B1ZN QAFFEINE CENTRAL WAREHOUSE             QCW/GRN/1270/2526 2025-12-01 00:00:00 DECEMBER   TELANGANA 36CDXPR9492K2Z4 SRI VENKATESWARA ENTERPRISES       VEGETABLES              PARSLEY               KG          KG       KG             GM 0.2       0  140        28            0        0       0          0               0     28                        16707 2025-12-01 00:00:00 Essential Items         0       0         0       0         0       0            0          0       0                  FOOD         FOOD                    STORE            
+
+>>> Sheet: 'GRN with PO Inward details'  (header_row=4)
+    Detected columns: {'Date': ['GRN DATE'], 'Revenue/Total': ['NET AMT'], 'Quantity': ['GRN NO.', 'RECEIVED QTY'], 'Outlet': ['LOCATION'], 'Item': ['TRANSACTION NAME', 'SUPPLIER NAME', 'PRODUCT NAME']}
+                  LOCATION  TRANSACTION NAME            GRN DATE           GRN NO.                SUPPLIER NAME           SUPPINVDT SUPPINVNO           CHALLANDT CHALLANNO PO DT PO NO INWARD DT INWARD NO         PRODUCT NAME PACKING RECEIVED QTY BASIC RATE BASIC AMT CGST RATE CGST AMT SGST RATE SGST AMT TCSAMT OTHERAMT MANUAL DISCAMT GSTCESS_RATE GSTCESS AMT NET AMT REMARK
+QAFFEINE CENTRAL WAREHOUSE Good Receipt Note 2025-12-01 00:00:00 QCW/GRN/1269/2526                  CHICKEN.COM 2025-12-01 00:00:00      2922 2025-12-01 00:00:00      2922                                 CHICKEN LEG BONELESS      KG            8        298      2384         0        0         0        0      0        0                           0           0    2384       
+QAFFEINE CENTRAL WAREHOUSE Good Receipt Note 2025-12-01 00:00:00 QCW/GRN/1270/2526 SRI VENKATESWARA ENTERPRISES 2025-12-01 00:00:00     16707 2025-12-01 00:00:00     16707                                              PARSLEY      KG          0.2        140        28         0        0         0        0      0        0                           0           0      28       
+QAFFEINE CENTRAL WAREHOUSE Good Receipt Note 2025-12-01 00:00:00 QCW/GRN/1270/2526 SRI VENKATESWARA ENTERPRISES 2025-12-01 00:00:00     16707 2025-12-01 00:00:00     16707                                        GREEN LETTUCE      KG            2        140       280         0        0         0        0      0        0                           0           0     280       
+
+>>> Sheet: 'Issue Note REGISTER'  (header_row=1)
+    Detected columns: {'Date': ['STN UPDATE DATE'], 'Revenue/Total': ['NETAMT'], 'Quantity': ['QTY'], 'Outlet': ['From Location', 'To Location'], 'Item': ['PRODUCTID', 'GROUP NAME', 'PRODUCT NAME', 'PRODUCT CATEGORY']}
+             From Location To Location          Transaction Type           STN NO              STN DT PRODUCTID STN MONTH       GROUP NAME  PRODUCT NAME UOM BATCH NO EXP DT QTY RATE NETAMT PRODUCT CATEGORY     STN UPDATE DATE
+QAFFEINE CENTRAL WAREHOUSE    Q BAKERY Stock Transfer Note (STN) QCW/STN/566/2526 2025-12-01 00:00:00     11496 DECEMBER              FOOD        PANEER  KG                   5  280   1400             FOOD 2025-12-01 16:13:37
+QAFFEINE CENTRAL WAREHOUSE    Q BAKERY Stock Transfer Note (STN) QCW/STN/566/2526 2025-12-01 00:00:00     10464 DECEMBER  RAW MATERIAL-NEW GREEN LETTUCE  KG                   2  140    280             FOOD 2025-12-01 16:13:37
+QAFFEINE CENTRAL WAREHOUSE    Q BAKERY Stock Transfer Note (STN) QCW/STN/566/2526 2025-12-01 00:00:00     10466 DECEMBER        VEGETABLES       PARSLEY  KG                 0.2  140     28             FOOD 2025-12-01 16:13:37
+
+>>> Sheet: 'GRN DETAILS'  (header_row=4)
+    Detected columns: {'Date': ['DATE', 'BILL DATE'], 'Revenue/Total': ['VALUE', 'GROSS TOTAL'], 'Quantity': ['VOUCHER NO.', 'BILL NO.', 'QUANTITY']}
+               DATE                     SUPPLIER       VOUCHER NO.           BILL DATE BILL NO.          PARTICULARS QUANTITY UOM RATE VALUE GROSS TOTAL
+2025-12-01 00:00:00                  CHICKEN.COM QCW/GRN/1269/2526 2025-12-01 00:00:00     2922 CHICKEN LEG BONELESS        8  KG  298  2384        2384
+                    SRI VENKATESWARA ENTERPRISES QCW/GRN/1270/2526 2025-12-01 00:00:00    16707        GREEN LETTUCE        2  KG  140   280         308
+                                                                                                             PARSLEY      0.2  KG  140    28            
+
+>>> Sheet: 'GRN DETAILS-1'  (header_row=5)
+    Detected columns: {'Date': ['DATE', 'BILL DATE'], 'Revenue/Total': ['VALUE', 'GROSS TOTAL', 'GROSS TOTAL.1'], 'Quantity': ['VOUCHER NO.', 'BILL NO.', 'QUANTITY']}
+               DATE                     SUPPLIER          PARTICULARS       VOUCHER NO. BILL NO.           BILL DATE QUANTITY UOM RATE VALUE GROSS TOTAL GROSS TOTAL.1
+2025-12-01 00:00:00                  CHICKEN.COM CHICKEN LEG BONELESS QCW/GRN/1269/2526     2922 2025-12-01 00:00:00        8  KG  298  2384        2384          2384
+2025-12-01 00:00:00 SRI VENKATESWARA ENTERPRISES        GREEN LETTUCE QCW/GRN/1270/2526    16707 2025-12-01 00:00:00        2  KG  140   280         308           308
+2025-12-01 00:00:00 SRI VENKATESWARA ENTERPRISES              PARSLEY QCW/GRN/1270/2526    16707 2025-12-01 00:00:00      0.2  KG  140    28                       308
+
+
+Full profile saved to: c:\Users\Admin\Desktop\BrainPowerInternship\workbook_profile.json
+Done.

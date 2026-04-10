@@ -1,0 +1,1776 @@
+{
+  "generated_at": "2026-03-18T11:05:36.662835",
+  "total_bills": 1553,
+  "multi_item_bills": 1238,
+  "affinity_pairs": [
+    {
+      "item_a": "AVOCADO DABELI",
+      "item_b": "IRANIAN SAMOSA",
+      "co_count": 4,
+      "support": 0.0026,
+      "conf_a_b": 0.6667,
+      "conf_b_a": 0.5714,
+      "lift": 147.905
+    },
+    {
+      "item_a": "ANY HOT COFFEE / ANY CROISSANT",
+      "item_b": "CHOCOLATE CROISSANT",
+      "co_count": 7,
+      "support": 0.0045,
+      "conf_a_b": 0.3684,
+      "conf_b_a": 0.875,
+      "lift": 71.52
+    },
+    {
+      "item_a": "HONEY",
+      "item_b": "LEMON TEA",
+      "co_count": 6,
+      "support": 0.0039,
+      "conf_a_b": 0.6667,
+      "conf_b_a": 0.2308,
+      "lift": 39.821
+    },
+    {
+      "item_a": "NUTELLA CRUNCHY THICK SHAKE",
+      "item_b": "WHIPPED CREAM_",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.12,
+      "conf_b_a": 0.5,
+      "lift": 31.06
+    },
+    {
+      "item_a": "EXTRA ESPRESSO SHOT",
+      "item_b": "ICED MATCHA LATTE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.1154,
+      "conf_b_a": 0.375,
+      "lift": 22.399
+    },
+    {
+      "item_a": "ANY HOT COFFEE+ ANY SANDWICH/ WRAP/BURGER",
+      "item_b": "CAFE MOCHA ( HOT )",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.5,
+      "conf_b_a": 0.0789,
+      "lift": 20.434
+    },
+    {
+      "item_a": "CHOCOLATE CROISSANT",
+      "item_b": "FLAT WHITE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.375,
+      "conf_b_a": 0.0882,
+      "lift": 17.129
+    },
+    {
+      "item_a": "FRENCH VANILLA COLD COFFEE",
+      "item_b": "WHIPPED CREAM_",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.0652,
+      "conf_b_a": 0.5,
+      "lift": 16.88
+    },
+    {
+      "item_a": "ALMOND CROISSANT",
+      "item_b": "ANY HOT COFFEE / ANY CROISSANT",
+      "co_count": 7,
+      "support": 0.0045,
+      "conf_a_b": 0.1458,
+      "conf_b_a": 0.3684,
+      "lift": 11.92
+    },
+    {
+      "item_a": "ANY HOT COFFEE / ANY CROISSANT",
+      "item_b": "CAFE MOCHA ( HOT )",
+      "co_count": 5,
+      "support": 0.0032,
+      "conf_a_b": 0.2632,
+      "conf_b_a": 0.1316,
+      "lift": 10.755
+    },
+    {
+      "item_a": "LEMON LOAF TEA CAKE",
+      "item_b": "MARBLE TEA CAKE SLICE",
+      "co_count": 5,
+      "support": 0.0032,
+      "conf_a_b": 0.2273,
+      "conf_b_a": 0.1515,
+      "lift": 10.696
+    },
+    {
+      "item_a": "MOCHA COLD COFFEE",
+      "item_b": "VANILLA ICECREAM",
+      "co_count": 6,
+      "support": 0.0039,
+      "conf_a_b": 0.1714,
+      "conf_b_a": 0.2222,
+      "lift": 9.86
+    },
+    {
+      "item_a": "ANY HOT COFFEE / ANY CROISSANT",
+      "item_b": "FLAT WHITE",
+      "co_count": 4,
+      "support": 0.0026,
+      "conf_a_b": 0.2105,
+      "conf_b_a": 0.1176,
+      "lift": 9.616
+    },
+    {
+      "item_a": "BEIGIAN CHOCOLATE TRUFFLE",
+      "item_b": "LEMON ICE TEA",
+      "co_count": 4,
+      "support": 0.0026,
+      "conf_a_b": 0.0851,
+      "conf_b_a": 0.2857,
+      "lift": 9.441
+    },
+    {
+      "item_a": "ALMOND MILK.",
+      "item_b": "CARDAMOM TEA",
+      "co_count": 6,
+      "support": 0.0039,
+      "conf_a_b": 0.24,
+      "conf_b_a": 0.15,
+      "lift": 9.318
+    },
+    {
+      "item_a": "NUTELLA CRUNCHY THICK SHAKE",
+      "item_b": "VANILLA ICECREAM",
+      "co_count": 4,
+      "support": 0.0026,
+      "conf_a_b": 0.16,
+      "conf_b_a": 0.1481,
+      "lift": 9.203
+    },
+    {
+      "item_a": "BISCOFF THICK SHAKE",
+      "item_b": "CORTADO",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.1875,
+      "conf_b_a": 0.0909,
+      "lift": 8.824
+    },
+    {
+      "item_a": "EXTRA ESPRESSO SHOT",
+      "item_b": "ICED SPANISH LATTE N",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.1154,
+      "conf_b_a": 0.1429,
+      "lift": 8.533
+    },
+    {
+      "item_a": "ALMOND MILK.",
+      "item_b": "ICED CAFE LATTE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.12,
+      "conf_b_a": 0.1364,
+      "lift": 8.471
+    },
+    {
+      "item_a": "KIT KAT THICK SHAKE",
+      "item_b": "OREO CHOCOLATE THICK SHAKE",
+      "co_count": 4,
+      "support": 0.0026,
+      "conf_a_b": 0.2222,
+      "conf_b_a": 0.0976,
+      "lift": 8.417
+    },
+    {
+      "item_a": "EXTRA ESPRESSO SHOT",
+      "item_b": "ICED CAFE LATTE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.1154,
+      "conf_b_a": 0.1364,
+      "lift": 8.145
+    },
+    {
+      "item_a": "ALMOND LATTE",
+      "item_b": "CORTADO",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.1667,
+      "conf_b_a": 0.0909,
+      "lift": 7.843
+    },
+    {
+      "item_a": "FRENCH CHILLI CHEESE TOASTIE",
+      "item_b": "MOJITO",
+      "co_count": 6,
+      "support": 0.0039,
+      "conf_a_b": 0.1224,
+      "conf_b_a": 0.2308,
+      "lift": 7.314
+    },
+    {
+      "item_a": "CHOCOLATE FUDGE COOKIE",
+      "item_b": "ROSE PISTACHIO COOKIE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.0909,
+      "conf_b_a": 0.15,
+      "lift": 7.059
+    },
+    {
+      "item_a": "MARBLE TEA CAKE SLICE",
+      "item_b": "ROSE PISTACHIO COOKIE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.0909,
+      "conf_b_a": 0.15,
+      "lift": 7.059
+    },
+    {
+      "item_a": "AMERICANO",
+      "item_b": "MILK",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.0179,
+      "conf_b_a": 0.75,
+      "lift": 6.933
+    },
+    {
+      "item_a": "BASQUE CHEESE CAKE",
+      "item_b": "ROSE PISTACHIO COOKIE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.0857,
+      "conf_b_a": 0.15,
+      "lift": 6.656
+    },
+    {
+      "item_a": "BRIOCHE PANEER SANDWICH",
+      "item_b": "KIT KAT THICK SHAKE",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.0769,
+      "conf_b_a": 0.1667,
+      "lift": 6.637
+    },
+    {
+      "item_a": "BEIGIAN CHOCOLATE TRUFFLE",
+      "item_b": "BLUEBERRY CHEESE CAKE",
+      "co_count": 5,
+      "support": 0.0032,
+      "conf_a_b": 0.1064,
+      "conf_b_a": 0.2,
+      "lift": 6.609
+    },
+    {
+      "item_a": "CARAMEL",
+      "item_b": "HAZELNUT",
+      "co_count": 3,
+      "support": 0.0019,
+      "conf_a_b": 0.2143,
+      "conf_b_a": 0.0577,
+      "lift": 6.4
+    }
+  ],
+  "menu_matrix": [
+    {
+      "item_name": "CAPPUCCINO ( HOT )",
+      "total_revenue": 73832.91,
+      "total_qty": 402.0,
+      "avg_price": 191.67,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "GREAT INDIAN FILTER COFFEE REGULAR",
+      "total_revenue": 49904.85,
+      "total_qty": 274.0,
+      "avg_price": 184.5,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "CAFE LATTE ( HOT)",
+      "total_revenue": 44474.5,
+      "total_qty": 259.0,
+      "avg_price": 175.9,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "FAMOUS COLD COFFEE_P",
+      "total_revenue": 43668.68,
+      "total_qty": 194.0,
+      "avg_price": 250.77,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "AMERICANO",
+      "total_revenue": 30856.0,
+      "total_qty": 207.0,
+      "avg_price": 148.47,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "QAFFEINE WATER",
+      "total_revenue": 26631.86,
+      "total_qty": 480.0,
+      "avg_price": 57.06,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "CHICKEN AFGHANI SANDWICH",
+      "total_revenue": 25032.6,
+      "total_qty": 116.0,
+      "avg_price": 223.06,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "SIGNATURE HOT CHOCOLATE",
+      "total_revenue": 18051.16,
+      "total_qty": 84.0,
+      "avg_price": 227.97,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "BANH MI CHICKEN SANDWICH",
+      "total_revenue": 17951.4,
+      "total_qty": 83.0,
+      "avg_price": 223.4,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "CLASSIC KOREAN GARLIC BUN",
+      "total_revenue": 16539.87,
+      "total_qty": 81.0,
+      "avg_price": 212.42,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "FRENCH VANILLA COLD COFFEE",
+      "total_revenue": 14376.8,
+      "total_qty": 58.0,
+      "avg_price": 256.96,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "BRIOCHE CHICKEN SANDWICH",
+      "total_revenue": 14316.9,
+      "total_qty": 63.0,
+      "avg_price": 237.7,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "CHOCO LOADED COLD COFFEE",
+      "total_revenue": 13728.25,
+      "total_qty": 62.0,
+      "avg_price": 231.58,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "OREO CHOCOLATE THICK SHAKE",
+      "total_revenue": 12210.15,
+      "total_qty": 52.0,
+      "avg_price": 236.61,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "GINGER TEA",
+      "total_revenue": 11872.9,
+      "total_qty": 66.0,
+      "avg_price": 183.42,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BEIGIAN CHOCOLATE TRUFFLE",
+      "total_revenue": 11479.67,
+      "total_qty": 53.0,
+      "avg_price": 222.12,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "MOCHA COLD COFFEE",
+      "total_revenue": 10204.99,
+      "total_qty": 40.0,
+      "avg_price": 271.57,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "BUTTER CROISSANT",
+      "total_revenue": 9898.22,
+      "total_qty": 64.0,
+      "avg_price": 160.25,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "PANEER AFGHANI SANDWICH",
+      "total_revenue": 9735.3,
+      "total_qty": 46.0,
+      "avg_price": 227.46,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "MASALA TEA",
+      "total_revenue": 9532.45,
+      "total_qty": 65.0,
+      "avg_price": 148.42,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "LARGE GINGER TEA",
+      "total_revenue": 9396.4,
+      "total_qty": 68.0,
+      "avg_price": 139.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BANH MI PANEER SANDWICH",
+      "total_revenue": 9317.49,
+      "total_qty": 44.0,
+      "avg_price": 220.5,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "DETOX",
+      "total_revenue": 9212.8,
+      "total_qty": 56.0,
+      "avg_price": 166.22,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ALMOND CROISSANT",
+      "total_revenue": 9064.4,
+      "total_qty": 50.0,
+      "avg_price": 182.52,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BRIOCHE PANEER SANDWICH",
+      "total_revenue": 9051.55,
+      "total_qty": 42.0,
+      "avg_price": 227.0,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "CHOCOLATE ECLAIR",
+      "total_revenue": 8898.59,
+      "total_qty": 51.0,
+      "avg_price": 178.65,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "SCHEZWAN CHICKEN WRAP",
+      "total_revenue": 8769.75,
+      "total_qty": 44.0,
+      "avg_price": 205.36,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BASQUE CHEESE CAKE",
+      "total_revenue": 8481.36,
+      "total_qty": 37.0,
+      "avg_price": 239.86,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "PAIN AU CHOCOLATE.",
+      "total_revenue": 8381.63,
+      "total_qty": 44.0,
+      "avg_price": 192.71,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "FRENCH CHILLI CHEESE TOASTIE",
+      "total_revenue": 8282.25,
+      "total_qty": 51.0,
+      "avg_price": 163.78,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ANY HOT COFFEE / ANY CROISSANT",
+      "total_revenue": 8151.0,
+      "total_qty": 19.0,
+      "avg_price": 429.0,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "HONEY CINNAMON ROLL",
+      "total_revenue": 8032.47,
+      "total_qty": 56.0,
+      "avg_price": 159.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "CAFE MOCHA ( HOT )",
+      "total_revenue": 7637.5,
+      "total_qty": 41.0,
+      "avg_price": 184.9,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "CARDAMOM TEA",
+      "total_revenue": 7386.4,
+      "total_qty": 49.0,
+      "avg_price": 156.5,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "WALNUT BROWNIE",
+      "total_revenue": 7342.8,
+      "total_qty": 46.0,
+      "avg_price": 164.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "SPANISH LATTE",
+      "total_revenue": 7247.79,
+      "total_qty": 38.0,
+      "avg_price": 210.61,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ICED CAFE AMERICANO",
+      "total_revenue": 7189.5,
+      "total_qty": 38.0,
+      "avg_price": 191.82,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "LARGE ELACHI TEA",
+      "total_revenue": 6908.3,
+      "total_qty": 50.0,
+      "avg_price": 139.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "MARBLE TEA CAKE SLICE",
+      "total_revenue": 6575.04,
+      "total_qty": 36.0,
+      "avg_price": 189.27,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BISCOFF COLD COFFEE",
+      "total_revenue": 6574.79,
+      "total_qty": 27.0,
+      "avg_price": 254.22,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "NUTELLA CRUNCHY THICK SHAKE",
+      "total_revenue": 6540.53,
+      "total_qty": 29.0,
+      "avg_price": 239.28,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "PANEER TIKKA GALETTE",
+      "total_revenue": 6398.85,
+      "total_qty": 52.0,
+      "avg_price": 127.72,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "FLAT WHITE",
+      "total_revenue": 6324.1,
+      "total_qty": 41.0,
+      "avg_price": 148.38,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "LEMON TEA",
+      "total_revenue": 6266.0,
+      "total_qty": 34.0,
+      "avg_price": 179.38,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "SCHEZWAN PANEER WRAP",
+      "total_revenue": 6093.6,
+      "total_qty": 30.0,
+      "avg_price": 205.21,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ALMOND MOCHA",
+      "total_revenue": 6036.7,
+      "total_qty": 23.0,
+      "avg_price": 266.6,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "BLUEBERRY CHEESE CAKE",
+      "total_revenue": 5864.97,
+      "total_qty": 26.0,
+      "avg_price": 234.2,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "MOJITO",
+      "total_revenue": 5584.9,
+      "total_qty": 32.0,
+      "avg_price": 176.88,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "CHOCOLATE FUDGE COOKIE",
+      "total_revenue": 5334.5,
+      "total_qty": 36.0,
+      "avg_price": 154.45,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ICED SPANISH LATTE N",
+      "total_revenue": 4988.77,
+      "total_qty": 23.0,
+      "avg_price": 232.81,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "CHOCOLATE THICK SHAKE",
+      "total_revenue": 4789.65,
+      "total_qty": 23.0,
+      "avg_price": 214.16,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "CORTADO",
+      "total_revenue": 4525.2,
+      "total_qty": 37.0,
+      "avg_price": 133.71,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ICED CAFE LATTE",
+      "total_revenue": 4362.81,
+      "total_qty": 24.0,
+      "avg_price": 225.68,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "KIT KAT THICK SHAKE",
+      "total_revenue": 4360.7,
+      "total_qty": 19.0,
+      "avg_price": 244.22,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "ALMOND LATTE",
+      "total_revenue": 4219.4,
+      "total_qty": 19.0,
+      "avg_price": 224.61,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "CARROT CAKE",
+      "total_revenue": 4207.95,
+      "total_qty": 35.0,
+      "avg_price": 122.64,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "CLASSIC CHICKEN POTPIE",
+      "total_revenue": 4110.6,
+      "total_qty": 31.0,
+      "avg_price": 139.6,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "LEMON LOAF TEA CAKE",
+      "total_revenue": 4057.5,
+      "total_qty": 24.0,
+      "avg_price": 174.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "GREEN TEA",
+      "total_revenue": 3877.15,
+      "total_qty": 22.0,
+      "avg_price": 175.67,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BISCOFF THICK SHAKE",
+      "total_revenue": 3584.95,
+      "total_qty": 16.0,
+      "avg_price": 233.19,
+      "quadrant": "Star",
+      "icon": "⭐",
+      "action": "Maintain — high-volume, high-margin",
+      "color": "green"
+    },
+    {
+      "item_name": "MANGO THICK SHAKE",
+      "total_revenue": 3553.1,
+      "total_qty": 14.0,
+      "avg_price": 264.83,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "HAZELNUT INSTANT COFFEE",
+      "total_revenue": 3363.0,
+      "total_qty": 12.0,
+      "avg_price": 285.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "STRAWBERRY THICK SHAKE",
+      "total_revenue": 3245.7,
+      "total_qty": 14.0,
+      "avg_price": 235.62,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ROSE PISTACHIO COOKIE",
+      "total_revenue": 3165.0,
+      "total_qty": 22.0,
+      "avg_price": 152.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "MEDITERRIAN CROISSANT",
+      "total_revenue": 3032.4,
+      "total_qty": 13.0,
+      "avg_price": 242.15,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "BELGIUM CHOCOLATE PASTRY",
+      "total_revenue": 3003.6,
+      "total_qty": 12.0,
+      "avg_price": 253.33,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ANY HOT COFFEE+ ANY SANDWICH/ WRAP/BURGER",
+      "total_revenue": 2994.0,
+      "total_qty": 6.0,
+      "avg_price": 499.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "HAZELNUT",
+      "total_revenue": 2926.6,
+      "total_qty": 59.0,
+      "avg_price": 49.84,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BLUEBERRY THICK SHAKE",
+      "total_revenue": 2786.5,
+      "total_qty": 13.0,
+      "avg_price": 229.5,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CAFE SUPREME",
+      "total_revenue": 2598.11,
+      "total_qty": 9.0,
+      "avg_price": 298.67,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "LEMON ICE TEA",
+      "total_revenue": 2266.7,
+      "total_qty": 16.0,
+      "avg_price": 143.86,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "ALMOND QAPPUCCINO",
+      "total_revenue": 2244.6,
+      "total_qty": 16.0,
+      "avg_price": 208.29,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "TURKISH LATTE (HOT)",
+      "total_revenue": 2242.7,
+      "total_qty": 11.0,
+      "avg_price": 213.9,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "PEACH ICE TEA",
+      "total_revenue": 2071.0,
+      "total_qty": 15.0,
+      "avg_price": 160.14,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "GODAIVA CAKE",
+      "total_revenue": 2041.0,
+      "total_qty": 7.0,
+      "avg_price": 287.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CLASSIC COLD CHOCOLATE",
+      "total_revenue": 1999.2,
+      "total_qty": 7.0,
+      "avg_price": 294.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "FRENCH VANILLA INSTANT COFFEE",
+      "total_revenue": 1938.0,
+      "total_qty": 7.0,
+      "avg_price": 285.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "TIRAMISU LATTE (HOT)",
+      "total_revenue": 1841.4,
+      "total_qty": 7.0,
+      "avg_price": 279.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "VANILLA ICECREAM",
+      "total_revenue": 1740.65,
+      "total_qty": 35.0,
+      "avg_price": 49.45,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "MASALA TEA_P",
+      "total_revenue": 1625.2,
+      "total_qty": 7.0,
+      "avg_price": 239.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "TIRAMISU TUB",
+      "total_revenue": 1596.0,
+      "total_qty": 10.0,
+      "avg_price": 168.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "CAFE AMERICANO ( HOT )",
+      "total_revenue": 1512.0,
+      "total_qty": 13.0,
+      "avg_price": 189.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "IRISH CREAM INSTANT COFFEE",
+      "total_revenue": 1425.0,
+      "total_qty": 5.0,
+      "avg_price": 285.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "BAAGHINI CLASSIC COLD BREW",
+      "total_revenue": 1375.4,
+      "total_qty": 5.0,
+      "avg_price": 299.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ICED CAFE MOCHA",
+      "total_revenue": 1286.1,
+      "total_qty": 5.0,
+      "avg_price": 261.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ALMOND MILK.",
+      "total_revenue": 1267.5,
+      "total_qty": 31.0,
+      "avg_price": 45.81,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "STRAWBERRY TRUFFLE",
+      "total_revenue": 1260.0,
+      "total_qty": 7.0,
+      "avg_price": 180.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "EXTRA ESPRESSO SHOT",
+      "total_revenue": 1251.1,
+      "total_qty": 33.0,
+      "avg_price": 45.69,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "BUTTER CHICKEN",
+      "total_revenue": 1250.2,
+      "total_qty": 5.0,
+      "avg_price": 329.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ICED MATCHA LATTE",
+      "total_revenue": 1238.4,
+      "total_qty": 12.0,
+      "avg_price": 344.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ICED VIETNAMESE LATTE",
+      "total_revenue": 1233.4,
+      "total_qty": 5.0,
+      "avg_price": 279.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "POUR OVER V60",
+      "total_revenue": 1226.4,
+      "total_qty": 7.0,
+      "avg_price": 219.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "GREEN APPLE FIZZZZ",
+      "total_revenue": 1200.2,
+      "total_qty": 7.0,
+      "avg_price": 182.33,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "GOAN KOKUM",
+      "total_revenue": 1200.2,
+      "total_qty": 7.0,
+      "avg_price": 178.29,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "FRENCH VANILLA COLD BREW",
+      "total_revenue": 1136.2,
+      "total_qty": 4.0,
+      "avg_price": 299.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CARAMEL",
+      "total_revenue": 1091.0,
+      "total_qty": 19.0,
+      "avg_price": 57.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "OG CRANBERRY COLD BREW",
+      "total_revenue": 1076.4,
+      "total_qty": 5.0,
+      "avg_price": 299.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ESPRESSO DOPPIA",
+      "total_revenue": 1074.0,
+      "total_qty": 6.0,
+      "avg_price": 179.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "ESPRESSO.",
+      "total_revenue": 1074.0,
+      "total_qty": 7.0,
+      "avg_price": 179.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "SPICY SMOKE CHICKEN HAM SANDWICH",
+      "total_revenue": 1050.6,
+      "total_qty": 6.0,
+      "avg_price": 309.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "IRANIAN SAMOSA",
+      "total_revenue": 1014.0,
+      "total_qty": 8.0,
+      "avg_price": 169.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "TEMPURA VEGETABLES",
+      "total_revenue": 1007.6,
+      "total_qty": 7.0,
+      "avg_price": 229.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "AVOCADO DABELI",
+      "total_revenue": 1003.8,
+      "total_qty": 6.0,
+      "avg_price": 239.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "VANILLA",
+      "total_revenue": 998.4,
+      "total_qty": 18.0,
+      "avg_price": 56.65,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "SOUTH INDIAN FILTER COFFEE",
+      "total_revenue": 985.5,
+      "total_qty": 5.0,
+      "avg_price": 219.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "VIETNAMESE LATTE (HOT)",
+      "total_revenue": 980.0,
+      "total_qty": 4.0,
+      "avg_price": 269.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "LARGE LEMON TEA",
+      "total_revenue": 973.0,
+      "total_qty": 7.0,
+      "avg_price": 139.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "VIETNAMESE COLD BREW",
+      "total_revenue": 855.4,
+      "total_qty": 3.0,
+      "avg_price": 329.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CHICKEN THAI GREEN CURRY",
+      "total_revenue": 855.4,
+      "total_qty": 7.0,
+      "avg_price": 329.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CLASSIC FRIES",
+      "total_revenue": 835.8,
+      "total_qty": 5.0,
+      "avg_price": 199.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "VEGETABLE THAI GREEN CURRY",
+      "total_revenue": 803.4,
+      "total_qty": 5.0,
+      "avg_price": 309.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "EXOTIC FRUITY FIZZZZZ",
+      "total_revenue": 770.6,
+      "total_qty": 4.0,
+      "avg_price": 196.5,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "EXOTIC ECLAIR",
+      "total_revenue": 709.0,
+      "total_qty": 5.0,
+      "avg_price": 187.6,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "ICED STRAWBERRY MATCHA LATTE",
+      "total_revenue": 688.0,
+      "total_qty": 2.0,
+      "avg_price": 344.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "MATCHA LATTE (HOT)",
+      "total_revenue": 648.0,
+      "total_qty": 2.0,
+      "avg_price": 324.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "HONEY",
+      "total_revenue": 570.0,
+      "total_qty": 19.0,
+      "avg_price": 30.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "KARAM PODI MASALA FRIES",
+      "total_revenue": 543.4,
+      "total_qty": 4.0,
+      "avg_price": 209.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "ISHPAN",
+      "total_revenue": 538.2,
+      "total_qty": 2.0,
+      "avg_price": 299.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "VIETNMESE COLD COFFEE",
+      "total_revenue": 538.2,
+      "total_qty": 2.0,
+      "avg_price": 299.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "SEA SALT CHOCOLATE (HOT)",
+      "total_revenue": 529.2,
+      "total_qty": 2.0,
+      "avg_price": 294.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CHEESE OMLETTE",
+      "total_revenue": 520.2,
+      "total_qty": 2.0,
+      "avg_price": 289.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "LEBANESE CHICKEN WRAP",
+      "total_revenue": 520.2,
+      "total_qty": 2.0,
+      "avg_price": 289.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "ICED TURKISH LATTE",
+      "total_revenue": 502.2,
+      "total_qty": 3.0,
+      "avg_price": 279.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "GREEN APPLE SLUSH.",
+      "total_revenue": 498.0,
+      "total_qty": 2.0,
+      "avg_price": 249.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "IRISH",
+      "total_revenue": 495.3,
+      "total_qty": 12.0,
+      "avg_price": 52.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "AAM PANNA FIZZZZZ",
+      "total_revenue": 478.0,
+      "total_qty": 2.0,
+      "avg_price": 239.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "SEA SALT MOCHA (HOT)",
+      "total_revenue": 462.4,
+      "total_qty": 2.0,
+      "avg_price": 289.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "IRISH COFFEE",
+      "total_revenue": 388.0,
+      "total_qty": 3.0,
+      "avg_price": 269.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "WHIPPED CREAM_",
+      "total_revenue": 354.0,
+      "total_qty": 7.0,
+      "avg_price": 50.57,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "MILK",
+      "total_revenue": 319.4,
+      "total_qty": 7.0,
+      "avg_price": 48.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "CHOCOLATE ICECREAM",
+      "total_revenue": 296.65,
+      "total_qty": 8.0,
+      "avg_price": 38.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "CHICKEN KHEEMA SAMOSA",
+      "total_revenue": 286.4,
+      "total_qty": 2.0,
+      "avg_price": 179.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "CHOCOLATE CHIP COOKIE",
+      "total_revenue": 258.0,
+      "total_qty": 2.0,
+      "avg_price": 129.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "CHOCOLATE CROISSANT",
+      "total_revenue": 239.0,
+      "total_qty": 8.0,
+      "avg_price": 29.88,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "HUMMUS WITH JERK CHICKEN",
+      "total_revenue": 199.2,
+      "total_qty": 2.0,
+      "avg_price": 249.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "CINNAMON",
+      "total_revenue": 152.1,
+      "total_qty": 3.0,
+      "avg_price": 52.33,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "QAFE LATTE SC",
+      "total_revenue": 24.0,
+      "total_qty": 30.0,
+      "avg_price": 1.0,
+      "quadrant": "Plowhorse",
+      "icon": "🐴",
+      "action": "Reposition — popular but low-margin",
+      "color": "orange"
+    },
+    {
+      "item_name": "QAPPUCCINO SC",
+      "total_revenue": 3.0,
+      "total_qty": 3.0,
+      "avg_price": 1.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "ICED FILTER COFFEE",
+      "total_revenue": 0.0,
+      "total_qty": 11.0,
+      "avg_price": 229.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "MASALA OMLETTE",
+      "total_revenue": 0.0,
+      "total_qty": 2.0,
+      "avg_price": 279.0,
+      "quadrant": "Puzzle",
+      "icon": "🔮",
+      "action": "Promote — high-margin but under-ordered",
+      "color": "blue"
+    },
+    {
+      "item_name": "Q AFGANI PANEER SANDWICH",
+      "total_revenue": 0.0,
+      "total_qty": 2.0,
+      "avg_price": 0.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    },
+    {
+      "item_name": "PAN AU SWISS",
+      "total_revenue": 0.0,
+      "total_qty": 2.0,
+      "avg_price": 0.0,
+      "quadrant": "Dog",
+      "icon": "🐕",
+      "action": "Review/Remove — low-volume, low-margin",
+      "color": "red"
+    }
+  ],
+  "power_combos": [
+    {
+      "item_a": "ANY HOT COFFEE / ANY CROISSANT",
+      "item_b": "CHOCOLATE CROISSANT",
+      "lift": 71.52,
+      "co_count": 7,
+      "support_pct": 0.45,
+      "quad_a": "Star",
+      "quad_b": "Dog",
+      "price_a": 429.0,
+      "price_b": 29.875,
+      "bundle_price": 390.04,
+      "regular_aov": 458.88,
+      "aov_lift_pct": -9.1,
+      "combo_label": "ANY HOT COFFEE / ANY CROISSA + CHOCOLATE CROISSANT"
+    },
+    {
+      "item_a": "HONEY",
+      "item_b": "LEMON TEA",
+      "lift": 39.821,
+      "co_count": 6,
+      "support_pct": 0.39,
+      "quad_a": "Plowhorse",
+      "quad_b": "Plowhorse",
+      "price_a": 30.0,
+      "price_b": 179.3846153846154,
+      "bundle_price": 177.98,
+      "regular_aov": 209.38,
+      "aov_lift_pct": -0.8,
+      "combo_label": "HONEY + LEMON TEA"
+    },
+    {
+      "item_a": "ALMOND CROISSANT",
+      "item_b": "ANY HOT COFFEE / ANY CROISSANT",
+      "lift": 11.92,
+      "co_count": 7,
+      "support_pct": 0.45,
+      "quad_a": "Plowhorse",
+      "quad_b": "Star",
+      "price_a": 182.52083333333334,
+      "price_b": 429.0,
+      "bundle_price": 519.79,
+      "regular_aov": 611.52,
+      "aov_lift_pct": 21.2,
+      "combo_label": "ALMOND CROISSANT + ANY HOT COFFEE / ANY CROISSA"
+    },
+    {
+      "item_a": "ANY HOT COFFEE / ANY CROISSANT",
+      "item_b": "CAFE MOCHA ( HOT )",
+      "lift": 10.755,
+      "co_count": 5,
+      "support_pct": 0.32,
+      "quad_a": "Star",
+      "quad_b": "Plowhorse",
+      "price_a": 429.0,
+      "price_b": 184.89743589743588,
+      "bundle_price": 521.81,
+      "regular_aov": 613.9,
+      "aov_lift_pct": 21.6,
+      "combo_label": "ANY HOT COFFEE / ANY CROISSA + CAFE MOCHA"
+    },
+    {
+      "item_a": "LEMON LOAF TEA CAKE",
+      "item_b": "MARBLE TEA CAKE SLICE",
+      "lift": 10.696,
+      "co_count": 5,
+      "support_pct": 0.32,
+      "quad_a": "Plowhorse",
+      "quad_b": "Plowhorse",
+      "price_a": 174.0,
+      "price_b": 189.27272727272728,
+      "bundle_price": 308.78,
+      "regular_aov": 363.27,
+      "aov_lift_pct": 63.1,
+      "combo_label": "LEMON LOAF TEA CAKE + MARBLE TEA CAKE SLICE"
+    }
+  ]
+}

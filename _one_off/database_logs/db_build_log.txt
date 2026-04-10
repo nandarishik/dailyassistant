@@ -1,0 +1,166 @@
+﻿python : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\scripts\build_database.py:75: FutureWarning: 
+errors='ignore' is deprecated and will raise in a future version. Use to_numeric without passing `errors` and catch 
+exceptions explicitly instead
+At line:1 char:129
++ ... | Out-Null; python "c:\Users\Admin\Desktop\BrainPowerInternship\QAFFE ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (c:\Users\Admin\...licitly instead:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  df[col] = pd.to_numeric(df[col], errors="ignore")
+c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\scripts\build_database.py:75: FutureWarning: 
+errors='ignore' is deprecated and will raise in a future version. Use to_numeric without passing `errors` and catch 
+exceptions explicitly instead
+  df[col] = pd.to_numeric(df[col], errors="ignore")
+c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\scripts\build_database.py:75: FutureWarning: 
+errors='ignore' is deprecated and will raise in a future version. Use to_numeric without passing `errors` and catch 
+exceptions explicitly instead
+  df[col] = pd.to_numeric(df[col], errors="ignore")
+======================================================================
+QAFFEINE SQLite Database Builder
+Run       : 2026-02-25 11:40:15
+Database  : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\sales.db
+======================================================================
+
+Database connection established (WAL mode).
+
+[LOAD] fact_sales
+  Rows loaded  : 4,139
+  Columns      : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'brand', 'channel', 'bill_no', 'product_group', 'spl_category', 'basic_rate', 'cgst', 'sgst', 'total_gst', 'kot_time', 'city', 'order_taker']
+  Index created : idx_fact_sales_date ON fact_sales(date)
+  Index created : idx_fact_sales_outlet_name ON fact_sales(outlet_name)
+  Index created : idx_fact_sales_item_name ON fact_sales(item_name)
+
+[LOAD] hourly_sales
+  Rows loaded  : 3,452
+  Columns      : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'brand', 'wok_id', 'hour_slot', 'order_type', 'basic_amt', 'void_amt', 'product_id', 'day_no', 'day_of_week']
+  Index created : idx_hourly_sales_date ON hourly_sales(date)
+  Index created : idx_hourly_sales_outlet_name ON hourly_sales(outlet_name)
+  Index created : idx_hourly_sales_item_name ON hourly_sales(item_name)
+
+[LOAD] outlet_summary
+  Rows loaded  : 42
+  Columns      : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'restaurant_id', 'brand', 'city', 'state', 'gross_sale', 'total_discount', 'dine_in_net', 'carry_out_net', 'delivery_net', 'dine_in_orders', 'carry_out_orders', 'delivery_orders', 'pax', 'cash_amt', 'card_amt', 'upi_amt', 'void_order_amt', 'cancel_count', 'void_bill_count', 'total_bill_amt']
+  Index created : idx_outlet_summary_date ON outlet_summary(date)
+  Index created : idx_outlet_summary_outlet_name ON outlet_summary(outlet_name)
+
+
+======================================================================
+VERIFICATION QUERIES
+======================================================================
+
+--- Top 5 Items by Revenue (across all outlets) ---
+                         item_name  total_revenue  total_qty  transaction_count
+                CAPPUCCINO ( HOT )       73832.91      402.0                306
+GREAT INDIAN FILTER COFFEE REGULAR       49904.85      274.0                190
+                 CAFE LATTE ( HOT)       44474.50      259.0                193
+              FAMOUS COLD COFFEE_P       43668.68      194.0                148
+                         AMERICANO       30856.00      207.0                171
+
+--- Total Revenue per Outlet ---
+          outlet_name  total_revenue  trading_days  line_items  unique_items
+ QAFFEINE HITECH CITY      233050.69             7        1294            88
+QAFFEINE SECUNDERABAD      187698.33             7        1019            89
+      QAFFEINE-BHOOJA      146327.30             7         591            97
+QAFFFEINE-MUSARAMBAGH      119731.13             7         545            92
+     QAFFEINE-GVK-ONE       88939.41             7         422            53
+     QAFFEINE-PHOENIX       54886.00             7         268            99
+
+--- Daily Revenue Trend ---
+      date  daily_revenue  line_items
+2025-12-01      129003.35         652
+2025-12-02      113376.33         573
+2025-12-03      128077.35         630
+2025-12-04      113107.76         564
+2025-12-05      121102.45         584
+2025-12-06      143781.66         742
+2025-12-07       82183.96         394
+
+
+======================================================================
+DATABASE SCHEMA SUMMARY
+======================================================================
+
+Table : fact_sales
+  Rows    : 4,139
+  Columns (17):
+    - date (TEXT)
+    - outlet_name (TEXT)
+    - item_name (TEXT)
+    - net_revenue (REAL)
+    - quantity (REAL)
+    - brand (TEXT)
+    - channel (TEXT)
+    - bill_no (TEXT)
+    - product_group (TEXT)
+    - spl_category (TEXT)
+    - basic_rate (REAL)
+    - cgst (REAL)
+    - sgst (REAL)
+    - total_gst (REAL)
+    - kot_time (TEXT)
+    - city (TEXT)
+    - order_taker (TEXT)
+  Indexes:
+    - idx_fact_sales_date
+    - idx_fact_sales_outlet_name
+    - idx_fact_sales_item_name
+
+Table : hourly_sales
+  Rows    : 3,452
+  Columns (14):
+    - date (TEXT)
+    - outlet_name (TEXT)
+    - item_name (TEXT)
+    - net_revenue (REAL)
+    - quantity (INTEGER)
+    - brand (TEXT)
+    - wok_id (TEXT)
+    - hour_slot (TEXT)
+    - order_type (TEXT)
+    - basic_amt (REAL)
+    - void_amt (INTEGER)
+    - product_id (INTEGER)
+    - day_no (INTEGER)
+    - day_of_week (TEXT)
+  Indexes:
+    - idx_hourly_sales_date
+    - idx_hourly_sales_outlet_name
+    - idx_hourly_sales_item_name
+
+Table : outlet_summary
+  Rows    : 42
+  Columns (25):
+    - date (TEXT)
+    - outlet_name (TEXT)
+    - item_name (REAL)
+    - net_revenue (REAL)
+    - quantity (REAL)
+    - restaurant_id (TEXT)
+    - brand (TEXT)
+    - city (TEXT)
+    - state (TEXT)
+    - gross_sale (REAL)
+    - total_discount (REAL)
+    - dine_in_net (REAL)
+    - carry_out_net (REAL)
+    - delivery_net (REAL)
+    - dine_in_orders (INTEGER)
+    - carry_out_orders (INTEGER)
+    - delivery_orders (INTEGER)
+    - pax (REAL)
+    - cash_amt (INTEGER)
+    - card_amt (INTEGER)
+    - upi_amt (INTEGER)
+    - void_order_amt (INTEGER)
+    - cancel_count (INTEGER)
+    - void_bill_count (INTEGER)
+    - total_bill_amt (REAL)
+  Indexes:
+    - idx_outlet_summary_date
+    - idx_outlet_summary_outlet_name
+
+Schema info saved : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\schema_info.txt
+Database saved    : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\sales.db  (1816 KB)
+
+Done.

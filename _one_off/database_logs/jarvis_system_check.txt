@@ -1,0 +1,135 @@
+
+====================================================================
+  QAFFEINE Jarvis — System Check
+====================================================================
+  Run at : 2026-03-18 11:22:24
+  Env    : C:\Users\Admin\Desktop\BrainPowerInternship\.env
+
+  API Keys:
+    Gemini      : ✓ AIzaSyDOuOmx…
+    OpenRouter  : ✓ sk-or-v1-f53…
+    WeatherAPI  : ✓ 2b91af62…
+    NewsAPI     : ✓ a8a8526b…
+
+  Tool registry: 5 tools registered
+    🗄️  query_sales_db                  — Run a SQLite SELECT on sales.db. Arg: sql (string).
+    🌦️  get_weather_context             — Get WeatherAPI historical data for Hyderabad. Arg: date
+    📅  get_holiday_status              — Check if a date is a Telangana/National holiday. Arg: d
+    🎯  get_combo_recommendations       — Return top Power Combo bundle recommendations. No args 
+    📰  get_news_context                — Fetch Hyderabad/Telangana business news headlines for a
+
+====================================================================
+  TEST 1 — Proactive Intelligence Brief
+====================================================================
+  Generating autonomous morning brief…
+
+  SIGNAL 1 — Revenue Anomaly:
+    2025-12-07  📉 Below avg by 1.9σ  (₹82,184 vs avg ₹118,662)
+
+  SIGNAL 2 — Top Power Combo:
+    Lift 71.5x — ANY HOT COFFEE / ANY C + CHOCOLATE CROISSANT → Bundle ₹390  AOV +-9%
+
+  SIGNAL 3 — Market Risk:
+    2026-03-22 — Based on the provided news headlines, the following operati
+    onal disruptors were identified:…
+
+  ✓ Proactive brief generated successfully.
+
+====================================================================
+  TEST 2 — Individual Tool Smoke Tests
+====================================================================
+  [query_sales_db] Fetching outlet summary for 2025-12-07 …
+  Result:
+    | outlet_name | rev |
+    | --- | --- |
+    | QAFFEINE-BHOOJA | 21464.0 |
+    | QAFFFEINE-MUSARAMBAGH | 20746.58 |
+    | QAFFEINE HITECH CITY | 15610.08 |
+    | QAFFEINE SECUNDERABAD | 13014.3 |
+    | QAFFEINE-GVK-ONE | 10363.0 |
+    | QAFFEINE-PHOENIX | 986.0 |
+
+  [get_weather_context] Fetching Hyderabad weather for 2025-12-07 …
+  Result: Weather for Hyderabad on 2025-12-07: Avg temp=21.1°C, Precipitation=0.0mm, Condition=Cloudy, Source=WeatherAPI
+
+  [get_news_context] Fetching headlines for 2025-12-07 …
+  Result:
+    Headlines for 2025-12-07:
+      1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+      2. President Droupadi Murmu serves Akshaya Patra’s 5 billionth meal at Rashtrapati Bhavan
+      3. MD of chit fund company arrested for ‘cheating’ depositors
+      4. Revenue Inspector caught taking ₹15,000 bribe
+      5. Law must recognise dignity, not verify identity: Hyderabad’s LGBTQIA+ community opposes Transgender 
+
+  [get_holiday_status] Checking holiday status for 2025-12-07 …
+  Result: 2025-12-07 is a regular trading day (no public holiday in Telangana/India).
+
+  [get_combo_recommendations] Pulling top combos …
+  Result:
+    Top Power Combo Recommendations (from Market Basket Analysis):
+      #1 ANY HOT COFFEE / ANY CROISSA + CHOCOLATE CROISSANT  Lift=71.5x  Co-purchased 7×  Bundle=₹390  AOV lift +-9.1%
+      #2 HONEY + LEMON TEA  Lift=39.8x  Co-purchased 6×  Bundle=₹178  AOV lift +-0.8%
+      #3 ALMOND CROISSANT + ANY HOT COFFEE / ANY CROISSA  Lift=11.9x  Co-purchased 7×  Bundle=₹520  AOV lift +21.2%
+
+  ✓ All 5 tools returned non-empty results.
+
+====================================================================
+  TEST 3 — Triple-Tool Agentic Run (SQL + Weather + News)
+====================================================================
+  Query      : Why did revenue drop so drastically on Dec 7th at QAFFEINE HITECH CITY? Investigate the sales data, weather conditions, and any news events that day.
+
+  Initialising JarvisAgent…
+  Executing investigation loop…
+
+  ── Internal Monologue (Jarvis Thought Process) ──
+    🔍 Received query: "Why did revenue drop so drastically on Dec 7th at QAFFEINE HITECH CITY? Investig"
+    🧠 Planning which tools to invoke…
+    📋 Plan: query_sales_db → get_weather_context → get_holiday_status → get_news_context
+    🔗 Cross-referencing 4 data sources: query_sales_db · get_weather_context · get_holiday_status · get_news_context
+    🗄️ Querying sales database…
+       ✓ query_sales_db → | net_revenue | quantity |
+| --- | --- |
+| 15610.08 | 32.0 |
+    🌦️ Investigating Hyderabad weather patterns…
+       ✓ get_weather_context → Weather for Hyderabad on 2025-12-07: Avg temp=21.1°C, Precipitation=0.0mm, Condi…
+    📅 Checking regional holiday calendar…
+       ✓ get_holiday_status → 2025-12-07 is a regular trading day (no public holiday in Telangana/India).
+    📰 Scanning market news headlines…
+       ✓ get_news_context → Headlines for 2025-12-07:
+  1. TIMS Sanathnagar inauguration on Ugadi uncertain …
+    💡 Synthesising insights…
+    ✅ Response generated via OpenRouter/meta-llama/llama-3.3-70b-instruct
+
+  ── Tools Called ──
+    ✓ query_sales_db  args={'sql': "SELECT net_revenue, quantity FROM outlet_summary WHERE date = '2025-12-07' AND outlet_name = 'QAFFEINE HITECH CITY'"}
+       → | net_revenue | quantity |
+| --- | --- |
+| 15610.08 | 32.0 |
+    ✓ get_weather_context  args={'date': '2025-12-07'}
+       → Weather for Hyderabad on 2025-12-07: Avg temp=21.1°C, Precipitation=0.0mm, Condition=Cloudy, Source=WeatherAPI
+    ✓ get_holiday_status  args={'date': '2025-12-07'}
+       → 2025-12-07 is a regular trading day (no public holiday in Telangana/India).
+    ✓ get_news_context  args={'date': '2025-12-07'}
+       → Headlines for 2025-12-07:
+  1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+ …
+
+  Engine : OpenRouter / meta-llama/llama-3.3-70b-instruct
+  Error  : none
+
+  ── Final Jarvis Response ──
+    On December 7th, QAFFEINE HITECH CITY experienced a significant revenue drop, with net revenue of ₹15,610.08, a substantial decrease from previous days. Analyzing the sales data, we see that the quantity sold was also low, at 32 units. The weather on that day was cloudy with no precipitation, which may have contributed to the reduced footfall. However, it's essential to note that December 7th was a regular trading day with no public holidays. Reviewing the news headlines, there were no significant events that would have directly impacted our sales. To address this revenue anomaly, we should consider the following actions: 
+    * Review menu items and pricing to ensure they are competitive and appealing to customers
+    * Analyze customer feedback and sales data to identify opportunities to increase average transaction value
+    * Consider offering targeted promotions or discounts to boost sales at QAFFEINE HITECH CITY, especially on cloudy days when footfall tends to be lower.
+
+  ── TRIPLE-TOOL VERDICT ──
+    Tools invoked  : query_sales_db + get_weather_context + get_holiday_status + get_news_context
+    SQL called     : ✓
+    Weather called : ✓
+    News/Holiday   : ✓
+    TRIPLE-TOOL    : ✅ PASS
+
+====================================================================
+  LOG FILE
+====================================================================

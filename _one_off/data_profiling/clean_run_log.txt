@@ -1,0 +1,102 @@
+﻿======================================================================
+QAFFEINE SALES DATA CLEANING REPORT
+Run timestamp : 2026-02-25 11:36:24
+Source file   : Sales Report.xlsx
+======================================================================
+
+Loading workbook...
+Workbook loaded. Available sheets: 50
+
+
+[1/4] Processing: Tax Charge  (primary item-level fact table)
+------------------------------------------------------------
+  Raw shape : (4140, 54)
+
+--- Tax Charge ΓåÆ cleaned_sales_items.csv ---
+  Rows before validation : 4,140
+  Rows after  validation : 4,139  (dropped 1 missing outlet)
+  Columns                : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'brand', 'channel', 'bill_no', 'product_group', 'spl_category', 'basic_rate', 'cgst', 'sgst', 'total_gst', 'kot_time', 'city', 'order_taker']
+  net_revenue nulls      : 0 (filled)
+  Date range             : 2025-12-01 ΓåÆ 2025-12-07
+  Unique outlets         : 6 ΓåÆ ['QAFFEINE HITECH CITY', 'QAFFEINE SECUNDERABAD', 'QAFFEINE-BHOOJA', 'QAFFEINE-GVK-ONE', 'QAFFEINE-PHOENIX']...
+  Unique items           : 174
+  Saved to               : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\data_processed\cleaned_sales_items.csv
+
+
+[2/4] Processing: ITEM WISE HOURLY SALE  (hourly item dimensions)
+------------------------------------------------------------
+  Raw shape : (3452, 15)
+
+--- ITEM WISE HOURLY SALE ΓåÆ cleaned_hourly_items.csv ---
+  Rows before validation : 3,452
+  Rows after  validation : 3,452  (dropped 0 missing outlet)
+  Columns                : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'brand', 'wok_id', 'hour_slot', 'order_type', 'basic_amt', 'void_amt', 'product_id', 'day_no', 'day_of_week']
+  net_revenue nulls      : 0 (filled)
+  Date range             : 2025-12-01 ΓåÆ 2025-12-07
+  Unique outlets         : 6 ΓåÆ ['QAFFEINE HITECH CITY', 'QAFFEINE SECUNDERABAD', 'QAFFEINE-BHOOJA', 'QAFFEINE-GVK-ONE', 'QAFFEINE-PHOENIX']...
+  Unique items           : 174
+  Saved to               : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\data_processed\cleaned_hourly_items.csv
+
+
+[3/4] Processing: DSR  (daily outlet summary)
+------------------------------------------------------------
+  Raw shape : (46, 43)
+
+--- DSR ΓåÆ cleaned_outlet_summary.csv ---
+  Rows before validation : 46
+  Rows after  validation : 42  (dropped 4 missing outlet)
+  Columns                : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'restaurant_id', 'brand', 'city', 'state', 'gross_sale', 'total_discount', 'dine_in_net', 'carry_out_net', 'delivery_net', 'dine_in_orders', 'carry_out_orders', 'delivery_orders', 'pax', 'cash_amt', 'card_amt', 'upi_amt', 'void_order_amt', 'cancel_count', 'void_bill_count', 'total_bill_amt']
+  net_revenue nulls      : 0 (filled)
+  Date range             : 2025-12-01 ΓåÆ 2025-12-07
+  Unique outlets         : 6 ΓåÆ ['QAFFEINE HITECH CITY', 'QAFFEINE SECUNDERABAD', 'QAFFEINE-BHOOJA', 'QAFFEINE-GVK-ONE', 'QAFFEINE-PHOENIX']...
+  Unique items           : 42
+  Saved to               : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\data_processed\cleaned_outlet_summary.csv
+
+
+[4/4] Processing: Aggregator Details  (online delivery channel)
+------------------------------------------------------------
+  Raw shape : (35, 11)
+
+--- Aggregator Details ΓåÆ cleaned_aggregator.csv ---
+  Rows before validation : 35
+  Rows after  validation : 34  (dropped 1 missing outlet)
+  Columns                : ['date', 'outlet_name', 'item_name', 'net_revenue', 'quantity', 'restaurant_id', 'brand', 'aggregator', 'gst', 'delivery_charges', 'packaging_charges', 'bill_amt']
+  net_revenue nulls      : 0 (filled)
+  Date range             : 2025-12-01 ΓåÆ 2025-12-07
+  Unique outlets         : 4 ΓåÆ ['QAFFEINE-BHOOJA', 'QAFFEINE-GVK-ONE', 'QAFFEINE-PHOENIX', 'QAFFFEINE-MUSARAMBAGH']...
+  Unique items           : 2
+  Saved to               : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\data_processed\cleaned_aggregator.csv
+
+
+======================================================================
+COLUMN ALIGNMENT CHECK (common keys across all tables)
+======================================================================
+  cleaned_sales_items             present=['date', 'outlet_name', 'net_revenue']  missing=[]
+  cleaned_hourly_items            present=['date', 'outlet_name', 'net_revenue']  missing=[]
+  cleaned_outlet_summary          present=['date', 'outlet_name', 'net_revenue']  missing=[]
+  cleaned_aggregator              present=['date', 'outlet_name', 'net_revenue']  missing=[]
+
+
+======================================================================
+FINAL OUTPUT SUMMARY
+======================================================================
+
+  Output directory  : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\data_processed
+  CSV files created : 4
+    cleaned_aggregator.csv                       2 KB
+    cleaned_hourly_items.csv                   378 KB
+    cleaned_outlet_summary.csv                   6 KB
+    cleaned_sales_items.csv                    768 KB
+
+  Total cleaned rows across all tables : 7,667
+
+  Primary fact table (cleaned_sales_items.csv) :
+    Rows    : 4,139
+    Columns : 17
+    Outlets : 6
+    Items   : 174
+    Revenue : INR 830,632.86
+
+  Cleaning report saved : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\data_processed\cleaning_report.txt
+
+Done.

@@ -1,0 +1,77 @@
+
+====================================================================
+  QAFFEINE — Strategic Menu Brief
+  Generated : 18 Mar 2026
+====================================================================
+
+EXECUTIVE SUMMARY
+────────────────────────────────────────────────────────────────────
+  Week analysed : 18 Mar 2026
+  Total bills   : 1,553  |  Multi-item bills: 1,238 (79.7%)
+  Unique items  : 142
+
+1. MENU STARS — Protect These at All Costs
+────────────────────────────────────────────────────────────────────
+  ⭐ FAMOUS COLD COFFEE_P                        Qty=194  Rev=₹43,669
+  ⭐ CHICKEN AFGHANI SANDWICH                    Qty=116  Rev=₹25,033
+  ⭐ SIGNATURE HOT CHOCOLATE                     Qty=84  Rev=₹18,051
+  → Action: Premium placement, staff upsell training, never discount.
+
+2. MENU DOGS — Candidates for Removal / Revision
+────────────────────────────────────────────────────────────────────
+  🐕 PEACH ICE TEA                               Qty=15  Rev=₹2,071
+  🐕 TIRAMISU TUB                                Qty=10  Rev=₹1,596
+  🐕 CAFE AMERICANO ( HOT )                      Qty=13  Rev=₹1,512
+  → Action: Trial removal for 2 weeks. Monitor bill count impact.
+    If retained, rename/reposition with higher margin.
+
+3. MENU PUZZLES — Hidden Profit Gems (Under-Promoted)
+────────────────────────────────────────────────────────────────────
+  🔮 MANGO THICK SHAKE                           Qty=14  AvgPrice=₹265
+  🔮 HAZELNUT INSTANT COFFEE                     Qty=12  AvgPrice=₹285
+  🔮 STRAWBERRY THICK SHAKE                      Qty=14  AvgPrice=₹236
+  → Action: Feature in menu spotlight, train staff to recommend,
+    add to social media highlights.
+
+4. TOP POWER COMBO RECOMMENDATIONS
+────────────────────────────────────────────────────────────────────
+   These pairs are organically bought together but not yet offered
+   as a bundle. Introducing a 15% bundle price would drive AOV:
+
+  #1  ANY HOT COFFEE / ANY CROISSA + CHOCOLATE CROISSANT
+       Lift: 71.52x  |  Co-purchased: 7×  |  Support: 0.5%
+       Bundle price: ₹390  (save ₹69 vs individual)
+       Quadrant mix: Star + Dog
+
+  #2  HONEY + LEMON TEA
+       Lift: 39.82x  |  Co-purchased: 6×  |  Support: 0.4%
+       Bundle price: ₹178  (save ₹31 vs individual)
+       Quadrant mix: Plowhorse + Plowhorse
+
+  #3  ALMOND CROISSANT + ANY HOT COFFEE / ANY CROISSA
+       Lift: 11.92x  |  Co-purchased: 7×  |  Support: 0.5%
+       Bundle price: ₹520  (save ₹92 vs individual)
+       Quadrant mix: Plowhorse + Star
+
+  #4  ANY HOT COFFEE / ANY CROISSA + CAFE MOCHA
+       Lift: 10.76x  |  Co-purchased: 5×  |  Support: 0.3%
+       Bundle price: ₹522  (save ₹92 vs individual)
+       Quadrant mix: Star + Plowhorse
+
+  #5  LEMON LOAF TEA CAKE + MARBLE TEA CAKE SLICE
+       Lift: 10.70x  |  Co-purchased: 5×  |  Support: 0.3%
+       Bundle price: ₹309  (save ₹54 vs individual)
+       Quadrant mix: Plowhorse + Plowhorse
+
+5. HIGHEST-AFFINITY PRODUCT PAIRS (Top 5 by Lift)
+────────────────────────────────────────────────────────────────────
+  Lift 147.91x  AVOCADO DABELI                  ↔  IRANIAN SAMOSA
+  Lift 71.52x  ANY HOT COFFEE / ANY CROISSANT  ↔  CHOCOLATE CROISSANT
+  Lift 39.82x  HONEY                           ↔  LEMON TEA
+  Lift 31.06x  NUTELLA CRUNCHY THICK SHAKE     ↔  WHIPPED CREAM_
+  Lift 22.40x  EXTRA ESPRESSO SHOT             ↔  ICED MATCHA LATTE
+
+────────────────────────────────────────────────────────────────────
+  PREPARED BY: QAFFEINE Analytics Engine
+  Data source : sales.db  |  Script: scripts/basket_analysis.py
+====================================================================

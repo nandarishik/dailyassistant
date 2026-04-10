@@ -1,0 +1,36 @@
+
+=================================================================
+  QAFFEINE API Connection Test
+  Run : 2026-03-18 10:36:36
+=================================================================
+
+TEST 1 — WeatherAPI  /v1/history.json
+-----------------------------------------------------------------
+  URL    : https://api.weatherapi.com/v1/history.json?key=2b91af624e2e451693445610261803&q=Hyderabad&dt=2026-03
+  HTTP   : 200
+  STATUS : ✓ 200 OK
+  Date   : 2026-03-16  (Hyderabad)
+  Avg °C : 29.4
+  Precip : 0.7 mm
+  Cond   : Patchy rain possible
+  Max °C : 35.4
+  Min °C : 24.5
+
+TEST 2 — Gemini  /generate_content
+-----------------------------------------------------------------
+  Trying model: gemini-2.0-flash …
+  STATUS : ⚠ Quota hit on gemini-2.0-flash — trying next …
+  Trying model: gemini-2.0-flash-lite …
+  STATUS : ⚠ Quota hit on gemini-2.0-flash-lite — trying next …
+  Trying model: gemini-2.0-flash-001 …
+  STATUS : ⚠ Quota hit on gemini-2.0-flash-001 — trying next …
+  STATUS : ✗ All models quota-exhausted. Re-run after UTC midnight.
+
+=================================================================
+  CONNECTION TEST SUMMARY
+=================================================================
+  WeatherAPI  : ✓ PASS
+    Response  : avgtemp_c=29.4 °C, precip=0.7 mm, cond='Patchy rain possible'
+  Gemini      : ✗ FAIL
+
+  Overall     : SOME TESTS FAILED (see above)

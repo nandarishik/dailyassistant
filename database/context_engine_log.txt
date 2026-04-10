@@ -1,0 +1,420 @@
+
+======================================================================
+  QAFFEINE Universal Context Engine  v3  (Dual-Engine LLM)
+======================================================================
+  Run date/time  : 2026-04-04 17:02:34
+  City           : Hyderabad, Telangana (IN/TS)
+  Database       : C:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\sales.db
+  Log output     : C:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\context_engine_log.txt
+  .env loaded    : C:\Users\Admin\Desktop\BrainPowerInternship\.env
+
+  API status:
+    WeatherAPI     : ✓ key present
+    NewsAPI        : ✓ key present
+    Gemini (Primary)   : ✓ AIzaSyDO…
+    OpenRouter (Backup): ✓ sk-or-v1-f53…
+
+  LLM Failover Chain:
+    1. Gemini 2.0 Flash             ← Primary Engine
+    2. Gemini 2.0 Flash Lite        ← Primary fallback
+    3. meta-llama/llama-3.3-70b     ← OpenRouter Backup #1
+    4. mistralai/mistral-small-2603 ← OpenRouter Backup #2
+    5. deepseek/deepseek-chat       ← OpenRouter Backup #3
+
+  DB table 'context_intelligence' ready (schema v3).
+
+======================================================================
+  Processing 7 dates (current ISO week)
+======================================================================
+  Monday 2026-03-16
+  Tuesday 2026-03-17
+  Wednesday 2026-03-18
+  Thursday 2026-03-19
+  Friday 2026-03-20
+  Saturday 2026-03-21
+  Sunday 2026-03-22
+
+  Sales data  : 7 trading days in DB
+  Avg revenue : ₹118,662 / day
+
+======================================================================
+  DATE: 2026-03-16  (Monday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 10 headlines
+    'Telangana Infrastructure' → 3 headlines
+  Headlines retrieved: 10
+     1. OXMIQ Labs and AM Intelligence Labs Partner to Architect One of the World’s Largest Renewable-Powered AI Compu
+     2. Fino Payments Bank shares crash 19% on report of possible ED probe; lender clarifies — The Times of India
+     3. LPG Price Today (March 16): Has cooking gas become cheaper or costlier? Check the latest cylinder rates in you
+     4. From Buddha rice to zero-pesticide chana: How farmer-run companies are finding their edge — Livemint
+     5. JSM pushes back after Hard Rock terminates 22-year India partnership — BusinessLine
+     6. US Bancorp in talks to lease 650,000 sq ft in Chennai for GCC — The Times of India
+     7. Rentomojo Expands Washing Machine Rental to 20+ Indian Cities as Urban Professionals Shift Away from Appliance
+     8. Solar Panel Recycling Market – 9%+ CAGR Forecast for 2026–2031 Amid Rising Solar PV Waste and Strengthening Re
+     9. Pet food startup Zoomies secures ₹5 crore to expand D2C operations in India — BusinessLine
+    10. Prefabricated Construction Market Outlook: USD 413 Billion Opportunity by 2031 Led by Volumetric Modular Build
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  No significant operational disruptors directly related to QAFFEINE's coffee chain operations were detected in the provided news headlines. However, some indirect potential disruptors could be:
+  
+  * Economic uncertainty — Potential reduction in consumer spending — Headline #2 (Fino Payments Bank shares crash)
+  * Changes in consumer behavior — Potential shift in demand — Headline #7 (Rentomojo Expands Washing Machine Rental)
+  * IT corridor events — Potential increase in footfall — Headline #1 (OXMIQ Labs and AM Intelligence Labs Partnership) and #6 (US Bancorp leasing space in Chennai, although this is in a different city)
+  
+  These potential disruptors are indirect and may not have a significant impact on QAFFEINE's operations. Overall, no significant operational disruptors were detected.
+
+  ✓ Upserted → context_intelligence [2026-03-16]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-17  (Tuesday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 10 headlines
+    'Telangana Infrastructure' → 3 headlines
+  Headlines retrieved: 10
+     1. Luthansa finally gains certification for most of its Boeing 787-9 Allegris business class seats — Boardingarea
+     2. Woxsen University Students Dominate PRAGATHI National-Level Project Expo 2026, Bag Overall Title and Theme-Bas
+     3. Karnataka seeks relaxation in building height norms around Bengaluru airports: D K Shivakumar — The Times of I
+     4. Graphic Designer — Behance.net
+     5. JSM pushes back after Hard Rock terminates 22-year India partnership — BusinessLine
+     6. US Bancorp in talks to lease 650,000 sq ft in Chennai for GCC — The Times of India
+     7. Water Purifier Rental From Rentomojo - RO, UV and Alkaline Systems See Growing Demand in Major Indian Cities —
+     8. Reliance-Samsung deal boosts India’s green hydrogen push, but 2030 goal remains distant — Livemint
+     9. Rentomojo Expands Washing Machine Rental to 20+ Indian Cities as Urban Professionals Shift Away from Appliance
+    10. Medical Radiation Shielding Market Forecast: Over 6.54% CAGR Through 2031 as Healthcare Facilities Strengthen 
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  No significant operational disruptors detected related to road closures, strikes, infrastructure outages, festivals, large events, supply chain issues, weather events, political shutdowns, or IT corridor events in Hyderabad. The headlines primarily focus on national-level project expos, business partnerships, real estate, and market forecasts, which do not directly impact footfall and revenue for a coffee chain in Hyderabad.
+
+  ✓ Upserted → context_intelligence [2026-03-17]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-18  (Wednesday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 10 headlines
+    'Telangana Infrastructure' → 2 headlines
+  Headlines retrieved: 10
+     1. Luthansa finally gains certification for most of its Boeing 787-9 Allegris business class seats — Boardingarea
+     2. Woxsen University Students Dominate PRAGATHI National-Level Project Expo 2026, Bag Overall Title and Theme-Bas
+     3. Karnataka seeks relaxation in building height norms around Bengaluru airports: D K Shivakumar — The Times of I
+     4. Ammonium Nitrate Market Growing at 4.36% CAGR to Reach 58.19 Million Tons by 2031 Supported by Fertilizer Dema
+     5. ATM rules changing from April 1, 2026: Check HDFC Bank, PNB and Bandhan Bank’s UPI, cash withdrawal limits, re
+     6. Walt Disney’s Bengaluru centre triggers revenue risk for IT vendor Globant — Livemint
+     7. Graphic Designer — Behance.net
+     8. Water Purifier Rental From Rentomojo - RO, UV and Alkaline Systems See Growing Demand in Major Indian Cities —
+     9. Reliance-Samsung deal boosts India’s green hydrogen push, but 2030 goal remains distant — Livemint
+    10. Medical Radiation Shielding Market Forecast: Over 6.54% CAGR Through 2031 as Healthcare Facilities Strengthen 
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  No significant operational disruptors directly related to QAFFEINE's coffee chain operations were detected in the given headlines. However, some indirect potential disruptors can be considered:
+  
+  * IT corridor events — Potential increase in footfall — #6 (Walt Disney's Bengaluru centre, although not in Hyderabad, could influence IT industry trends)
+  * Economic changes — Potential decrease in footfall — #5 (ATM rules changing, which may affect customer spending habits)
+  * Educational events — Potential increase in footfall — #2 (Woxsen University Students' achievement, which may attract visitors to the area)
+  
+  These are indirect and may not have a significant impact on QAFFEINE's operations. Overall, no direct operational disruptors were found.
+
+  ✓ Upserted → context_intelligence [2026-03-18]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-19  (Thursday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  ✓ HOLIDAY → Ugadi (State)
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 10 headlines
+    'Telangana Infrastructure' → 7 headlines
+  Headlines retrieved: 10
+     1. Will L’Oréal Acquire India’s Innovist? — WWD
+     2. Ammonium Nitrate Market Growing at 4.36% CAGR to Reach 58.19 Million Tons by 2031 Supported by Fertilizer Dema
+     3. 5G Chipset Market to Cross USD 93 Billion by 2031 on 5G and Edge AI Growth, Says Mordor Intelligence — PR News
+     4. New tax rules notified: From HRA to company car to meal card, top 5 prominent changes which will impact salari
+     5. ATM rules changing from April 1, 2026: Check HDFC Bank, PNB and Bandhan Bank’s UPI, cash withdrawal limits, re
+     6. Rentomojo aims to raise up to ₹1,200 cr via IPO, to file draft papers soon — Livemint
+     7. Walt Disney’s Bengaluru centre triggers revenue risk for IT vendor Globant — Livemint
+     8. Brigade Enterprises expands annuity portfolio, explores new asset classes for growth — The Times of India
+     9. DNA Sequencing Market to Expand at 18%+ CAGR by 2031 as Genomics Research and Precision Medicine Drive Global 
+    10. Automotive Lighting Market to Register 5%+ CAGR by 2031 Supported by Advanced Lighting Technologies and Regula
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  No significant operational disruptors directly related to QAFFEINE's coffee chain business were detected in the provided news headlines. However, some indirect factors could potentially impact footfall and revenue:
+  
+  * Changes in tax rules and ATM fees might affect customers' disposable income, potentially reducing spending on premium coffee.
+  * IT corridor events, such as Walt Disney's Bengaluru centre, could lead to an increase in footfall if QAFFEINE has outlets near IT hubs.
+  
+  Disruptor types and expected impacts:
+  - Economic change — Reduced revenue — Headline #4
+  - IT corridor event — Increased footfall — Headline #7
+
+  ✓ Upserted → context_intelligence [2026-03-19]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-20  (Friday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 10 headlines
+    'Telangana Infrastructure' → 9 headlines
+  Headlines retrieved: 10
+     1. Will L’Oréal Acquire India’s Innovist? — WWD
+     2. 5G Chipset Market to Cross USD 93 Billion by 2031 on 5G and Edge AI Growth, Says Mordor Intelligence — PR News
+     3. New tax rules notified: From HRA to company car to meal card, top 5 prominent changes which will impact salari
+     4. Rentomojo aims to raise up to ₹1,200 cr via IPO, to file draft papers soon — Livemint
+     5. Brigade Enterprises expands annuity portfolio, explores new asset classes for growth — The Times of India
+     6. A blockbuster unleashed: What happens when a big fat business explodes? — The Times of India
+     7. DNA Sequencing Market to Expand at 18%+ CAGR by 2031 as Genomics Research and Precision Medicine Drive Global 
+     8. Food Flavors Market to Register 4.9% CAGR Through 2031 Fueled by Natural Ingredient Trends and Rising Processe
+     9. Goldman Sachs maps out where it's pushing AI — and the risks that could upend its strategy — Business Insider
+    10. Will L’Oréal Acquire India’s Innovist? — WWD
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  No significant operational disruptors directly related to road closures, strikes, infrastructure outages, festivals, large events, supply chain issues, weather events, political shutdowns, or IT corridor events were detected in the provided headlines. However, some indirect influences could be considered:
+  
+  * Economic changes due to new tax rules might affect consumer spending habits — [Economic Disruptor] — [Negative Impact] — [Headline 3].
+  * Growth in the 5G chipset market and related technologies could potentially influence footfall in IT hubs — [Technological Disruptor] — [Positive Impact] — [Headline 2].
+  * Expansion of businesses like Brigade Enterprises might lead to increased footfall in certain areas — [Business Expansion Disruptor] — [Positive Impact] — [Headline 5].
+  
+  These are indirect and speculative, as the headlines do not directly mention events that would significantly disrupt QAFFEINE's operations.
+
+  ✓ Upserted → context_intelligence [2026-03-20]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-21  (Saturday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  ✓ HOLIDAY → Id-ul-Fitr (estimated) (National)
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 4 headlines
+    'Telangana Infrastructure' → 3 headlines
+  Headlines retrieved: 7
+     1. Consumer-tech player Nothing bets big on offline, targets to add 5,000 touchpoints by year-end in India — Busi
+     2. A blockbuster unleashed: What happens when a big fat business explodes? — The Times of India
+     3. As Iran war disrupts the Gulf, India's growth story faces new risks — The Times of India
+     4. Twist in race for Royal Challengers Bengaluru? Now, Birla-Blitzer consortium also evaluating a bid — Moneycont
+     5. KT Rama Rao slams Telangana govt over alleged decline of IT jobs in Hyderabad — The Times of India
+     6. Riding volatile market waves — BusinessLine
+     7. Govt asks gas distribution firms to prioritise PNG connections, increases commercial LPG allocation amid West 
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  1. IT corridor event — Potential reduction in footfall — #5
+     As the alleged decline of IT jobs in Hyderabad may lead to reduced consumer spending, it could negatively impact QAFFEINE's revenue.
+  
+  2. Supply chain issue — Potential increase in costs — #7
+     The West Asia conflict and changes in gas distribution priorities might affect the supply chain, leading to increased costs for QAFFEINE.
+  
+  3. Economic uncertainty — Potential reduction in footfall — #3, #6
+     The India growth story facing new risks and the volatile market waves could lead to reduced consumer spending, affecting QAFFEINE's footfall and revenue.
+
+  ✓ Upserted → context_intelligence [2026-03-21]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-22  (Sunday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+  Condition      : Unavailable (API code 1008)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1008  API key is limited to get history data. Please check our pricing page and upgrade to higher plan.
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 7 headlines
+    'Telangana Infrastructure' → 2 headlines
+  Headlines retrieved: 9
+     1. EKA Mobility bags order for 915 e-buses in Hyderabad — BusinessLine
+     2. Why mixed-use developments could drive the next phase of luxury city hotels — Livemint
+     3. Consumer-tech player Nothing bets big on offline, targets to add 5,000 touchpoints by year-end in India — Busi
+     4. Automotive Fuel Tank Market to Reach $21.32 Bn by 2031 Driven by Hybrid Vehicle Demand and Hydrogen Tank Adopt
+     5. Automotive Logistics Market to Surpass $386 Bn by 2031 as Transportation Segment Holds 58.34% Share, Reports M
+     6. As Iran war disrupts the Gulf, India's growth story faces new risks — The Times of India
+     7. Twist in race for Royal Challengers Bengaluru? Now, Birla-Blitzer consortium also evaluating a bid — Moneycont
+     8. Govt asks gas distribution firms to prioritise PNG connections, increases commercial LPG allocation amid West 
+     9. Dengue transmission dynamics in an urban setting in western India — Plos.org
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  1. Infrastructure development — Potential road closures and increased traffic — #1
+  2. Conflict and geopolitical tensions — Reduced consumer spending and economic uncertainty — #6
+  3. Government regulations — Possible supply chain disruptions for commercial LPG — #8 
+  
+  These operational disruptors could impact footfall and revenue for QAFFEINE's coffee chain outlets in Hyderabad. Infrastructure development and government regulations may cause short-term disruptions, while conflict and geopolitical tensions could have a more prolonged effect on consumer behavior and spending.
+
+  ✓ Upserted → context_intelligence [2026-03-22]  engine=OpenRouter
+
+======================================================================
+  CONTEXT ENGINE SUMMARY
+======================================================================
+  Dates processed: 7
+
+  DATE           HOLIDAY                    WEATHER                   HLS  LLM ENGINE
+  -------------- -------------------------- ------------------------ ----  ----------------------------
+  2026-03-16     —                          Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-17     —                          Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-18     —                          Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-19     Ugadi                      Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-20     —                          Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-21     Id-ul-Fitr (estimated)     Unavailable (API code       7  OpenRouter/OpenRouter/meta-l
+  2026-03-22     —                          Unavailable (API code       9  OpenRouter/OpenRouter/meta-l
+
+  LLM Engine Usage:
+    Gemini (Primary)      : 0 / 7 queries
+    OpenRouter (Backup)   : 7 / 7 queries
+
+  HOLIDAY SPOTLIGHT (2 in this week):
+    ► 2026-03-19  —  Ugadi  [State]
+    ► 2026-03-21  —  Id-ul-Fitr (estimated)  [National]
+
+======================================================================
+  DATABASE VERIFICATION
+======================================================================
+  Total rows in context_intelligence: 7
+
+  DATE           HOLIDAY                  TEMP   PRECIP  CONDITION               ENGINE
+  -------------- ---------------------- ------ --------  ----------------------  ----------------
+  2026-03-22     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-21     Id-ul-Fitr (estimate      N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-20     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-19     Ugadi                     N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-18     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-17     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-16     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+
+======================================================================
+  LOG FILE
+======================================================================

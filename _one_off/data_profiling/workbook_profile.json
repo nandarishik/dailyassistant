@@ -1,0 +1,2777 @@
+[
+  {
+    "sheet_name": "DSR",
+    "row_count": 46,
+    "col_count": 43,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "TOTAL GROSS SALE",
+        "TOTAL DISCOUNT",
+        "TOTAL NET SALE",
+        "DINE IN NET SALE",
+        "CARRY OUT NET SALE",
+        "DELIVERY NET SALE",
+        "TOTAL ORDER COUNT",
+        "TOTAL PAYMENT",
+        "TOTAL BILL AMT"
+      ],
+      "Quantity": [
+        "PAX COUNT",
+        "TOTAL DISCOUNT",
+        "DINE IN ORDER COUNT",
+        "CARRY  OUT ORDER COUNT",
+        "DELIVERY ORDER COUNT",
+        "TOTAL ORDER COUNT",
+        "CANCEL COUNT",
+        "VOID BILL COUNT"
+      ],
+      "Outlet": [
+        "RESTAURANT ID",
+        "RESTAURANT NAME"
+      ],
+      "Item": [
+        "BRAND NAME",
+        "RESTAURANT NAME",
+        "FOOD SALE"
+      ]
+    },
+    "sample_rows": [
+      {
+        "CITY": "HYDERABAD",
+        "STATE": "TELANGANA",
+        "RM": "",
+        "AM": "",
+        "RESTAURANT ID": "QOH0221",
+        "BRAND NAME": "QAFFEINE",
+        "RESTAURANT NAME": "QAFFEINE-BHOOJA",
+        "DATE": "2025-12-01 00:00:00",
+        "PAX COUNT": "",
+        "TOTAL GROSS SALE": "17506",
+        "TOTAL DISCOUNT": "0",
+        "TOTAL NET SALE": "17506",
+        "DINE IN NET SALE": "15305",
+        "DINE IN ORDER COUNT": "30",
+        "CARRY OUT NET SALE": "2201",
+        "CARRY  OUT ORDER COUNT": "6",
+        "DELIVERY NET SALE": "0",
+        "DELIVERY ORDER COUNT": "0",
+        "TOTAL ORDER COUNT": "36",
+        "BEVERAGE SALE": "12776",
+        "FOOD SALE": "4730",
+        "LIQUOR SALE": "0",
+        "SERVICE CHARGE": "0",
+        "GST": "875.74",
+        "Add. Cess": "0",
+        "VAT": "0",
+        "OTHER CHARGES(DELIVERY + PACKAGING)": "0",
+        "CASH AMT": "4171",
+        "CREDITCARD AMT": "4904",
+        "UPI AMT": "9306",
+        "CREDITCUST AMT": "0",
+        "VOUCHER AMT": "0",
+        "CRM AMT": "0",
+        "BILLAMT": "18381",
+        "TOTAL PAYMENT": "18381",
+        "ROUNDAMT": "-0.74",
+        "REFUNDAMT": "0",
+        "VOID ORDER AMT": "0",
+        "TOTAL BILL AMT": "18380.26",
+        "CANCEL COUNT": "0",
+        "VOID BILL COUNT": "0",
+        "CANCEL   AMT": "0",
+        "VOID BILL AMT": "0"
+      },
+      {
+        "CITY": "HYDERABAD",
+        "STATE": "TELANGANA",
+        "RM": "",
+        "AM": "",
+        "RESTAURANT ID": "QOH0221",
+        "BRAND NAME": "QAFFEINE",
+        "RESTAURANT NAME": "QAFFEINE-BHOOJA",
+        "DATE": "2025-12-02 00:00:00",
+        "PAX COUNT": "",
+        "TOTAL GROSS SALE": "17159",
+        "TOTAL DISCOUNT": "0",
+        "TOTAL NET SALE": "17159",
+        "DINE IN NET SALE": "15321",
+        "DINE IN ORDER COUNT": "25",
+        "CARRY OUT NET SALE": "1838",
+        "CARRY  OUT ORDER COUNT": "6",
+        "DELIVERY NET SALE": "0",
+        "DELIVERY ORDER COUNT": "0",
+        "TOTAL ORDER COUNT": "31",
+        "BEVERAGE SALE": "12420",
+        "FOOD SALE": "4739",
+        "LIQUOR SALE": "0",
+        "SERVICE CHARGE": "0",
+        "GST": "858.3",
+        "Add. Cess": "0",
+        "VAT": "0",
+        "OTHER CHARGES(DELIVERY + PACKAGING)": "0",
+        "CASH AMT": "4907",
+        "CREDITCARD AMT": "3749",
+        "UPI AMT": "9357",
+        "CREDITCUST AMT": "0",
+        "VOUCHER AMT": "0",
+        "CRM AMT": "0",
+        "BILLAMT": "18013",
+        "TOTAL PAYMENT": "18013",
+        "ROUNDAMT": "-4.3",
+        "REFUNDAMT": "0",
+        "VOID ORDER AMT": "0",
+        "TOTAL BILL AMT": "18008.7",
+        "CANCEL COUNT": "0",
+        "VOID BILL COUNT": "0",
+        "CANCEL   AMT": "0",
+        "VOID BILL AMT": "0"
+      },
+      {
+        "CITY": "HYDERABAD",
+        "STATE": "TELANGANA",
+        "RM": "",
+        "AM": "",
+        "RESTAURANT ID": "QOH0221",
+        "BRAND NAME": "QAFFEINE",
+        "RESTAURANT NAME": "QAFFEINE-BHOOJA",
+        "DATE": "2025-12-03 00:00:00",
+        "PAX COUNT": "",
+        "TOTAL GROSS SALE": "27631",
+        "TOTAL DISCOUNT": "1363",
+        "TOTAL NET SALE": "26268",
+        "DINE IN NET SALE": "20194",
+        "DINE IN ORDER COUNT": "30",
+        "CARRY OUT NET SALE": "6074",
+        "CARRY  OUT ORDER COUNT": "9",
+        "DELIVERY NET SALE": "0",
+        "DELIVERY ORDER COUNT": "0",
+        "TOTAL ORDER COUNT": "39",
+        "BEVERAGE SALE": "19319",
+        "FOOD SALE": "6949",
+        "LIQUOR SALE": "0",
+        "SERVICE CHARGE": "0",
+        "GST": "1313.96",
+        "Add. Cess": "0",
+        "VAT": "0",
+        "OTHER CHARGES(DELIVERY + PACKAGING)": "0",
+        "CASH AMT": "1998",
+        "CREDITCARD AMT": "7298",
+        "UPI AMT": "18285",
+        "CREDITCUST AMT": "0",
+        "VOUCHER AMT": "0",
+        "CRM AMT": "0",
+        "BILLAMT": "27581",
+        "TOTAL PAYMENT": "27581",
+        "ROUNDAMT": "-0.96",
+        "REFUNDAMT": "0",
+        "VOID ORDER AMT": "0",
+        "TOTAL BILL AMT": "27580.04",
+        "CANCEL COUNT": "0",
+        "VOID BILL COUNT": "0",
+        "CANCEL   AMT": "0",
+        "VOID BILL AMT": "0"
+      }
+    ],
+    "header_row_index": 6
+  },
+  {
+    "sheet_name": "Aggregator Details",
+    "row_count": 35,
+    "col_count": 11,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "Date"
+      ],
+      "Revenue/Total": [
+        "Net sales"
+      ],
+      "Quantity": [
+        "Order Count"
+      ],
+      "Outlet": [
+        "Restaurant Id",
+        "Restaurant Name"
+      ],
+      "Item": [
+        "BRAND NAME",
+        "Restaurant Name",
+        "Aggregator Name"
+      ]
+    },
+    "sample_rows": [
+      {
+        "Restaurant Id": "QOH0221",
+        "BRAND NAME": "QAFFEINE",
+        "Restaurant Name": "QAFFEINE-BHOOJA",
+        "Date": "2025-12-05 00:00:00",
+        "Aggregator Name": "SWIGGY",
+        "Order Count": "1",
+        "Net sales": "224",
+        "GST": "0",
+        "DELIVERY CHARGES": "0",
+        "PACKAGING CHARGES": "20",
+        "BILL AMT": "244"
+      },
+      {
+        "Restaurant Id": "QOH0233",
+        "BRAND NAME": "QAFFEINE",
+        "Restaurant Name": "QAFFFEINE-MUSARAMBAGH",
+        "Date": "2025-12-01 00:00:00",
+        "Aggregator Name": "SWIGGY",
+        "Order Count": "5",
+        "Net sales": "1702.01",
+        "GST": "0",
+        "DELIVERY CHARGES": "0",
+        "PACKAGING CHARGES": "100",
+        "BILL AMT": "1802.01"
+      },
+      {
+        "Restaurant Id": "QOH0233",
+        "BRAND NAME": "QAFFEINE",
+        "Restaurant Name": "QAFFFEINE-MUSARAMBAGH",
+        "Date": "2025-12-01 00:00:00",
+        "Aggregator Name": "ZOMATO",
+        "Order Count": "8",
+        "Net sales": "4269.9",
+        "GST": "0",
+        "DELIVERY CHARGES": "0",
+        "PACKAGING CHARGES": "160",
+        "BILL AMT": "4429.9"
+      }
+    ],
+    "header_row_index": 1
+  },
+  {
+    "sheet_name": "MenuMix from 0 to 704",
+    "row_count": 708,
+    "col_count": 14,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "NET \nSALE",
+        "% Mix By Value"
+      ],
+      "Quantity": [
+        "Sales Qty",
+        "FREE QTY",
+        "TOT_QTY"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "SPL.CATEGORY NAME",
+        "GROUP \nNAME",
+        "PRODUCT \nNAME",
+        "POS DISPLAY NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 6
+  },
+  {
+    "sheet_name": "Menu Mix Summary",
+    "row_count": 519,
+    "col_count": 14,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot",
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Basic Amount",
+        "Discount Amount",
+        "Net Amount"
+      ],
+      "Quantity": [
+        "Sales Qty",
+        "Discount Amount"
+      ],
+      "Outlet": [
+        "LOCATIONID",
+        "Location Name",
+        "STORE CODE"
+      ],
+      "Item": [
+        "Location Name",
+        "Brand Name",
+        "SPLCATEGORYID",
+        "Product Category",
+        "PRODUCTID",
+        "Product Name",
+        "Pos Dsiplay Name",
+        "Aggregator Display Name"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 2
+  },
+  {
+    "sheet_name": "Bill Register from 0 to 1552",
+    "row_count": 1559,
+    "col_count": 59,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Contains pivot keywords: ['total']"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "SERVSTARTTIME",
+        "CASH OUT TIME"
+      ],
+      "Revenue/Total": [
+        "NET AMT",
+        "TOTAL TIPS",
+        "TOTAL SETTLMENT",
+        "NC Value"
+      ],
+      "Quantity": [
+        "DISCOUNT",
+        "HOUSEACCOUNT TIPS",
+        "HOUSE ACCOUNT REMARK"
+      ],
+      "Outlet": [
+        "STOREID",
+        "LOCATION"
+      ],
+      "Item": [
+        "BRAND NAME",
+        "CUSTOMER NAME",
+        "AGGREGATOR NAME",
+        "CASHIER_NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 6
+  },
+  {
+    "sheet_name": "CreditCardType",
+    "row_count": 312,
+    "col_count": 9,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Outlet": [
+        "LOCATION ID",
+        "LOCATION"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Bill wise Item wise NC Sales",
+    "row_count": 50,
+    "col_count": 15,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "Date"
+      ],
+      "Revenue/Total": [
+        "NCVALUE",
+        "BASIC VALUE"
+      ],
+      "Quantity": [
+        "NCQTY"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "CUSTOMER NAME",
+        "SPECIAL CATEGORY NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "LOCATION NAME": "QAFFEINE-PHOENIX",
+        "Date": "2025-12-07",
+        "BILL NO": "QPX/IN/1/000466/2025",
+        "CUSTOMER NAME": "No Number",
+        "PHONE": "",
+        "CASHIER": "qpm",
+        "MANAGER": "qpm",
+        "REMARK": "",
+        "NC REMARK": "FOOD TRIAL",
+        "SPECIAL CATEGORY NAME": "FOOD",
+        "PRODUCT NAME": "HONEY CINNAMON ROLL",
+        "NCQTY": "4",
+        "NCRATE": "",
+        "NCVALUE": "",
+        "BASIC VALUE": "796"
+      },
+      {
+        "LOCATION NAME": "QAFFEINE-PHOENIX",
+        "Date": "2025-12-07",
+        "BILL NO": "QPX/IN/1/000466/2025",
+        "CUSTOMER NAME": "No Number",
+        "PHONE": "",
+        "CASHIER": "qpm",
+        "MANAGER": "qpm",
+        "REMARK": "",
+        "NC REMARK": "FOOD TRIAL",
+        "SPECIAL CATEGORY NAME": "FOOD",
+        "PRODUCT NAME": "SPICY SMOKE CHICKEN HAM SANDWICH",
+        "NCQTY": "2",
+        "NCRATE": "",
+        "NCVALUE": "",
+        "BASIC VALUE": "618"
+      },
+      {
+        "LOCATION NAME": "QAFFEINE-BHOOJA",
+        "Date": "2025-12-06",
+        "BILL NO": "QAB/IN/1/009284/2025",
+        "CUSTOMER NAME": "No Number",
+        "PHONE": "",
+        "CASHIER": "BHOOJA 3",
+        "MANAGER": "BHOOJA 3",
+        "REMARK": "",
+        "NC REMARK": "MD SIR",
+        "SPECIAL CATEGORY NAME": "BEVERAGES",
+        "PRODUCT NAME": "ALMOND QAPPUCCINO",
+        "NCQTY": "3",
+        "NCRATE": "",
+        "NCVALUE": "",
+        "BASIC VALUE": "837"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "VoidOrderRegister",
+    "row_count": 6,
+    "col_count": 20,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "Date",
+        "Order Start Time",
+        "Order End Time",
+        "Product Punch Time",
+        "Item Void Time",
+        "Time Difference"
+      ],
+      "Revenue/Total": [
+        "Void Amount",
+        "NET Amount"
+      ],
+      "Quantity": [
+        "Bill No.1",
+        "Void Qty"
+      ],
+      "Outlet": [
+        "Location Name",
+        "Store Code"
+      ],
+      "Item": [
+        "Location Name",
+        "Product Punch Time",
+        "Item Void Time",
+        "Product Name",
+        "Item void by"
+      ]
+    },
+    "sample_rows": [
+      {
+        "Location Name": "QAFFEINE-GVK-ONE",
+        "Store Code": "",
+        "Bill No": "7188",
+        "Bill No.1": "QAG/IN/1/007188/2025",
+        "Table No": "",
+        "Date": "2025-12-07",
+        "Order Start Time": "2025-12-07 13:17:49",
+        "Order End Time": "2025-12-07 13:24:40",
+        "Product Punch Time": "2025-12-07 13:17:02",
+        "Item Void Time": "2025-12-07 13:24:09",
+        "Time Difference": "00:06:20",
+        "Product Name": "IRISH COFFEE",
+        "Void Reason": "GUEST CHANGED THE ORDER",
+        "Void Remark": "",
+        "Void Qty": "1",
+        "Void Amount": "269",
+        "NET Amount": "0",
+        "User": "GVK CASHIER 1",
+        "Cashier": "GVK CASHIER 1",
+        "Item void by": "GVK CASHIER 1"
+      },
+      {
+        "Location Name": "QAFFEINE-PHOENIX",
+        "Store Code": "",
+        "Bill No": "413",
+        "Bill No.1": "QPX/IN/1/000413/2025",
+        "Table No": "",
+        "Date": "2025-12-03",
+        "Order Start Time": "2025-12-03 13:39:42",
+        "Order End Time": "2025-12-03 14:39:13",
+        "Product Punch Time": "2025-12-03 13:38:13",
+        "Item Void Time": "2025-12-03 14:30:02",
+        "Time Difference": "00:50:20",
+        "Product Name": "CHICKEN THAI GREEN CURRY",
+        "Void Reason": "GUEST CHANGED THE ORDER",
+        "Void Remark": "",
+        "Void Qty": "2",
+        "Void Amount": "658",
+        "NET Amount": "263.2",
+        "User": "qpm",
+        "Cashier": "qpm",
+        "Item void by": "qpm"
+      },
+      {
+        "Location Name": "QAFFEINE-PHOENIX",
+        "Store Code": "",
+        "Bill No": "413",
+        "Bill No.1": "QPX/IN/1/000413/2025",
+        "Table No": "",
+        "Date": "2025-12-03",
+        "Order Start Time": "2025-12-03 13:39:42",
+        "Order End Time": "2025-12-03 14:39:13",
+        "Product Punch Time": "2025-12-03 13:39:40",
+        "Item Void Time": "2025-12-03 14:27:58",
+        "Time Difference": "00:48:16",
+        "Product Name": "ICED TURKISH LATTE",
+        "Void Reason": "GUEST CHANGED THE ORDER",
+        "Void Remark": "",
+        "Void Qty": "1",
+        "Void Amount": "279",
+        "NET Amount": "0",
+        "User": "qpm",
+        "Cashier": "qpm",
+        "Item void by": "qpm"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "IDEAL CONSUMPTION STORE BRAND",
+    "row_count": 6036,
+    "col_count": 23,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Contains pivot keywords: ['total']"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "IDEAL_SALES CONSUMPTION VALUE",
+        "ACTUAL CONSUMPTION VALUE"
+      ],
+      "Quantity": [
+        "IDEAL_SALES CONSUMPTION_QTY",
+        "ACTUAL_CONSUMPTION_QTY"
+      ],
+      "Outlet": [
+        "RESTAURANT ID",
+        "RESTAURANT NAME"
+      ],
+      "Item": [
+        "BRAND NAME",
+        "RESTAURANT NAME",
+        "PRODUCTID",
+        "PRODUCT NAME",
+        "PRODUCT CATEGORY",
+        "PRODUCT SPECIAL CATEGORY"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 6
+  },
+  {
+    "sheet_name": "FC Product",
+    "row_count": 1817,
+    "col_count": 26,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "OPENING VALUE",
+        "TOTAL RECEIVED_QTY",
+        "TOTAL RECEIVED_VALUE",
+        "TOTAL ISSUE QTY",
+        "TOTAL ISSUE VALUE",
+        "CLOSING_VALUE",
+        "ACTUAL_CONSUMPTION_QTY (Col Value)",
+        "ACTUAL_CONSUMPTION_VALUE",
+        "IDEAL_SALES CONSUMPTION VALUE",
+        "RAW_WASTAGE_VALUE",
+        "Variance Value"
+      ],
+      "Quantity": [
+        "OPENING QTY",
+        "TOTAL RECEIVED_QTY",
+        "TOTAL ISSUE QTY",
+        "CLOSING_QTY",
+        "ACTUAL_CONSUMPTION_QTY (Col Value)",
+        "ACTUAL_CONSUMPTION_QTY",
+        "IDEAL_SALES CONSUMPTION_QTY",
+        "Variance Qty"
+      ],
+      "Outlet": [
+        "STORE_NAME",
+        "STORE ID"
+      ],
+      "Item": [
+        "STORE_NAME",
+        "PRODUCTID",
+        "PRODUCT NAME",
+        "PRODUCT CATEGORY",
+        "PRODUCT SPECIAL CATEGORY"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "PRODUCTWISE IDEAL",
+    "row_count": 1397,
+    "col_count": 16,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Quantity": [
+        "CONSUMPTION QTY",
+        "CONSUM QTY WITHOUTYIELD",
+        "STOCK QTY"
+      ],
+      "Outlet": [
+        "STORE ID",
+        "LOCATION"
+      ],
+      "Item": [
+        "PRODUCT ID",
+        "PRODUCT NAME",
+        "COMPONENT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 2
+  },
+  {
+    "sheet_name": "Tax Charge",
+    "row_count": 4140,
+    "col_count": 54,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "KOT PRINT TIME"
+      ],
+      "Revenue/Total": [
+        "NET AMT",
+        "TOTAL GST AMT",
+        "TOTAL TAX AMOUNT",
+        "TOTAL VALUE"
+      ],
+      "Quantity": [
+        "COUNTERID",
+        "SALES QTY",
+        "DISCOUNT RATE",
+        "DISCOUNT AMT",
+        "VOID QTY",
+        "REFUND QTY"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "CUSTOMER_NAME",
+        "Product Special Category",
+        "Product Group",
+        "GST CATEGORY ID",
+        "GST CATEGORY",
+        "PRODUCTID",
+        "PRODUCT NAME",
+        "POS DISPLAY NAME",
+        "Add On Item",
+        "ITEM REMARK"
+      ]
+    },
+    "sample_rows": [
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "WOKID": "QOH0012",
+        "LOCATION NAME": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "CITY": "HYDERABAD",
+        "CHANNEL TYPE": "Carry-Out",
+        "BILL NO": "QAH/IN/1/018906/2025",
+        "INVOICE TYPE": "",
+        "ORDER TAKER": "HITECH CITY CASHIER 1",
+        "TABLE NO": "",
+        "PAX": "",
+        "PHONE": "",
+        "CUSTOMER_NAME": "No Number",
+        "CARD NO": "",
+        "COUNTERID": "9",
+        "Product Special Category": "BEVERAGES",
+        "Product Group": "Q THICK SHAKE",
+        "GST CATEGORY ID": "2",
+        "GST CATEGORY": "5% Common Use Items",
+        "PRODUCTID": "12027",
+        "PRODUCT NAME": "STRAWBERRY THICK SHAKE",
+        "POS DISPLAY NAME": "STRAWBERRY THICK SHAKE",
+        "Add On Item": "",
+        "ITEM REMARK": "",
+        "KOT PRINT TIME": "2025-12-01 08:56:37",
+        "HSN CODE": "",
+        "BAISCRATE": "203",
+        "SALES QTY": "1",
+        "BASICAMT": "203",
+        "DISCOUNT RATE": "0",
+        "DISCOUNT AMT": "0",
+        "Packing Charge": "0",
+        "VOID QTY": "0",
+        "REFUND QTY": "0",
+        "VOID AMT": "0",
+        "REFUND AMT": "0",
+        "NET AMT": "203",
+        "SERVICE CHG RATE": "0",
+        "SERVICE CHG AMT": "0",
+        "VAT RATE": "0",
+        "VAT AMT": "0",
+        "CGST RATE": "2.5",
+        "CGST AMT": "5.08",
+        "SGST RATE": "2.5",
+        "SGST AMT": "5.08",
+        "IGST RATE": "0",
+        "IGST AMT": "0",
+        "GST CESS RATE": "0",
+        "GST CESS AMT": "0",
+        "TOTAL GST AMT": "10.16",
+        "TOTAL TAX AMOUNT": "10.16",
+        "TOTAL VALUE": "213.16",
+        "SERVICE CHARGE CGST": "0",
+        "SERVICE CHARGE SGST": "0"
+      },
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "WOKID": "QOH0012",
+        "LOCATION NAME": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "CITY": "HYDERABAD",
+        "CHANNEL TYPE": "Carry-Out",
+        "BILL NO": "QAH/IN/1/018906/2025",
+        "INVOICE TYPE": "",
+        "ORDER TAKER": "HITECH CITY CASHIER 1",
+        "TABLE NO": "",
+        "PAX": "",
+        "PHONE": "",
+        "CUSTOMER_NAME": "No Number",
+        "CARD NO": "",
+        "COUNTERID": "9",
+        "Product Special Category": "BEVERAGES",
+        "Product Group": "Q CLASSIC COFFEE HOUSE BLEND",
+        "GST CATEGORY ID": "2",
+        "GST CATEGORY": "5% Common Use Items",
+        "PRODUCTID": "8869",
+        "PRODUCT NAME": "CAPPUCCINO ( HOT )",
+        "POS DISPLAY NAME": "CAPPUCCINO ( HOT )",
+        "Add On Item": "",
+        "ITEM REMARK": "",
+        "KOT PRINT TIME": "2025-12-01 08:56:37",
+        "HSN CODE": "",
+        "BAISCRATE": "154",
+        "SALES QTY": "1",
+        "BASICAMT": "154",
+        "DISCOUNT RATE": "0",
+        "DISCOUNT AMT": "0",
+        "Packing Charge": "0",
+        "VOID QTY": "0",
+        "REFUND QTY": "0",
+        "VOID AMT": "0",
+        "REFUND AMT": "0",
+        "NET AMT": "154",
+        "SERVICE CHG RATE": "0",
+        "SERVICE CHG AMT": "0",
+        "VAT RATE": "0",
+        "VAT AMT": "0",
+        "CGST RATE": "2.5",
+        "CGST AMT": "3.85",
+        "SGST RATE": "2.5",
+        "SGST AMT": "3.85",
+        "IGST RATE": "0",
+        "IGST AMT": "0",
+        "GST CESS RATE": "0",
+        "GST CESS AMT": "0",
+        "TOTAL GST AMT": "7.7",
+        "TOTAL TAX AMOUNT": "7.7",
+        "TOTAL VALUE": "161.7",
+        "SERVICE CHARGE CGST": "0",
+        "SERVICE CHARGE SGST": "0"
+      },
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "WOKID": "QOH0012",
+        "LOCATION NAME": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "CITY": "HYDERABAD",
+        "CHANNEL TYPE": "Carry-Out",
+        "BILL NO": "QAH/IN/1/018906/2025",
+        "INVOICE TYPE": "",
+        "ORDER TAKER": "HITECH CITY CASHIER 1",
+        "TABLE NO": "",
+        "PAX": "",
+        "PHONE": "",
+        "CUSTOMER_NAME": "No Number",
+        "CARD NO": "",
+        "COUNTERID": "9",
+        "Product Special Category": "FOOD",
+        "Product Group": "CROISSANTS",
+        "GST CATEGORY ID": "2",
+        "GST CATEGORY": "5% Common Use Items",
+        "PRODUCTID": "20639",
+        "PRODUCT NAME": "CLASSIC CHICKEN POTPIE",
+        "POS DISPLAY NAME": "CLASSIC CHICKEN POTPIE",
+        "Add On Item": "",
+        "ITEM REMARK": "",
+        "KOT PRINT TIME": "2025-12-01 08:56:37",
+        "HSN CODE": "",
+        "BAISCRATE": "132",
+        "SALES QTY": "1",
+        "BASICAMT": "132",
+        "DISCOUNT RATE": "0",
+        "DISCOUNT AMT": "0",
+        "Packing Charge": "0",
+        "VOID QTY": "0",
+        "REFUND QTY": "0",
+        "VOID AMT": "0",
+        "REFUND AMT": "0",
+        "NET AMT": "132",
+        "SERVICE CHG RATE": "0",
+        "SERVICE CHG AMT": "0",
+        "VAT RATE": "0",
+        "VAT AMT": "0",
+        "CGST RATE": "2.5",
+        "CGST AMT": "3.3",
+        "SGST RATE": "2.5",
+        "SGST AMT": "3.3",
+        "IGST RATE": "0",
+        "IGST AMT": "0",
+        "GST CESS RATE": "0",
+        "GST CESS AMT": "0",
+        "TOTAL GST AMT": "6.6",
+        "TOTAL TAX AMOUNT": "6.6",
+        "TOTAL VALUE": "138.6",
+        "SERVICE CHARGE CGST": "0",
+        "SERVICE CHARGE SGST": "0"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Cancel Order Register",
+    "row_count": 1,
+    "col_count": 21,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "ORDER START TIME",
+        "ORDER END TIME",
+        "ORDER CANCEL TIME",
+        "TIME DIFFERENCE"
+      ],
+      "Revenue/Total": [
+        "NET AMT"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "CUSTOMER NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Cancel Order Menu Mix",
+    "row_count": 4,
+    "col_count": 11,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "NET SALE"
+      ],
+      "Quantity": [
+        "QTY"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "SPL.CATEGORY NAME",
+        "GROUP NAME",
+        "PRODUCT NAME",
+        "POS DISPLAY NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Bill Wise Cancel Order Menu Mix",
+    "row_count": 4,
+    "col_count": 15,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "NET SALE"
+      ],
+      "Quantity": [
+        "QTY"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "SPL.CATEGORY NAME",
+        "GROUP NAME",
+        "PRODUCT NAME",
+        "POS DISPLAY NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "WOK ID": "QOH0201",
+        "LOCATION NAME": "QAFFEINE-PHOENIX",
+        "BRAND NAME": "QAFFEINE",
+        "CITY": "HYDERABAD",
+        "DATE": "2025-12-01 00:00:00",
+        "AGGREGATOR": "",
+        "BILL NO": "QPX/IN/1/000385/2025",
+        "CLIENT ORDER NO": "",
+        "SPL.CATEGORY NAME": "FOOD",
+        "GROUP NAME": "SANDWICHES",
+        "PRODUCT NAME": "BANH MI PANEER SANDWICH",
+        "POS DISPLAY NAME": "BANH MI PANEER SANDWICH",
+        "ORDER TYPE": "Eat-In",
+        "QTY": "1",
+        "NET SALE": "289"
+      },
+      {
+        "WOK ID": "QOH0201",
+        "LOCATION NAME": "QAFFEINE-PHOENIX",
+        "BRAND NAME": "QAFFEINE",
+        "CITY": "HYDERABAD",
+        "DATE": "2025-12-01 00:00:00",
+        "AGGREGATOR": "",
+        "BILL NO": "QPX/IN/1/000385/2025",
+        "CLIENT ORDER NO": "",
+        "SPL.CATEGORY NAME": "FOOD",
+        "GROUP NAME": "SANDWICHES",
+        "PRODUCT NAME": "BRIOCHE CHICKEN SANDWICH",
+        "POS DISPLAY NAME": "BRIOCHE CHICKEN SANDWICH ",
+        "ORDER TYPE": "Eat-In",
+        "QTY": "1",
+        "NET SALE": "309"
+      },
+      {
+        "WOK ID": "QOH0201",
+        "LOCATION NAME": "QAFFEINE-PHOENIX",
+        "BRAND NAME": "QAFFEINE",
+        "CITY": "HYDERABAD",
+        "DATE": "2025-12-01 00:00:00",
+        "AGGREGATOR": "",
+        "BILL NO": "QPX/IN/1/000385/2025",
+        "CLIENT ORDER NO": "",
+        "SPL.CATEGORY NAME": "BEVERAGES",
+        "GROUP NAME": "Q CLASSIC COFFEE HOUSE BLEND",
+        "PRODUCT NAME": "SIGNATURE HOT CHOCOLATE",
+        "POS DISPLAY NAME": "SIGNATURE HOT CHOCOLATE",
+        "ORDER TYPE": "Eat-In",
+        "QTY": "1",
+        "NET SALE": "284"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "SETTLEMENT SUMMARY",
+    "row_count": 43,
+    "col_count": 13,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Outlet": [
+        "STOREID",
+        "LOCATION"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Card Wise Detail Report",
+    "row_count": 312,
+    "col_count": 9,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Outlet": [
+        "LOCATION ID",
+        "LOCATION"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Discount Report Item Wise",
+    "row_count": 558,
+    "col_count": 29,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "ORDER START TIME",
+        "ORDER END TIME"
+      ],
+      "Revenue/Total": [
+        "NET SALES"
+      ],
+      "Quantity": [
+        "QTY",
+        "DISCOUNT GIVEN BY"
+      ],
+      "Outlet": [
+        "PARENT LOCATION",
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "CATEGORY NAME",
+        "PRODUCTID",
+        "PRODUCT NAME",
+        "OFFER NAME",
+        "PROMOTION NAME",
+        "CUSTOMER NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Online Orders Register",
+    "row_count": 96,
+    "col_count": 13,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "Date",
+        "Day"
+      ],
+      "Revenue/Total": [
+        "Amount"
+      ],
+      "Outlet": [
+        "Location Name"
+      ],
+      "Item": [
+        "Location Name",
+        "Band Name",
+        "Customer Name"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "HOURLY SALE",
+    "row_count": 596,
+    "col_count": 14,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "DAYNO",
+        "DAY OF WEEK"
+      ],
+      "Revenue/Total": [
+        "NET AMT"
+      ],
+      "Quantity": [
+        "ORDER COUNT",
+        "DISCOUNT AMT"
+      ],
+      "Outlet": [
+        "LOCATION"
+      ],
+      "Item": [
+        "BRAND NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "8-9",
+        "TYPE": "Carry-Out",
+        "ORDER COUNT": "1",
+        "PAX": "0",
+        "BASIC AMT": "489",
+        "DISCOUNT AMT": "0",
+        "VOID AMT": "0",
+        "NET AMT": "489"
+      },
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "9-10",
+        "TYPE": "Carry-Out",
+        "ORDER COUNT": "1",
+        "PAX": "0",
+        "BASIC AMT": "456.14",
+        "DISCOUNT AMT": "0",
+        "VOID AMT": "0",
+        "NET AMT": "456.14"
+      },
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "10-11",
+        "TYPE": "Carry-Out",
+        "ORDER COUNT": "4",
+        "PAX": "0",
+        "BASIC AMT": "1758.28",
+        "DISCOUNT AMT": "119.55",
+        "VOID AMT": "0",
+        "NET AMT": "1638.73"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "AGGREGATOR HOURLY SALE",
+    "row_count": 115,
+    "col_count": 14,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "DAYNO",
+        "DAY OF WEEK"
+      ],
+      "Revenue/Total": [
+        "NET AMT"
+      ],
+      "Quantity": [
+        "ORDER COUNT",
+        "DISCOUNT AMT"
+      ],
+      "Outlet": [
+        "LOCATION"
+      ],
+      "Item": [
+        "BRAND NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "10-11",
+        "TYPE": "Carry-Out",
+        "AGGREGATOR": "BTC Q",
+        "ORDER COUNT": "1",
+        "BASIC AMT": "154",
+        "DISCOUNT AMT": "30.8",
+        "VOID AMT": "0",
+        "NET AMT": "123.2"
+      },
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "12-13",
+        "TYPE": "Carry-Out",
+        "AGGREGATOR": "BTC Q",
+        "ORDER COUNT": "1",
+        "BASIC AMT": "396",
+        "DISCOUNT AMT": "79.2",
+        "VOID AMT": "0",
+        "NET AMT": "316.8"
+      },
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "14-15",
+        "TYPE": "Carry-Out",
+        "AGGREGATOR": "BTC Q",
+        "ORDER COUNT": "1",
+        "BASIC AMT": "154",
+        "DISCOUNT AMT": "30.8",
+        "VOID AMT": "0",
+        "NET AMT": "123.2"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "ITEM WISE HOURLY SALE",
+    "row_count": 3452,
+    "col_count": 15,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "DAYNO",
+        "DAY OF WEEK"
+      ],
+      "Revenue/Total": [
+        "NET AMT"
+      ],
+      "Quantity": [
+        "QTY",
+        "DISCOUNT AMT"
+      ],
+      "Outlet": [
+        "LOCATION"
+      ],
+      "Item": [
+        "BRAND NAME",
+        "PRODUCTID",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "8-9",
+        "TYPE": "Carry-Out",
+        "PRODUCTID": "8869",
+        "PRODUCT NAME": "CAPPUCCINO ( HOT )",
+        "QTY": "1",
+        "BASIC AMT": "154",
+        "DISCOUNT AMT": "0",
+        "VOID AMT": "0",
+        "NET AMT": "154"
+      },
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "8-9",
+        "TYPE": "Carry-Out",
+        "PRODUCTID": "12027",
+        "PRODUCT NAME": "STRAWBERRY THICK SHAKE",
+        "QTY": "1",
+        "BASIC AMT": "203",
+        "DISCOUNT AMT": "0",
+        "VOID AMT": "0",
+        "NET AMT": "203"
+      },
+      {
+        "LOCATION": "QAFFEINE HITECH CITY",
+        "BRAND NAME": "QAFFEINE",
+        "WOK ID": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "DAYNO": "1",
+        "DAY OF WEEK": "MONDAY   ",
+        "HOURS": "8-9",
+        "TYPE": "Carry-Out",
+        "PRODUCTID": "20639",
+        "PRODUCT NAME": "CLASSIC CHICKEN POTPIE",
+        "QTY": "1",
+        "BASIC AMT": "132",
+        "DISCOUNT AMT": "0",
+        "VOID AMT": "0",
+        "NET AMT": "132"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "RESETTLEMENT",
+    "row_count": 70,
+    "col_count": 20,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "CASHOUT TIME",
+        "RESETTLEMENT TIME"
+      ],
+      "Quantity": [
+        "ORDER NUMBER"
+      ],
+      "Outlet": [
+        "RESTAURANT NAME"
+      ],
+      "Item": [
+        "RESTAURANT NAME",
+        "BRAND NAME",
+        "INITIAL CASHIER NAME",
+        "RESETTLE CASHIER NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 2
+  },
+  {
+    "sheet_name": "Counter Wise Summary",
+    "row_count": 62,
+    "col_count": 18,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "TOTALGSTAMT",
+        "NETAMT"
+      ],
+      "Quantity": [
+        "COUNTERNO",
+        "COUNTER NAME"
+      ],
+      "Outlet": [
+        "LOCATION_NAME",
+        "STORE CODE"
+      ],
+      "Item": [
+        "LOCATION_NAME",
+        "COUNTER NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Cashier Wise Menu Mix",
+    "row_count": 1815,
+    "col_count": 18,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "NETAMT",
+        "GROSSAMT"
+      ],
+      "Quantity": [
+        "COUNTERID",
+        "COUNTERNO",
+        "COUNTER NAME",
+        "QTY"
+      ],
+      "Outlet": [
+        "LOCATION_NAME",
+        "STORE CODE"
+      ],
+      "Item": [
+        "LOCATION_NAME",
+        "COUNTER NAME",
+        "POS CATEGORY",
+        "POS SUB CATEGORY",
+        "PRODUCTID",
+        "PRODUCT_NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "LOCATION_NAME": "QAFFEINE HITECH CITY",
+        "STORE CODE": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "CASHIER": "",
+        "COUNTERID": "9",
+        "COUNTERNO": "1",
+        "COUNTER NAME": "HITECH CITY-1",
+        "POS CATEGORY": "ADDONS",
+        "POS SUB CATEGORY": "",
+        "PRODUCTID": "407",
+        "PRODUCT_NAME": "EXTRA ESPRESSO SHOT",
+        "QTY": "4",
+        "BASICAMT": "196",
+        "CGSTAMT": "4.92",
+        "SGSTAMT": "4.92",
+        "NETAMT": "196",
+        "GROSSAMT": "205.84",
+        "GSTCESSAMT": "0"
+      },
+      {
+        "LOCATION_NAME": "QAFFEINE HITECH CITY",
+        "STORE CODE": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "CASHIER": "",
+        "COUNTERID": "9",
+        "COUNTERNO": "1",
+        "COUNTER NAME": "HITECH CITY-1",
+        "POS CATEGORY": "ADDONS",
+        "POS SUB CATEGORY": "",
+        "PRODUCTID": "8640",
+        "PRODUCT_NAME": "HAZELNUT",
+        "QTY": "1",
+        "BASICAMT": "49",
+        "CGSTAMT": "1.23",
+        "SGSTAMT": "1.23",
+        "NETAMT": "49",
+        "GROSSAMT": "51.46",
+        "GSTCESSAMT": "0"
+      },
+      {
+        "LOCATION_NAME": "QAFFEINE HITECH CITY",
+        "STORE CODE": "QOH0012",
+        "DATE": "2025-12-01 00:00:00",
+        "CASHIER": "",
+        "COUNTERID": "9",
+        "COUNTERNO": "1",
+        "COUNTER NAME": "HITECH CITY-1",
+        "POS CATEGORY": "ADDONS",
+        "POS SUB CATEGORY": "",
+        "PRODUCTID": "8642",
+        "PRODUCT_NAME": "IRISH",
+        "QTY": "1",
+        "BASICAMT": "49",
+        "CGSTAMT": "1.23",
+        "SGSTAMT": "1.23",
+        "NETAMT": "49",
+        "GROSSAMT": "51.46",
+        "GSTCESSAMT": "0"
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Item Wise NC Sales",
+    "row_count": 50,
+    "col_count": 21,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "NC_VALUE",
+        "BASICVALUE",
+        "TOTAL COST"
+      ],
+      "Quantity": [
+        "CUSTOMER PHONE NUMBER",
+        "NC_QTY"
+      ],
+      "Outlet": [
+        "LOCATION"
+      ],
+      "Item": [
+        "BRAND NAME",
+        "CUSTOMER NAME",
+        "SPL_CATEGORY",
+        "PRODUCTID",
+        "PRODUCT_NAME",
+        "POS_DISPLAY_NAME",
+        "AGGREGATOR_PRODUCT_NAME",
+        "ITEM COST"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 2
+  },
+  {
+    "sheet_name": "Indent Details",
+    "row_count": 205,
+    "col_count": 11,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Grand Total"
+      ],
+      "Item": [
+        "GROUP NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 8
+  },
+  {
+    "sheet_name": "Indent vs STN",
+    "row_count": 1049,
+    "col_count": 13,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Total"
+      ],
+      "Quantity": [
+        "INDENTQTY",
+        "PENDING QTY",
+        "ISSUEDQTY"
+      ],
+      "Outlet": [
+        "INDENT_LOCATION",
+        "INDENT_TO_LOCATION",
+        "STN LOCATION"
+      ],
+      "Item": [
+        "PRODUCTNAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "Indent Register",
+    "row_count": 1046,
+    "col_count": 20,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "TRANSACTION DATE",
+        "TRANSACTION DATE & TIME"
+      ],
+      "Quantity": [
+        "QUANTITY",
+        "QUANTITY PACK",
+        "TRN_NO.1"
+      ],
+      "Outlet": [
+        "FROM LOCATION_",
+        "TO LOCATION_",
+        "FROM LOCATION ID",
+        "TO LOCATION ID",
+        "From Location Name",
+        "To Location Name",
+        "Parent Location ID"
+      ],
+      "Item": [
+        "GROUP_NAME",
+        "PRODUCT ID",
+        "PRODUCT NAME",
+        "From Location Name",
+        "To Location Name"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 1
+  },
+  {
+    "sheet_name": "HOLD_INDET_LIST",
+    "row_count": 4,
+    "col_count": 11,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "TRANSACTION DATE",
+        "TRANSACTION DATE & TIME"
+      ],
+      "Quantity": [
+        "QUANTITY",
+        "QUANTITY PACK"
+      ],
+      "Outlet": [
+        "FROM LOCATION_",
+        "TO LOCATION_"
+      ],
+      "Item": [
+        "GROUP_NAME",
+        "PRODUCT ID",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 1
+  },
+  {
+    "sheet_name": "PHYSICAL STOCK REPORT   ",
+    "row_count": 3705,
+    "col_count": 11,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "AMOUNT"
+      ],
+      "Quantity": [
+        "QTY",
+        "VARIANCE QTY"
+      ],
+      "Outlet": [
+        "LOCATIONID",
+        "LOCATIONNAME"
+      ],
+      "Item": [
+        "LOCATIONNAME",
+        "CATEGORY_NAME",
+        "PRODUCTID",
+        "PRODUCTNAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 6
+  },
+  {
+    "sheet_name": "Stock Report",
+    "row_count": 2550,
+    "col_count": 4,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot",
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Sum of CLOSING_VALUE"
+      ],
+      "Quantity": [
+        "Sum of CLOSING_QTY"
+      ],
+      "Outlet": [
+        "STORE NAME"
+      ],
+      "Item": [
+        "STORE NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "STN details",
+    "row_count": 1076,
+    "col_count": 16,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "STN UPDATE DATE"
+      ],
+      "Revenue/Total": [
+        "NETAMT"
+      ],
+      "Quantity": [
+        "QTY"
+      ],
+      "Outlet": [
+        "From Location",
+        "To Location"
+      ],
+      "Item": [
+        "PRODUCTID",
+        "GROUP NAME",
+        "PRODUCT NAME",
+        "PRODUCT CATEGORY"
+      ]
+    },
+    "sample_rows": [
+      {
+        "From Location": "QAFFEINE CENTRAL WAREHOUSE",
+        "To Location": "Q BAKERY",
+        "STN NO": "QCW/STN/566/2526",
+        "STN DT": "2025-12-01 00:00:00",
+        "PRODUCTID": "11496",
+        "STN MONTH": "December",
+        "GROUP NAME": "FOOD",
+        "PRODUCT NAME": "PANEER",
+        "UOM": "KG",
+        "BATCH NO": "",
+        "EXP DT": "",
+        "QTY": "5",
+        "RATE": "280",
+        "NETAMT": "1400",
+        "PRODUCT CATEGORY": "FOOD",
+        "STN UPDATE DATE": "2025-12-01 16:13:37"
+      },
+      {
+        "From Location": "QAFFEINE CENTRAL WAREHOUSE",
+        "To Location": "Q BAKERY",
+        "STN NO": "QCW/STN/566/2526",
+        "STN DT": "2025-12-01 00:00:00",
+        "PRODUCTID": "10464",
+        "STN MONTH": "December",
+        "GROUP NAME": "RAW MATERIAL-NEW",
+        "PRODUCT NAME": "GREEN LETTUCE",
+        "UOM": "KG",
+        "BATCH NO": "",
+        "EXP DT": "",
+        "QTY": "2",
+        "RATE": "140",
+        "NETAMT": "280",
+        "PRODUCT CATEGORY": "FOOD",
+        "STN UPDATE DATE": "2025-12-01 16:13:37"
+      },
+      {
+        "From Location": "QAFFEINE CENTRAL WAREHOUSE",
+        "To Location": "Q BAKERY",
+        "STN NO": "QCW/STN/566/2526",
+        "STN DT": "2025-12-01 00:00:00",
+        "PRODUCTID": "10466",
+        "STN MONTH": "December",
+        "GROUP NAME": "VEGETABLES",
+        "PRODUCT NAME": "PARSLEY",
+        "UOM": "KG",
+        "BATCH NO": "",
+        "EXP DT": "",
+        "QTY": "0.2",
+        "RATE": "140",
+        "NETAMT": "28",
+        "PRODUCT CATEGORY": "FOOD",
+        "STN UPDATE DATE": "2025-12-01 16:13:37"
+      }
+    ],
+    "header_row_index": 1
+  },
+  {
+    "sheet_name": "Monthwise STN details",
+    "row_count": 229,
+    "col_count": 6,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Contains pivot keywords: ['sum']",
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Total Sum of QTY",
+        "Total Sum of NETAMT"
+      ],
+      "Quantity": [
+        "Total Sum of QTY"
+      ],
+      "Item": [
+        "Unnamed: 0",
+        "Unnamed: 1",
+        "Unnamed: 3"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "STN Fill Rate",
+    "row_count": 1076,
+    "col_count": 12,
+    "status": "PARTIAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "STN DATE"
+      ],
+      "Quantity": [
+        "STN DOC_NUMBER",
+        "INDENT QTY",
+        "STN ISSUE QTY",
+        "ACCEPTED GRN QTY",
+        "RETURNED GRN QTY",
+        "PENDING QTY FOR GRN"
+      ],
+      "Outlet": [
+        "INDENT  LOCATION",
+        "STN ISSUE LOCATION",
+        "GRN LOCATION"
+      ],
+      "Item": [
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": " GRN Against STN Details",
+    "row_count": 831,
+    "col_count": 24,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "TRANSACTION DATE",
+        "STN_DATE"
+      ],
+      "Revenue/Total": [
+        "RECEIVED QTY VALUE",
+        "NET AMOUNT",
+        "BASIC AMOUNT"
+      ],
+      "Quantity": [
+        "RECEIVED QTY",
+        "RECEIVED QTY VALUE",
+        "CONVERTED QTY"
+      ],
+      "Item": [
+        "COMPANY NAME",
+        "PRODUCT_CAT",
+        "PRODUCT NAME",
+        "SPLCATEGORY_NAME",
+        "CONVERTED PRODUCT"
+      ]
+    },
+    "sample_rows": [
+      {
+        "TRANSACTION ID": "4155013",
+        "COMPANY NAME": "QAFFEINE PVT LTD",
+        "TRANSACTION DATE": "2025-12-03 00:00:00",
+        "MONTH": "DECEMBER ",
+        "TRANSACTION NO": "QBR/FRN/508/2526",
+        "DOC_STATUS": "Approved",
+        "SENDER": "QAFFEINE CENTRAL WAREHOUSE",
+        "RECEIVER": "Q BAKERY",
+        "PRODUCT_CAT": "FOOD",
+        "PRODUCT NAME": "OLIVES BLACK PITTED ITALIAN GARDEN 450 GMS",
+        "MEASURE": "NOS",
+        "BATCH NO": "",
+        "MFG DT": "",
+        "EXP DT": "",
+        "RECEIVED QTY": "1",
+        "RECEIVED QTY VALUE": "131.25",
+        "RATE": "131.2525",
+        "NET AMOUNT": "131.25",
+        "BASIC AMOUNT": "131.25",
+        "STN_NO": "QCW/STI/1144/2526",
+        "STN_DATE": "2025-11-29 00:00:00",
+        "SPLCATEGORY_NAME": "FOOD",
+        "CONVERTED PRODUCT": "",
+        "CONVERTED QTY": "0"
+      },
+      {
+        "TRANSACTION ID": "4155013",
+        "COMPANY NAME": "QAFFEINE PVT LTD",
+        "TRANSACTION DATE": "2025-12-03 00:00:00",
+        "MONTH": "DECEMBER ",
+        "TRANSACTION NO": "QBR/FRN/508/2526",
+        "DOC_STATUS": "Approved",
+        "SENDER": "QAFFEINE CENTRAL WAREHOUSE",
+        "RECEIVER": "Q BAKERY",
+        "PRODUCT_CAT": "BEVERAGES",
+        "PRODUCT NAME": "MAPLE SYRUP 710 ML(AMERICAN GARDEN)",
+        "MEASURE": "NO",
+        "BATCH NO": "",
+        "MFG DT": "",
+        "EXP DT": "",
+        "RECEIVED QTY": "1",
+        "RECEIVED QTY VALUE": "520.8",
+        "RATE": "520.8",
+        "NET AMOUNT": "520.8",
+        "BASIC AMOUNT": "520.8",
+        "STN_NO": "QCW/STI/1144/2526",
+        "STN_DATE": "2025-11-29 00:00:00",
+        "SPLCATEGORY_NAME": "BEVERAGES",
+        "CONVERTED PRODUCT": "",
+        "CONVERTED QTY": "0"
+      },
+      {
+        "TRANSACTION ID": "4155013",
+        "COMPANY NAME": "QAFFEINE PVT LTD",
+        "TRANSACTION DATE": "2025-12-03 00:00:00",
+        "MONTH": "DECEMBER ",
+        "TRANSACTION NO": "QBR/FRN/508/2526",
+        "DOC_STATUS": "Approved",
+        "SENDER": "QAFFEINE CENTRAL WAREHOUSE",
+        "RECEIVER": "Q BAKERY",
+        "PRODUCT_CAT": "FOOD",
+        "PRODUCT NAME": "ANGEL DRY YEAST 500GM",
+        "MEASURE": "NOS",
+        "BATCH NO": "",
+        "MFG DT": "",
+        "EXP DT": "",
+        "RECEIVED QTY": "2",
+        "RECEIVED QTY VALUE": "346.66",
+        "RATE": "173.3317",
+        "NET AMOUNT": "346.66",
+        "BASIC AMOUNT": "346.66",
+        "STN_NO": "QCW/STI/1144/2526",
+        "STN_DATE": "2025-11-29 00:00:00",
+        "SPLCATEGORY_NAME": "FOOD",
+        "CONVERTED PRODUCT": "",
+        "CONVERTED QTY": "0"
+      }
+    ],
+    "header_row_index": 1
+  },
+  {
+    "sheet_name": "GRN Against STN Register-",
+    "row_count": 233,
+    "col_count": 4,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "BASIC AMOUNT",
+        "NET AMOUNT"
+      ],
+      "Item": [
+        "PRODUCT_CAT",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 6
+  },
+  {
+    "sheet_name": "Grn Against STN Analysis",
+    "row_count": 234,
+    "col_count": 3,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Sum of RECEIVED QTY VALUE"
+      ],
+      "Quantity": [
+        "Sum of RECEIVED QTY VALUE"
+      ],
+      "Item": [
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 7
+  },
+  {
+    "sheet_name": "GRN Register",
+    "row_count": 216,
+    "col_count": 48,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "EXP DATE",
+        "INVOICE  DATE"
+      ],
+      "Revenue/Total": [
+        "NETAMT"
+      ],
+      "Quantity": [
+        "QTY",
+        "FREEQTY",
+        "DISCOUNT AMT"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "SUPPLIER NAME",
+        "GROUP NAME",
+        "PRODUCT NAME",
+        "GST CATEGORY",
+        "RAW MATERIAL CATEGORY",
+        "SPL CATEGORY",
+        "TAX CATEGORY"
+      ]
+    },
+    "sample_rows": [
+      {
+        "STATE": "TELANGANA",
+        "GSTNO": "36AAACQ7353B1ZN",
+        "LOCATION NAME": "QAFFEINE CENTRAL WAREHOUSE",
+        "PO NO": "",
+        "PO DT": "",
+        "GRN NO": "QCW/GRN/1269/2526",
+        "GRN DT": "2025-12-01 00:00:00",
+        "GRN MONTH": "DECEMBER ",
+        "SUPP_STATE": "TELANGANA",
+        "SUPP_GSTNO": "",
+        "SUPPLIER NAME": "CHICKEN.COM",
+        "GROUP NAME": "FOOD-2",
+        "PRODUCT NAME": "CHICKEN LEG BONELESS",
+        "HSN CODE": "",
+        "PACKING": "KG",
+        "PURCHASEUOM": "KG",
+        "STOCKUOM": "KG",
+        "CONSUMPTIONUOM": "KG",
+        "QTY": "8",
+        "FREEQTY": "0",
+        "RATE": "298",
+        "BASIC AMT": "2384",
+        "DISCOUNT AMT": "0",
+        "TAX RATE": "0",
+        "TAX AMT": "0",
+        "FREIGHTAMT": "0",
+        "TCSAMT": "",
+        "OTHERAMT": "0",
+        "NETAMT": "2384",
+        "BATCH NO": "",
+        "EXP DATE": "",
+        "INVOICE NO": "2922",
+        "INVOICE  DATE": "2025-12-01 00:00:00",
+        "GST CATEGORY": "Essential Items",
+        "CGST_RATE": "0",
+        "CGSTAMT": "0",
+        "SGST_RATE": "0",
+        "SGSTAMT": "0",
+        "IGST_RATE": "0",
+        "IGSTAMT": "0",
+        "GSTCESS_RATE": "0",
+        "GSTCESSAMT": "0",
+        "GST_AMT": "0",
+        "RAW MATERIAL CATEGORY": "FOOD",
+        "SPL CATEGORY": "FOOD",
+        "TAX CATEGORY": "",
+        "PREPARED BY": "STORE",
+        "GRN_REMARKS": ""
+      },
+      {
+        "STATE": "TELANGANA",
+        "GSTNO": "36AAACQ7353B1ZN",
+        "LOCATION NAME": "QAFFEINE CENTRAL WAREHOUSE",
+        "PO NO": "",
+        "PO DT": "",
+        "GRN NO": "QCW/GRN/1270/2526",
+        "GRN DT": "2025-12-01 00:00:00",
+        "GRN MONTH": "DECEMBER ",
+        "SUPP_STATE": "TELANGANA",
+        "SUPP_GSTNO": "36CDXPR9492K2Z4",
+        "SUPPLIER NAME": "SRI VENKATESWARA ENTERPRISES",
+        "GROUP NAME": "RAW MATERIAL-NEW",
+        "PRODUCT NAME": "GREEN LETTUCE",
+        "HSN CODE": "",
+        "PACKING": "KG",
+        "PURCHASEUOM": "KG",
+        "STOCKUOM": "KG",
+        "CONSUMPTIONUOM": "KG",
+        "QTY": "2",
+        "FREEQTY": "0",
+        "RATE": "140",
+        "BASIC AMT": "280",
+        "DISCOUNT AMT": "0",
+        "TAX RATE": "0",
+        "TAX AMT": "0",
+        "FREIGHTAMT": "0",
+        "TCSAMT": "",
+        "OTHERAMT": "0",
+        "NETAMT": "280",
+        "BATCH NO": "",
+        "EXP DATE": "",
+        "INVOICE NO": "16707",
+        "INVOICE  DATE": "2025-12-01 00:00:00",
+        "GST CATEGORY": "Essential Items",
+        "CGST_RATE": "0",
+        "CGSTAMT": "0",
+        "SGST_RATE": "0",
+        "SGSTAMT": "0",
+        "IGST_RATE": "0",
+        "IGSTAMT": "0",
+        "GSTCESS_RATE": "0",
+        "GSTCESSAMT": "0",
+        "GST_AMT": "0",
+        "RAW MATERIAL CATEGORY": "FOOD",
+        "SPL CATEGORY": "FOOD",
+        "TAX CATEGORY": "",
+        "PREPARED BY": "STORE",
+        "GRN_REMARKS": ""
+      },
+      {
+        "STATE": "TELANGANA",
+        "GSTNO": "36AAACQ7353B1ZN",
+        "LOCATION NAME": "QAFFEINE CENTRAL WAREHOUSE",
+        "PO NO": "",
+        "PO DT": "",
+        "GRN NO": "QCW/GRN/1270/2526",
+        "GRN DT": "2025-12-01 00:00:00",
+        "GRN MONTH": "DECEMBER ",
+        "SUPP_STATE": "TELANGANA",
+        "SUPP_GSTNO": "36CDXPR9492K2Z4",
+        "SUPPLIER NAME": "SRI VENKATESWARA ENTERPRISES",
+        "GROUP NAME": "VEGETABLES",
+        "PRODUCT NAME": "PARSLEY",
+        "HSN CODE": "",
+        "PACKING": "KG",
+        "PURCHASEUOM": "KG",
+        "STOCKUOM": "KG",
+        "CONSUMPTIONUOM": "GM",
+        "QTY": "0.2",
+        "FREEQTY": "0",
+        "RATE": "140",
+        "BASIC AMT": "28",
+        "DISCOUNT AMT": "0",
+        "TAX RATE": "0",
+        "TAX AMT": "0",
+        "FREIGHTAMT": "0",
+        "TCSAMT": "",
+        "OTHERAMT": "0",
+        "NETAMT": "28",
+        "BATCH NO": "",
+        "EXP DATE": "",
+        "INVOICE NO": "16707",
+        "INVOICE  DATE": "2025-12-01 00:00:00",
+        "GST CATEGORY": "Essential Items",
+        "CGST_RATE": "0",
+        "CGSTAMT": "0",
+        "SGST_RATE": "0",
+        "SGSTAMT": "0",
+        "IGST_RATE": "0",
+        "IGSTAMT": "0",
+        "GSTCESS_RATE": "0",
+        "GSTCESSAMT": "0",
+        "GST_AMT": "0",
+        "RAW MATERIAL CATEGORY": "FOOD",
+        "SPL CATEGORY": "FOOD",
+        "TAX CATEGORY": "",
+        "PREPARED BY": "STORE",
+        "GRN_REMARKS": ""
+      }
+    ],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Supplier_GRN_Details",
+    "row_count": 217,
+    "col_count": 13,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Contains pivot keywords: ['grand total', 'total']"
+    ],
+    "detected_columns": {
+      "Date": [
+        "INVOICE  DATE"
+      ],
+      "Revenue/Total": [
+        "NETAMT"
+      ],
+      "Quantity": [
+        "QTY",
+        "FREEQTY",
+        "DISCOUNT AMT"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "SUPPLIER NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Monthwise supplier details",
+    "row_count": 28,
+    "col_count": 3,
+    "status": "PARTIAL",
+    "flags": [
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Grand Total"
+      ],
+      "Item": [
+        "SUPPLIER NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "GRN with PO Inward details",
+    "row_count": 215,
+    "col_count": 29,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "GRN DATE"
+      ],
+      "Revenue/Total": [
+        "NET AMT"
+      ],
+      "Quantity": [
+        "GRN NO.",
+        "RECEIVED QTY"
+      ],
+      "Outlet": [
+        "LOCATION"
+      ],
+      "Item": [
+        "TRANSACTION NAME",
+        "SUPPLIER NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [
+      {
+        "LOCATION": "QAFFEINE CENTRAL WAREHOUSE",
+        "TRANSACTION NAME": "Good Receipt Note",
+        "GRN DATE": "2025-12-01 00:00:00",
+        "GRN NO.": "QCW/GRN/1269/2526",
+        "SUPPLIER NAME": "CHICKEN.COM",
+        "SUPPINVDT": "2025-12-01 00:00:00",
+        "SUPPINVNO": "2922",
+        "CHALLANDT": "2025-12-01 00:00:00",
+        "CHALLANNO": "2922",
+        "PO DT": "",
+        "PO NO": "",
+        "INWARD DT": "",
+        "INWARD NO": "",
+        "PRODUCT NAME": "CHICKEN LEG BONELESS",
+        "PACKING": "KG",
+        "RECEIVED QTY": "8",
+        "BASIC RATE": "298",
+        "BASIC AMT": "2384",
+        "CGST RATE": "0",
+        "CGST AMT": "0",
+        "SGST RATE": "0",
+        "SGST AMT": "0",
+        "TCSAMT": "0",
+        "OTHERAMT": "0",
+        "MANUAL DISCAMT": "",
+        "GSTCESS_RATE": "0",
+        "GSTCESS AMT": "0",
+        "NET AMT": "2384",
+        "REMARK": ""
+      },
+      {
+        "LOCATION": "QAFFEINE CENTRAL WAREHOUSE",
+        "TRANSACTION NAME": "Good Receipt Note",
+        "GRN DATE": "2025-12-01 00:00:00",
+        "GRN NO.": "QCW/GRN/1270/2526",
+        "SUPPLIER NAME": "SRI VENKATESWARA ENTERPRISES",
+        "SUPPINVDT": "2025-12-01 00:00:00",
+        "SUPPINVNO": "16707",
+        "CHALLANDT": "2025-12-01 00:00:00",
+        "CHALLANNO": "16707",
+        "PO DT": "",
+        "PO NO": "",
+        "INWARD DT": "",
+        "INWARD NO": "",
+        "PRODUCT NAME": "PARSLEY",
+        "PACKING": "KG",
+        "RECEIVED QTY": "0.2",
+        "BASIC RATE": "140",
+        "BASIC AMT": "28",
+        "CGST RATE": "0",
+        "CGST AMT": "0",
+        "SGST RATE": "0",
+        "SGST AMT": "0",
+        "TCSAMT": "0",
+        "OTHERAMT": "0",
+        "MANUAL DISCAMT": "",
+        "GSTCESS_RATE": "0",
+        "GSTCESS AMT": "0",
+        "NET AMT": "28",
+        "REMARK": ""
+      },
+      {
+        "LOCATION": "QAFFEINE CENTRAL WAREHOUSE",
+        "TRANSACTION NAME": "Good Receipt Note",
+        "GRN DATE": "2025-12-01 00:00:00",
+        "GRN NO.": "QCW/GRN/1270/2526",
+        "SUPPLIER NAME": "SRI VENKATESWARA ENTERPRISES",
+        "SUPPINVDT": "2025-12-01 00:00:00",
+        "SUPPINVNO": "16707",
+        "CHALLANDT": "2025-12-01 00:00:00",
+        "CHALLANNO": "16707",
+        "PO DT": "",
+        "PO NO": "",
+        "INWARD DT": "",
+        "INWARD NO": "",
+        "PRODUCT NAME": "GREEN LETTUCE",
+        "PACKING": "KG",
+        "RECEIVED QTY": "2",
+        "BASIC RATE": "140",
+        "BASIC AMT": "280",
+        "CGST RATE": "0",
+        "CGST AMT": "0",
+        "SGST RATE": "0",
+        "SGST AMT": "0",
+        "TCSAMT": "0",
+        "OTHERAMT": "0",
+        "MANUAL DISCAMT": "",
+        "GSTCESS_RATE": "0",
+        "GSTCESS AMT": "0",
+        "NET AMT": "280",
+        "REMARK": ""
+      }
+    ],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "Material Return against GRN",
+    "row_count": 215,
+    "col_count": 9,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Contains pivot keywords: ['grand total', 'total']",
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "NET AMT",
+        "RETURN NETAMT",
+        "Total"
+      ],
+      "Quantity": [
+        "GRN NO.",
+        "GRN QTY"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "PRODUCT NAME",
+        "SUPPLIER NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 9
+  },
+  {
+    "sheet_name": "PRODUCT CONSUMPTION REPORT ",
+    "row_count": 1301,
+    "col_count": 10,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot",
+      "NO_DATE_COLUMN: No date/time column detected"
+    ],
+    "detected_columns": {
+      "Revenue/Total": [
+        "Total"
+      ],
+      "Quantity": [
+        "SALES QTY"
+      ],
+      "Outlet": [
+        "PARENT LOCATION",
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "BRAND NAME",
+        "PRODUCT CATEGORY",
+        "PRODUCT NAME",
+        "COMPO_NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "STOCK VARIANCE REPORT",
+    "row_count": 1001,
+    "col_count": 11,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "VARIANCE AMOUNT"
+      ],
+      "Outlet": [
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "PRODUCT GROUP NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  },
+  {
+    "sheet_name": "Ordering  Report",
+    "row_count": 816,
+    "col_count": 22,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "STOCK HOLDING DAYS",
+        "30 DAYS STOCK REQUIREMENT",
+        "45 DAYS STOCK REQUIREMENT",
+        "60 DAYS STOCK REQUIREMENT",
+        "NO OF DAYS",
+        "PER DAY REQUIER"
+      ],
+      "Revenue/Total": [
+        "BAL. VALUE"
+      ],
+      "Quantity": [
+        "ORDER QTY",
+        "BAL. QTY",
+        "STN QTY",
+        "NO OF DAYS"
+      ],
+      "Outlet": [
+        "STORE NAME",
+        "STN TO OUTLET"
+      ],
+      "Item": [
+        "STORE NAME",
+        "PRODUCT CATEGORY",
+        "PRODUCT CODE",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 2
+  },
+  {
+    "sheet_name": "Issue Note REGISTER",
+    "row_count": 1076,
+    "col_count": 17,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "STN UPDATE DATE"
+      ],
+      "Revenue/Total": [
+        "NETAMT"
+      ],
+      "Quantity": [
+        "QTY"
+      ],
+      "Outlet": [
+        "From Location",
+        "To Location"
+      ],
+      "Item": [
+        "PRODUCTID",
+        "GROUP NAME",
+        "PRODUCT NAME",
+        "PRODUCT CATEGORY"
+      ]
+    },
+    "sample_rows": [
+      {
+        "From Location": "QAFFEINE CENTRAL WAREHOUSE",
+        "To Location": "Q BAKERY",
+        "Transaction Type": "Stock Transfer Note (STN)",
+        "STN NO": "QCW/STN/566/2526",
+        "STN DT": "2025-12-01 00:00:00",
+        "PRODUCTID": "11496",
+        "STN MONTH": "DECEMBER ",
+        "GROUP NAME": "FOOD",
+        "PRODUCT NAME": "PANEER",
+        "UOM": "KG",
+        "BATCH NO": "",
+        "EXP DT": "",
+        "QTY": "5",
+        "RATE": "280",
+        "NETAMT": "1400",
+        "PRODUCT CATEGORY": "FOOD",
+        "STN UPDATE DATE": "2025-12-01 16:13:37"
+      },
+      {
+        "From Location": "QAFFEINE CENTRAL WAREHOUSE",
+        "To Location": "Q BAKERY",
+        "Transaction Type": "Stock Transfer Note (STN)",
+        "STN NO": "QCW/STN/566/2526",
+        "STN DT": "2025-12-01 00:00:00",
+        "PRODUCTID": "10464",
+        "STN MONTH": "DECEMBER ",
+        "GROUP NAME": "RAW MATERIAL-NEW",
+        "PRODUCT NAME": "GREEN LETTUCE",
+        "UOM": "KG",
+        "BATCH NO": "",
+        "EXP DT": "",
+        "QTY": "2",
+        "RATE": "140",
+        "NETAMT": "280",
+        "PRODUCT CATEGORY": "FOOD",
+        "STN UPDATE DATE": "2025-12-01 16:13:37"
+      },
+      {
+        "From Location": "QAFFEINE CENTRAL WAREHOUSE",
+        "To Location": "Q BAKERY",
+        "Transaction Type": "Stock Transfer Note (STN)",
+        "STN NO": "QCW/STN/566/2526",
+        "STN DT": "2025-12-01 00:00:00",
+        "PRODUCTID": "10466",
+        "STN MONTH": "DECEMBER ",
+        "GROUP NAME": "VEGETABLES",
+        "PRODUCT NAME": "PARSLEY",
+        "UOM": "KG",
+        "BATCH NO": "",
+        "EXP DT": "",
+        "QTY": "0.2",
+        "RATE": "140",
+        "NETAMT": "28",
+        "PRODUCT CATEGORY": "FOOD",
+        "STN UPDATE DATE": "2025-12-01 16:13:37"
+      }
+    ],
+    "header_row_index": 1
+  },
+  {
+    "sheet_name": "GRN DETAILS",
+    "row_count": 115,
+    "col_count": 11,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "BILL DATE"
+      ],
+      "Revenue/Total": [
+        "VALUE",
+        "GROSS TOTAL"
+      ],
+      "Quantity": [
+        "VOUCHER NO.",
+        "BILL NO.",
+        "QUANTITY"
+      ]
+    },
+    "sample_rows": [
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "SUPPLIER": "CHICKEN.COM",
+        "VOUCHER NO.": "QCW/GRN/1269/2526",
+        "BILL DATE": "2025-12-01 00:00:00",
+        "BILL NO.": "2922",
+        "PARTICULARS": "CHICKEN LEG BONELESS",
+        "QUANTITY": "8",
+        "UOM": "KG",
+        "RATE": "298",
+        "VALUE": "2384",
+        "GROSS TOTAL": "2384"
+      },
+      {
+        "DATE": "",
+        "SUPPLIER": "SRI VENKATESWARA ENTERPRISES",
+        "VOUCHER NO.": "QCW/GRN/1270/2526",
+        "BILL DATE": "2025-12-01 00:00:00",
+        "BILL NO.": "16707",
+        "PARTICULARS": "GREEN LETTUCE",
+        "QUANTITY": "2",
+        "UOM": "KG",
+        "RATE": "140",
+        "VALUE": "280",
+        "GROSS TOTAL": "308"
+      },
+      {
+        "DATE": "",
+        "SUPPLIER": "",
+        "VOUCHER NO.": "",
+        "BILL DATE": "",
+        "BILL NO.": "",
+        "PARTICULARS": "PARSLEY",
+        "QUANTITY": "0.2",
+        "UOM": "KG",
+        "RATE": "140",
+        "VALUE": "28",
+        "GROSS TOTAL": ""
+      }
+    ],
+    "header_row_index": 4
+  },
+  {
+    "sheet_name": "GRN DETAILS-1",
+    "row_count": 114,
+    "col_count": 12,
+    "status": "TRANSACTIONAL",
+    "flags": [],
+    "detected_columns": {
+      "Date": [
+        "DATE",
+        "BILL DATE"
+      ],
+      "Revenue/Total": [
+        "VALUE",
+        "GROSS TOTAL",
+        "GROSS TOTAL.1"
+      ],
+      "Quantity": [
+        "VOUCHER NO.",
+        "BILL NO.",
+        "QUANTITY"
+      ]
+    },
+    "sample_rows": [
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "SUPPLIER": "CHICKEN.COM",
+        "PARTICULARS": "CHICKEN LEG BONELESS",
+        "VOUCHER NO.": "QCW/GRN/1269/2526",
+        "BILL NO.": "2922",
+        "BILL DATE": "2025-12-01 00:00:00",
+        "QUANTITY": "8",
+        "UOM": "KG",
+        "RATE": "298",
+        "VALUE": "2384",
+        "GROSS TOTAL": "2384",
+        "GROSS TOTAL.1": "2384"
+      },
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "SUPPLIER": "SRI VENKATESWARA ENTERPRISES",
+        "PARTICULARS": "GREEN LETTUCE",
+        "VOUCHER NO.": "QCW/GRN/1270/2526",
+        "BILL NO.": "16707",
+        "BILL DATE": "2025-12-01 00:00:00",
+        "QUANTITY": "2",
+        "UOM": "KG",
+        "RATE": "140",
+        "VALUE": "280",
+        "GROSS TOTAL": "308",
+        "GROSS TOTAL.1": "308"
+      },
+      {
+        "DATE": "2025-12-01 00:00:00",
+        "SUPPLIER": "SRI VENKATESWARA ENTERPRISES",
+        "PARTICULARS": "PARSLEY",
+        "VOUCHER NO.": "QCW/GRN/1270/2526",
+        "BILL NO.": "16707",
+        "BILL DATE": "2025-12-01 00:00:00",
+        "QUANTITY": "0.2",
+        "UOM": "KG",
+        "RATE": "140",
+        "VALUE": "28",
+        "GROSS TOTAL": "",
+        "GROSS TOTAL.1": "308"
+      }
+    ],
+    "header_row_index": 5
+  },
+  {
+    "sheet_name": "WASTAGE  REPORT",
+    "row_count": 26,
+    "col_count": 9,
+    "status": "SUMMARY/PIVOT",
+    "flags": [
+      "PIVOT/SUMMARY: Sheet name suggests summary/pivot"
+    ],
+    "detected_columns": {
+      "Date": [
+        "DATE"
+      ],
+      "Revenue/Total": [
+        "VALUE"
+      ],
+      "Quantity": [
+        "WASTAGE QTY"
+      ],
+      "Outlet": [
+        "STORE CODE",
+        "LOCATION NAME"
+      ],
+      "Item": [
+        "LOCATION NAME",
+        "PRODUCT NAME"
+      ]
+    },
+    "sample_rows": [],
+    "header_row_index": 3
+  }
+]

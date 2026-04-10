@@ -1,0 +1,113 @@
+QAFFEINE Prototype | sales.db Schema Info
+Generated : 2026-02-25 11:40:15
+======================================================================
+
+Table : fact_sales
+  Rows    : 4,139
+  Columns (17):
+    - date (TEXT)
+    - outlet_name (TEXT)
+    - item_name (TEXT)
+    - net_revenue (REAL)
+    - quantity (REAL)
+    - brand (TEXT)
+    - channel (TEXT)
+    - bill_no (TEXT)
+    - product_group (TEXT)
+    - spl_category (TEXT)
+    - basic_rate (REAL)
+    - cgst (REAL)
+    - sgst (REAL)
+    - total_gst (REAL)
+    - kot_time (TEXT)
+    - city (TEXT)
+    - order_taker (TEXT)
+  Indexes:
+    - idx_fact_sales_date
+    - idx_fact_sales_outlet_name
+    - idx_fact_sales_item_name
+
+Table : hourly_sales
+  Rows    : 3,452
+  Columns (14):
+    - date (TEXT)
+    - outlet_name (TEXT)
+    - item_name (TEXT)
+    - net_revenue (REAL)
+    - quantity (INTEGER)
+    - brand (TEXT)
+    - wok_id (TEXT)
+    - hour_slot (TEXT)
+    - order_type (TEXT)
+    - basic_amt (REAL)
+    - void_amt (INTEGER)
+    - product_id (INTEGER)
+    - day_no (INTEGER)
+    - day_of_week (TEXT)
+  Indexes:
+    - idx_hourly_sales_date
+    - idx_hourly_sales_outlet_name
+    - idx_hourly_sales_item_name
+
+Table : outlet_summary
+  Rows    : 42
+  Columns (25):
+    - date (TEXT)
+    - outlet_name (TEXT)
+    - item_name (REAL)
+    - net_revenue (REAL)
+    - quantity (REAL)
+    - restaurant_id (TEXT)
+    - brand (TEXT)
+    - city (TEXT)
+    - state (TEXT)
+    - gross_sale (REAL)
+    - total_discount (REAL)
+    - dine_in_net (REAL)
+    - carry_out_net (REAL)
+    - delivery_net (REAL)
+    - dine_in_orders (INTEGER)
+    - carry_out_orders (INTEGER)
+    - delivery_orders (INTEGER)
+    - pax (REAL)
+    - cash_amt (INTEGER)
+    - card_amt (INTEGER)
+    - upi_amt (INTEGER)
+    - void_order_amt (INTEGER)
+    - cancel_count (INTEGER)
+    - void_bill_count (INTEGER)
+    - total_bill_amt (REAL)
+  Indexes:
+    - idx_outlet_summary_date
+    - idx_outlet_summary_outlet_name
+
+======================================================================
+VERIFICATION RESULTS
+======================================================================
+
+Top 5 Items by Revenue:
+                         item_name  total_revenue  total_qty  transaction_count
+                CAPPUCCINO ( HOT )       73832.91      402.0                306
+GREAT INDIAN FILTER COFFEE REGULAR       49904.85      274.0                190
+                 CAFE LATTE ( HOT)       44474.50      259.0                193
+              FAMOUS COLD COFFEE_P       43668.68      194.0                148
+                         AMERICANO       30856.00      207.0                171
+
+Total Revenue per Outlet:
+          outlet_name  total_revenue  trading_days  line_items  unique_items
+ QAFFEINE HITECH CITY      233050.69             7        1294            88
+QAFFEINE SECUNDERABAD      187698.33             7        1019            89
+      QAFFEINE-BHOOJA      146327.30             7         591            97
+QAFFFEINE-MUSARAMBAGH      119731.13             7         545            92
+     QAFFEINE-GVK-ONE       88939.41             7         422            53
+     QAFFEINE-PHOENIX       54886.00             7         268            99
+
+Daily Revenue Trend:
+      date  daily_revenue  line_items
+2025-12-01      129003.35         652
+2025-12-02      113376.33         573
+2025-12-03      128077.35         630
+2025-12-04      113107.76         564
+2025-12-05      121102.45         584
+2025-12-06      143781.66         742
+2025-12-07       82183.96         394

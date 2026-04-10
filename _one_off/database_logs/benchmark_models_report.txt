@@ -1,0 +1,84 @@
+
+========================================================================
+  QAFFEINE — OpenRouter Model Benchmark Report
+  Generated : 2026-03-18 10:49:53
+========================================================================
+
+  API Key   : sk-or-v1-f53… (loaded from .env)
+  Endpoint  : https://openrouter.ai/api/v1/models
+
+  Fetching model catalogue …
+  HTTP Status : 200
+  Total models in catalogue : 348
+
+────────────────────────────────────────────────────────────────────────
+  RANK  MODEL ID                                        CTX     $/1M  SCORE
+────────────────────────────────────────────────────────────────────────
+  1     meta-llama/llama-3.3-70b-instruct              131k   $0.420    105
+  2     meta-llama/llama-3.1-70b-instruct              131k   $0.800     93
+  3     mistralai/mistral-small-2603                   262k   $0.750     90
+  4     anthropic/claude-3-haiku                       200k   $1.500     88
+  5     deepseek/deepseek-chat                         163k   $1.210     85
+  6     anthropic/claude-3.5-haiku                     200k   $4.800     85
+  7     qwen/qwen-2.5-72b-instruct                      32k   $0.510     84
+  8     mistralai/mistral-nemo                         131k   $0.060     80
+  9     meta-llama/llama-guard-3-8b                    131k   $0.080     80
+  10    meta-llama/llama-3.2-11b-vision-instruct       131k   $0.098     80
+  11    google/gemma-3-4b-it                           131k   $0.120     75
+  12    ibm-granite/granite-4.0-h-micro                131k   $0.127     75
+  13    google/gemma-3-27b-it                          128k   $0.140     75
+  14    qwen/qwen-turbo                                131k   $0.163     75
+  15    openai/gpt-oss-20b                             131k   $0.170     75
+  16    google/gemma-3-12b-it                          131k   $0.170     75
+  17    qwen/qwen3-235b-a22b-2507                      262k   $0.171     75
+  18    amazon/nova-micro-v1                           128k   $0.175     75
+  19    cohere/command-r7b-12-2024                     128k   $0.188     75
+  20    arcee-ai/trinity-mini                          131k   $0.195     75
+  21    qwen/qwen3.5-9b                                256k   $0.200     75
+  22    mistralai/ministral-3b-2512                    131k   $0.200     75
+  23    nvidia/nemotron-nano-9b-v2                     131k   $0.200     75
+  24    z-ai/glm-4-32b                                 128k   $0.200     75
+  25    openai/gpt-oss-120b                            131k   $0.229     75
+  26    mistralai/mistral-small-3.2-24b-instruct       131k   $0.240     75
+  27    nvidia/nemotron-3-nano-30b-a3b                 262k   $0.250     75
+  28    allenai/olmo-2-0325-32b-instruct               128k   $0.250     75
+  29    mistralai/ministral-8b-2512                    262k   $0.300     75
+  30    bytedance/ui-tars-1.5-7b                       128k   $0.300     75
+
+========================================================================
+  TOP 3 RECOMMENDED  —  QAFFEINE Failover LLM Stack
+========================================================================
+
+  🥇 PRIMARY   (Cost-to-Performance)
+  Model    : meta-llama/llama-3.3-70b-instruct
+  Name     : Meta: Llama 3.3 70B Instruct
+  Context  : 131k tokens
+  Cost     : $0.100/1M prompt  |  $0.320/1M completion
+  Score    : 105 / 120
+  Use-case : Best reasoning + cheapest viable model. Handles disruptor analysis well.
+
+  🥈 SECONDARY (SQL Accuracy / Long Context)
+  Model    : meta-llama/llama-3.1-70b-instruct
+  Name     : Meta: Llama 3.1 70B Instruct
+  Context  : 131k tokens
+  Cost     : $0.400/1M prompt  |  $0.400/1M completion
+  Score    : 93 / 120
+  Use-case : Large context window — ideal for multi-headline analysis & context.
+
+  🥉 TERTIARY  (Quota Safety Net)
+  Model    : mistralai/mistral-small-2603
+  Name     : Mistral: Mistral Small 4
+  Context  : 262k tokens
+  Cost     : $0.150/1M prompt  |  $0.600/1M completion
+  Score    : 90 / 120
+  Use-case : Known-reliable fallback; separate provider from above.
+
+────────────────────────────────────────────────────────────────────────
+  LLMManager Failover Chain (hardcoded for QAFFEINE):
+  1. Gemini 2.0 Flash          — Primary Engine (Google AI Studio)
+  2. meta-llama/llama-3.3-70b-instruct — OR Backup 1 (cost-optimal)
+  3. mistralai/mistral-small-2603      — OR Backup 2 (long context)
+  4. deepseek/deepseek-chat            — OR Backup 3 (last resort)
+────────────────────────────────────────────────────────────────────────
+
+  Report saved → C:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\benchmark_models_report.txt

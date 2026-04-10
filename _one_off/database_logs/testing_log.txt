@@ -1,0 +1,163 @@
+======================================================================
+QAFFEINE AI Assistant — Automated Test Log
+Generated : 2026-02-25 12:37:48
+Database  : c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\sales.db
+======================================================================
+
+[PASS] KPI-01 — Revenue KPI
+  Question     : What is the total net revenue across all outlets?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Total = 830632.86 (expected ~830632.86)
+  SQL          : SELECT ROUND(SUM(net_revenue),2) AS total FROM fact_sales
+
+[PASS] KPI-02 — Revenue KPI
+  Question     : Which outlet had the highest total revenue?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Top outlet = QAFFEINE HITECH CITY
+  SQL          : SELECT outlet_name, ROUND(SUM(net_revenue),2) AS rev
+                  FROM fact_sales GROUP BY outlet_name ORDER BY rev...
+
+[PASS] KPI-03 — Revenue KPI
+  Question     : What is the average order value (AOV)?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : AOV = 534.86
+  SQL          : SELECT ROUND(SUM(net_revenue)/NULLIF(COUNT(DISTINCT bill_no),0),2) AS aov
+                  FROM fact_sales
+
+[PASS] ITEM-01 — Item Analysis
+  Question     : What is the top selling item by revenue?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Top item = CAPPUCCINO ( HOT )
+  SQL          : SELECT item_name, ROUND(SUM(net_revenue),2) AS rev
+                  FROM fact_sales WHERE item_name IS NOT NULL
+       ...
+
+[PASS] ITEM-02 — Item Analysis
+  Question     : What are the top 5 items by quantity sold?
+  Status       : PASS
+  Rows returned: 5
+  Validation   : Top item qty = 480.0, rows = 5
+  SQL          : SELECT item_name, SUM(CAST(quantity AS REAL)) AS qty
+                  FROM fact_sales WHERE item_name IS NOT NULL
+     ...
+
+[PASS] ITEM-03 — Item Analysis
+  Question     : What is the total revenue from BEVERAGES category?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Beverage revenue = 538078.94
+  SQL          : SELECT ROUND(SUM(net_revenue),2) AS bev_rev FROM fact_sales
+                  WHERE UPPER(spl_category) LIKE '%BEVERAGE%...
+
+[PASS] OUTLET-01 — Outlet Analysis
+  Question     : How many outlets are in the dataset?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Outlet count = 6 (expected 6)
+  SQL          : SELECT COUNT(DISTINCT outlet_name) AS outlet_count FROM fact_sales
+
+[PASS] OUTLET-02 — Outlet Analysis
+  Question     : Which outlet has the most unique menu items?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Most items = 99 at QAFFEINE-PHOENIX
+  SQL          : SELECT outlet_name, COUNT(DISTINCT item_name) AS unique_items
+                  FROM fact_sales GROUP BY outlet_name ORD...
+
+[PASS] OUTLET-03 — Outlet Analysis
+  Question     : What is the revenue breakdown by channel (Dine-In, Carry-Out, Delivery)?
+  Status       : PASS
+  Rows returned: 5
+  Validation   : Channels found = ['Carry-Out', 'Eat-In', 'SWIGGY/ZOMATO', 'Delivery', 'Dine-In/Eat-In']
+  SQL          : SELECT channel, ROUND(SUM(net_revenue),2) AS rev
+                  FROM fact_sales WHERE channel IS NOT NULL
+           ...
+
+[PASS] OUTLET-04 — Outlet Analysis
+  Question     : What is the total revenue from Carry-Out orders?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Carry-Out revenue = 561778.62
+  SQL          : SELECT ROUND(SUM(net_revenue),2) AS co_rev FROM fact_sales
+                  WHERE UPPER(channel) LIKE '%CARRY%'
+
+[PASS] DATE-01 — Date Trend
+  Question     : Which date had the highest revenue?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Peak date = 2025-12-06 (expected 2025-12-06)
+  SQL          : SELECT date, ROUND(SUM(net_revenue),2) AS rev
+                  FROM fact_sales GROUP BY date ORDER BY rev DESC LIMIT 1
+
+[PASS] DATE-02 — Date Trend
+  Question     : Show me peak hour revenue for Dec 6th
+  Status       : PASS
+  Rows returned: 5
+  Validation   : Peak hour on Dec 6 = 16-17 (₹17865.12)
+  SQL          : SELECT hour_slot, ROUND(SUM(net_revenue),2) AS rev
+                  FROM hourly_sales WHERE date = '2025-12-06'
+       ...
+
+[PASS] DATE-03 — Date Trend
+  Question     : What was the revenue on Dec 7th?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Dec 7 revenue = 82183.96 (expected ~82183.96)
+  SQL          : SELECT ROUND(SUM(net_revenue),2) AS rev FROM fact_sales
+                  WHERE date = '2025-12-07'
+
+[PASS] DATE-04 — Date Trend
+  Question     : What is the day-of-week with highest order volume?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Highest day = SATURDAY (891 orders)
+  SQL          : SELECT day_of_week, SUM(CAST(quantity AS INTEGER)) AS orders
+                  FROM hourly_sales GROUP BY day_of_week OR...
+
+[PASS] HOURLY-01 — Hourly Analysis
+  Question     : Which hour slot has the most orders overall?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Peak hour = 17-18 (598 orders)
+  SQL          : SELECT hour_slot, SUM(CAST(quantity AS INTEGER)) AS orders
+                  FROM hourly_sales WHERE hour_slot IS NOT NU...
+
+[PASS] HOURLY-02 — Hourly Analysis
+  Question     : What is the most popular aggregator (order type) at Hitech City?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Top order type at Hitech = Carry-Out
+  SQL          : SELECT order_type, SUM(CAST(quantity AS INTEGER)) AS orders
+                  FROM hourly_sales WHERE UPPER(outlet_name)...
+
+[PASS] DSR-01 — Outlet Summary (DSR)
+  Question     : What is the total discount given across all outlets?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Total discount = 44053.28
+  SQL          : SELECT ROUND(SUM(total_discount),2) AS disc FROM outlet_summary
+
+[PASS] DSR-02 — Outlet Summary (DSR)
+  Question     : Which payment method (cash/card/UPI) is most used?
+  Status       : PASS
+  Rows returned: 1
+  Validation   : Top payment = UPI (₹467401)
+  SQL          : SELECT 'Cash' AS method, SUM(cash_amt) AS amt FROM outlet_summary
+                  UNION ALL
+                  SELECT '...
+
+----------------------------------------------------------------------
+TOTAL : 18  |  PASSED : 18  |  FAILED : 0
+PASS RATE : 100.0%
+
+Category Breakdown:
+  Date Trend                4/4
+  Hourly Analysis           2/2
+  Item Analysis             3/3
+  Outlet Analysis           4/4
+  Outlet Summary (DSR)      2/2
+  Revenue KPI               3/3

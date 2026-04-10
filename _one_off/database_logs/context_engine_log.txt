@@ -1,0 +1,418 @@
+
+======================================================================
+  QAFFEINE Universal Context Engine  v3  (Dual-Engine LLM)
+======================================================================
+  Run date/time  : 2026-03-18 10:57:10
+  City           : Hyderabad, Telangana (IN/TS)
+  Database       : C:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\sales.db
+  Log output     : C:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype\database\context_engine_log.txt
+  .env loaded    : C:\Users\Admin\Desktop\BrainPowerInternship\.env
+
+  API status:
+    WeatherAPI     : ✓ key present
+    NewsAPI        : ✓ key present
+    Gemini (Primary)   : ✓ AIzaSyDO…
+    OpenRouter (Backup): ✓ sk-or-v1-f53…
+
+  LLM Failover Chain:
+    1. Gemini 2.0 Flash             ← Primary Engine
+    2. Gemini 2.0 Flash Lite        ← Primary fallback
+    3. meta-llama/llama-3.3-70b     ← OpenRouter Backup #1
+    4. mistralai/mistral-small-2603 ← OpenRouter Backup #2
+    5. deepseek/deepseek-chat       ← OpenRouter Backup #3
+
+  DB table 'context_intelligence' ready (schema v3).
+
+======================================================================
+  Processing 7 dates (current ISO week)
+======================================================================
+  Monday 2026-03-16
+  Tuesday 2026-03-17
+  Wednesday 2026-03-18
+  Thursday 2026-03-19
+  Friday 2026-03-20
+  Saturday 2026-03-21
+  Sunday 2026-03-22
+
+  Sales data  : 7 trading days in DB
+  Avg revenue : ₹118,662 / day
+
+======================================================================
+  DATE: 2026-03-16  (Monday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 200
+  Condition      : Patchy rain possible
+  Avg temp       : 29.4 °C
+  Precipitation  : 0.7 mm
+  Source         : WeatherAPI
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 10 headlines
+    'Telangana Infrastructure' → 3 headlines
+  Headlines retrieved: 10
+     1. OXMIQ Labs and AM Intelligence Labs Partner to Architect One of the World’s Largest Renewable-Powered AI Compu
+     2. Fino Payments Bank shares crash 19% on report of possible ED probe; lender clarifies — The Times of India
+     3. LPG Price Today (March 16): Has cooking gas become cheaper or costlier? Check the latest cylinder rates in you
+     4. From Buddha rice to zero-pesticide chana: How farmer-run companies are finding their edge — Livemint
+     5. JSM pushes back after Hard Rock terminates 22-year India partnership — BusinessLine
+     6. US Bancorp in talks to lease 650,000 sq ft in Chennai for GCC — The Times of India
+     7. Rentomojo Expands Washing Machine Rental to 20+ Indian Cities as Urban Professionals Shift Away from Appliance
+     8. Solar Panel Recycling Market – 9%+ CAGR Forecast for 2026–2031 Amid Rising Solar PV Waste and Strengthening Re
+     9. Pet food startup Zoomies secures ₹5 crore to expand D2C operations in India — BusinessLine
+    10. Interactive Kiosk Market to Expand at 4%+ CAGR by 2031 Driven by Rising Demand for Self-Service Automation and
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  None of the provided headlines directly relate to operational disruptors for a coffee chain in Hyderabad. However, some indirect factors could be considered:
+  
+  * Economic uncertainty due to a possible ED probe into Fino Payments Bank (Financial) — Potential reduction in customer spending — #2
+  * Changes in consumer behavior and spending habits due to shifts in urban lifestyles (Rentomojo expansion) — Potential change in customer preferences — #7
+  
+  These are indirect and may not have a significant impact on footfall and revenue. No direct operational disruptors like road closures, strikes, or infrastructure outages were found. 
+  
+  Therefore, the response is: No significant operational disruptors detected.
+
+  ✓ Upserted → context_intelligence [2026-03-16]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-17  (Tuesday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 200
+  Condition      : Patchy rain possible
+  Avg temp       : 28.2 °C
+  Precipitation  : 1.2 mm
+  Source         : WeatherAPI
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 1 headlines
+    'Telangana Infrastructure' → 0 headlines
+  Headlines retrieved: 1
+     1. US Bancorp in talks to lease 650,000 sq ft in Chennai for GCC — The Times of India
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  No significant operational disruptors detected. The provided headline about US Bancorp leasing space in Chennai does not appear to have a direct impact on QAFFEINE's operations in Hyderabad. It is related to a business deal in a different city and does not mention any events or conditions that could affect footfall or revenue for a coffee chain in Hyderabad.
+
+  ✓ Upserted → context_intelligence [2026-03-17]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-18  (Wednesday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 200
+  Condition      : Thundery outbreaks possible
+  Avg temp       : 26.5 °C
+  Precipitation  : 4.1 mm
+  Source         : WeatherAPI
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 0 headlines
+    'Telangana Infrastructure' → 0 headlines
+  [NEWS] Falling back to RSS feeds …
+  [NEWS] RSS yielded 10 headlines
+  Headlines retrieved: 10
+     1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+     2. President Droupadi Murmu serves Akshaya Patra’s 5 billionth meal at Rashtrapati Bhavan
+     3. MD of chit fund company arrested for ‘cheating’ depositors
+     4. Revenue Inspector caught taking ₹15,000 bribe
+     5. Law must recognise dignity, not verify identity: Hyderabad’s LGBTQIA+ community opposes Transgender Amendment 
+     6. Gold rates in Hyderabad today slashes, check the rates on 18 March, 2026 - The Hans India
+     7. BuzzWorks leases Hyderabad workspace to tech-firm - Construction Week Online India
+     8. Shops Don’t Need Your Cell No. Don’t Give It - The Times of India
+     9. MyComplianceOffice (MCO) leases 550 seats from BuzzWorks, plans to scale team - The Hindu
+    10. Ustaad Bhagat Singh Pre-Release Theatrical Business and Break-Even Target - Sacnilk
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  Based on the news headlines, potential operational disruptors for QAFFEINE coffee chain are:
+  
+  * Festival — Increased footfall — Ugadi celebrations (related to headline 1)
+  * IT corridor event — Increased footfall — New tech-firm workspace leasing (related to headlines 7 and 9)
+  * Economic change — Potential increased footfall — Decrease in gold rates (related to headline 6)
+  
+  These events may increase footfall and revenue for QAFFEINE, as people may gather to celebrate Ugadi, or as new tech firms and their employees move into the area, potentially seeking premium coffee services. The decrease in gold rates may also lead to increased consumer spending, including at coffee chains.
+
+  ✓ Upserted → context_intelligence [2026-03-18]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-19  (Thursday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  ✓ HOLIDAY → Ugadi (State)
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 200
+  Condition      : Thundery outbreaks possible
+  Avg temp       : 26.0 °C
+  Precipitation  : 1.9 mm
+  Source         : WeatherAPI
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 0 headlines
+    'Telangana Infrastructure' → 0 headlines
+  [NEWS] Falling back to RSS feeds …
+  [NEWS] RSS yielded 10 headlines
+  Headlines retrieved: 10
+     1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+     2. President Droupadi Murmu serves Akshaya Patra’s 5 billionth meal at Rashtrapati Bhavan
+     3. MD of chit fund company arrested for ‘cheating’ depositors
+     4. Revenue Inspector caught taking ₹15,000 bribe
+     5. Law must recognise dignity, not verify identity: Hyderabad’s LGBTQIA+ community opposes Transgender Amendment 
+     6. Gold rates in Hyderabad today slashes, check the rates on 18 March, 2026 - The Hans India
+     7. BuzzWorks leases Hyderabad workspace to tech-firm - Construction Week Online India
+     8. Shops Don’t Need Your Cell No. Don’t Give It - The Times of India
+     9. MyComplianceOffice (MCO) leases 550 seats from BuzzWorks, plans to scale team - The Hindu
+    10. Ustaad Bhagat Singh Pre-Release Theatrical Business and Break-Even Target - Sacnilk
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  Based on the news headlines, the following operational disruptors are identified:
+  
+  * Festival — Increased footfall — #1 (Ugadi celebrations may attract more customers)
+  * IT corridor event — Increased footfall — #7, #9 (new leases and expansions in the tech industry may bring more customers to nearby outlets)
+  * Economic change — Potential decrease in discretionary spending — #6 (reduced gold rates may lead to increased consumer spending, but also potential economic uncertainty)
+  
+  These disruptors may impact footfall and revenue at QAFFEINE outlets, particularly those located near IT hubs or areas with high foot traffic during festivals.
+
+  ✓ Upserted → context_intelligence [2026-03-19]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-20  (Friday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1007  dt or end_dt parameter should be in yyyy-MM-dd format and on or after 1st Jan, 2010 (2010-01-01).
+  Condition      : Unavailable (API code 1007)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1007  dt or end_dt parameter should be in yyyy-MM-dd format and on or after 1st Jan, 2010 (2010-01-01).
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 0 headlines
+    'Telangana Infrastructure' → 0 headlines
+  [NEWS] Falling back to RSS feeds …
+  [NEWS] RSS yielded 10 headlines
+  Headlines retrieved: 10
+     1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+     2. President Droupadi Murmu serves Akshaya Patra’s 5 billionth meal at Rashtrapati Bhavan
+     3. MD of chit fund company arrested for ‘cheating’ depositors
+     4. Revenue Inspector caught taking ₹15,000 bribe
+     5. Law must recognise dignity, not verify identity: Hyderabad’s LGBTQIA+ community opposes Transgender Amendment 
+     6. Gold rates in Hyderabad today slashes, check the rates on 18 March, 2026 - The Hans India
+     7. BuzzWorks leases Hyderabad workspace to tech-firm - Construction Week Online India
+     8. Shops Don’t Need Your Cell No. Don’t Give It - The Times of India
+     9. MyComplianceOffice (MCO) leases 550 seats from BuzzWorks, plans to scale team - The Hindu
+    10. Ustaad Bhagat Singh Pre-Release Theatrical Business and Break-Even Target - Sacnilk
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  Based on the news headlines, potential operational disruptors for QAFFEINE coffee chain are:
+  
+  * Festival — Increased footfall — #1 (Ugadi celebrations may attract more customers)
+  * IT corridor event — Increased footfall — #7, #9 (new tech firms and leased workspaces may bring in more customers)
+  * Economic change — Reduced footfall — #6 (reduced gold rates may lead to decreased consumer spending)
+  
+  These events may impact footfall and revenue at QAFFEINE outlets. However, the overall impact is likely to be minimal, and no significant disruptions are expected.
+
+  ✓ Upserted → context_intelligence [2026-03-20]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-21  (Saturday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  ✓ HOLIDAY → Id-ul-Fitr (estimated) (National)
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1007  dt or end_dt parameter should be in yyyy-MM-dd format and on or after 1st Jan, 2010 (2010-01-01).
+  Condition      : Unavailable (API code 1007)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1007  dt or end_dt parameter should be in yyyy-MM-dd format and on or after 1st Jan, 2010 (2010-01-01).
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 0 headlines
+    'Telangana Infrastructure' → 0 headlines
+  [NEWS] Falling back to RSS feeds …
+  [NEWS] RSS yielded 10 headlines
+  Headlines retrieved: 10
+     1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+     2. President Droupadi Murmu serves Akshaya Patra’s 5 billionth meal at Rashtrapati Bhavan
+     3. MD of chit fund company arrested for ‘cheating’ depositors
+     4. Revenue Inspector caught taking ₹15,000 bribe
+     5. Law must recognise dignity, not verify identity: Hyderabad’s LGBTQIA+ community opposes Transgender Amendment 
+     6. Gold rates in Hyderabad today slashes, check the rates on 18 March, 2026 - The Hans India
+     7. BuzzWorks leases Hyderabad workspace to tech-firm - Construction Week Online India
+     8. Shops Don’t Need Your Cell No. Don’t Give It - The Times of India
+     9. MyComplianceOffice (MCO) leases 550 seats from BuzzWorks, plans to scale team - The Hindu
+    10. Ustaad Bhagat Singh Pre-Release Theatrical Business and Break-Even Target - Sacnilk
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  Based on the news headlines, the following operational disruptors were identified:
+  
+  1. Festival — Increase footfall and revenue — #1 (Ugadi celebrations may attract customers)
+  2. IT corridor events — Increase footfall and revenue — #7, #9 (new tech firms and leases may bring in more customers)
+  3. Political shutdowns/protests — Reduce footfall and revenue — #5 (LGBTQIA+ community protests may affect nearby outlets)
+  
+  These events may impact footfall and revenue at QAFFEINE's outlets in Hyderabad. However, the overall impact is likely to be minimal, and the coffee chain can prepare accordingly to mitigate any disruptions.
+
+  ✓ Upserted → context_intelligence [2026-03-21]  engine=OpenRouter
+
+======================================================================
+  DATE: 2026-03-22  (Sunday)
+======================================================================
+  [1/4] Telangana regional calendar …
+  — No public holiday.
+
+  [2/4] WeatherAPI historical data …
+  [WeatherAPI] HTTP 400
+  [WARN] WeatherAPI error — code:1007  dt or end_dt parameter should be in yyyy-MM-dd format and on or after 1st Jan, 2010 (2010-01-01).
+  Condition      : Unavailable (API code 1007)
+  Avg temp       : N/A
+  Precipitation  : N/A
+  Source         : WeatherAPI
+  ⚠ API error    : code=1007  dt or end_dt parameter should be in yyyy-MM-dd format and on or after 1st Jan, 2010 (2010-01-01).
+
+  [3/4] Market news headlines …
+  [NEWS] Fetching from NewsAPI.org …
+    'Hyderabad Business' → 0 headlines
+    'Telangana Infrastructure' → 0 headlines
+  [NEWS] Falling back to RSS feeds …
+  [NEWS] RSS yielded 10 headlines
+  Headlines retrieved: 10
+     1. TIMS Sanathnagar inauguration on Ugadi uncertain as construction, staffing gaps persist
+     2. President Droupadi Murmu serves Akshaya Patra’s 5 billionth meal at Rashtrapati Bhavan
+     3. MD of chit fund company arrested for ‘cheating’ depositors
+     4. Revenue Inspector caught taking ₹15,000 bribe
+     5. Law must recognise dignity, not verify identity: Hyderabad’s LGBTQIA+ community opposes Transgender Amendment 
+     6. Gold rates in Hyderabad today slashes, check the rates on 18 March, 2026 - The Hans India
+     7. BuzzWorks leases Hyderabad workspace to tech-firm - Construction Week Online India
+     8. Shops Don’t Need Your Cell No. Don’t Give It - The Times of India
+     9. MyComplianceOffice (MCO) leases 550 seats from BuzzWorks, plans to scale team - The Hindu
+    10. Ustaad Bhagat Singh Pre-Release Theatrical Business and Break-Even Target - Sacnilk
+
+  [4/4] LLMManager — operational disruptor analysis …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-lite returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — Gemini/gemini-2.0-flash-001 returned 429. Trying next Gemini model …
+  [WARNING] [WARNING] Quota Hit — All Gemini models exhausted. Falling back to OpenRouter …
+  [WARNING] [WARNING] Quota Hit — Falling back to OpenRouter backup engine.
+  [INFO]    [INFO] Falling back to OpenRouter/meta-llama/llama-3.3-70b-instruct ✓ (HTTP 200)
+
+  ── LLM Response (OpenRouter/meta-llama/llama-3.3-70b-instruct) ──
+  Based on the provided news headlines, the following operational disruptors were identified:
+  
+  1. Festival — Increase footfall and revenue — #1 (Ugadi celebrations may attract customers)
+  2. IT corridor events — Increase footfall and revenue — #7, #9 (new tech firms and leased workspaces may bring in customers)
+  3. Political event — Potential disruption — #5 (LGBTQIA+ community opposition may lead to protests or gatherings)
+  
+  These events may impact footfall and revenue at QAFFEINE outlets, particularly those located near the affected areas. However, the overall impact is expected to be minimal.
+
+  ✓ Upserted → context_intelligence [2026-03-22]  engine=OpenRouter
+
+======================================================================
+  CONTEXT ENGINE SUMMARY
+======================================================================
+  Dates processed: 7
+
+  DATE           HOLIDAY                    WEATHER                   HLS  LLM ENGINE
+  -------------- -------------------------- ------------------------ ----  ----------------------------
+  2026-03-16     —                          Patchy rain possible       10  OpenRouter/OpenRouter/meta-l
+  2026-03-17     —                          Patchy rain possible        1  OpenRouter/OpenRouter/meta-l
+  2026-03-18     —                          Thundery outbreaks pos     10  OpenRouter/OpenRouter/meta-l
+  2026-03-19     Ugadi                      Thundery outbreaks pos     10  OpenRouter/OpenRouter/meta-l
+  2026-03-20     —                          Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-21     Id-ul-Fitr (estimated)     Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+  2026-03-22     —                          Unavailable (API code      10  OpenRouter/OpenRouter/meta-l
+
+  LLM Engine Usage:
+    Gemini (Primary)      : 0 / 7 queries
+    OpenRouter (Backup)   : 7 / 7 queries
+
+  HOLIDAY SPOTLIGHT (2 in this week):
+    ► 2026-03-19  —  Ugadi  [State]
+    ► 2026-03-21  —  Id-ul-Fitr (estimated)  [National]
+
+======================================================================
+  DATABASE VERIFICATION
+======================================================================
+  Total rows in context_intelligence: 7
+
+  DATE           HOLIDAY                  TEMP   PRECIP  CONDITION               ENGINE
+  -------------- ---------------------- ------ --------  ----------------------  ----------------
+  2026-03-22     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-21     Id-ul-Fitr (estimate      N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-20     —                         N/A      N/A  Unavailable (API cod    OpenRouter
+  2026-03-19     Ugadi                  26.0°C    1.9mm  Thundery outbreaks p    OpenRouter
+  2026-03-18     —                      26.5°C    4.1mm  Thundery outbreaks p    OpenRouter
+  2026-03-17     —                      28.2°C    1.2mm  Patchy rain possible    OpenRouter
+  2026-03-16     —                      29.4°C    0.7mm  Patchy rain possible    OpenRouter
+
+======================================================================
+  LOG FILE
+======================================================================
