@@ -22,10 +22,11 @@ from pathlib import Path
 from unittest.mock import patch, MagicMock
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
+from src.config.settings import resolve_db_path
 
 # ── Paths & env ───────────────────────────────────────────────────────────────
 BASE     = Path(__file__).resolve().parent.parent
-DB_PATH  = BASE / "database" / "sales.db"
+DB_PATH  = resolve_db_path(BASE)
 LOG_DIR  = BASE / "logs"
 REPORT   = LOG_DIR / "chaos_monkey_report.txt"
 ENV_PATH = BASE.parent / ".env"
@@ -99,7 +100,7 @@ def run_scenario_a() -> ChaosResult:
     log("  Expected: Jarvis catches exceptions, provides fallback response")
 
     import universal_context as uc
-    from jarvis_brain import JarvisAgent
+    from copilot_brain import CopilotAgent
     from universal_context import LLMManager
 
     t0 = time.time()
@@ -113,13 +114,13 @@ def run_scenario_a() -> ChaosResult:
         uc.get_news_headlines  = _make_api_blackout_news
 
         # Also patch the imported references in jarvis_brain
-        import jarvis_brain as jb
-        orig_jb_weather = jb.get_weather_context
-        orig_jb_news    = jb.get_news_headlines
-        jb.get_weather_context = _make_api_blackout_weather
-        jb.get_news_headlines  = _make_api_blackout_news
+        import copilot_brain as cb
+        orig_cb_weather = cb.get_weather_context
+        orig_cb_news    = cb.get_news_headlines
+        cb.get_weather_context = _make_api_blackout_weather
+        cb.get_news_headlines  = _make_api_blackout_news
 
-        agent  = JarvisAgent(llm=LLMManager())
+        agent  = CopilotAgent(llm=LLMManager())
         result = agent.investigate(
             "Why did revenue drop on Dec 7th? Check weather and news."
         )
@@ -140,9 +141,9 @@ def run_scenario_a() -> ChaosResult:
 
         if has_response:
             log(f"\n  Response preview: {result.response[:200]}...")
-            recovery = "Jarvis caught API errors and generated response using available data"
+            recovery = "Copilot caught API errors and generated response using available data"
         else:
-            recovery = "Jarvis returned empty response (partial recovery)"
+            recovery = "Copilot returned empty response (partial recovery)"
 
         log(f"\n  Monologue:")
         for step in result.monologue:
@@ -160,8 +161,8 @@ def run_scenario_a() -> ChaosResult:
         # Restore originals
         uc.get_weather_context = original_weather
         uc.get_news_headlines  = original_news
-        jb.get_weather_context = orig_jb_weather
-        jb.get_news_headlines  = orig_jb_news
+        cb.get_weather_context = orig_cb_weather
+        cb.get_news_headlines  = orig_cb_news
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -283,8 +284,8 @@ def run_scenario_c() -> ChaosResult:
         try:
             conn = sqlite3.connect(str(DB_PATH), timeout=2)
             result_data = conn.execute(
-                "SELECT date, SUM(net_revenue) FROM fact_sales "
-                "WHERE date='2025-12-01' GROUP BY date"
+                "SELECT SUBSTR(DT, 1, 10), SUM(NETAMT) FROM AI_TEST_INVOICEBILLREGISTER "
+                "WHERE SUBSTR(DT, 1, 10)='2026-01-01' GROUP BY SUBSTR(DT, 1, 10)"
             ).fetchone()
             conn.close()
             read_success = True

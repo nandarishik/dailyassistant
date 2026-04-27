@@ -8,7 +8,7 @@ Usage:
     python scripts/universal_context.py
 
 Outputs:
-    - Upserts rows into  database/context_intelligence  table in sales.db
+    - Upserts rows into  database/context_intelligence  table in AI_DATABASE.DB
     - Writes             database/context_engine_log.txt
 
 Environment variables (.env in project root):
@@ -27,6 +27,7 @@ import holidays as holidays_lib
 from google import genai
 from pathlib import Path
 from dotenv import load_dotenv
+from src.config.settings import resolve_db_path
 
 # ── Encoding ------------------------------------------------------------------
 if hasattr(sys.stdout, "reconfigure"):
@@ -34,7 +35,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 # ── Paths --------------------------------------------------------------------
 BASE     = Path(__file__).resolve().parent.parent       # QAFFEINE_Prototype/
-DB_PATH  = BASE / "database" / "sales.db"
+DB_PATH  = resolve_db_path(BASE)
 LOG_PATH = BASE / "database" / "context_engine_log.txt"
 ENV_PATH = BASE.parent / ".env"                         # BrainPowerInternship/.env
 
@@ -288,9 +289,45 @@ class LLMManager:
 # MODULE 1 — REGIONAL CALENDAR  (python-holidays, Telangana/TS)
 # ═══════════════════════════════════════════════════════════════════════════
 
+# ── Commercial / Cultural Events Calendar ────────────────────────────────────
+# These are NOT official public holidays, but they massively drive restaurant
+# and café footfall.  Format:  (month, day) → event name
+# Date-variable events (e.g. Eid, Diwali) are handled via the holidays lib;
+# this covers fixed-date commercial peaks the library misses.
+COMMERCIAL_EVENTS: dict[tuple[int, int], str] = {
+    (1,  1):  "New Year's Day",
+    (2, 14):  "Valentine's Day",
+    (3,  8):  "International Women's Day",
+    (5, 1):   "May Day / Labour Day",
+    (6, 21):  "International Yoga Day",
+    (8, 15):  "Independence Day (also commercial peak)",
+    (10, 31): "Halloween",
+    (11, 14): "Children's Day",
+    (12, 24): "Christmas Eve",
+    (12, 25): "Christmas Day",
+    (12, 31): "New Year's Eve",
+}
+
+# Mother's Day = 2nd Sunday of May; Father's Day = 3rd Sunday of June
+# Friendship Day = 1st Sunday of August
+def _get_variable_commercial_event(date_obj: datetime.date) -> str | None:
+    """Check for date-variable commercial events."""
+    m, d, wd = date_obj.month, date_obj.day, date_obj.weekday()  # Monday=0, Sunday=6
+    if wd == 6:  # Sunday
+        week_num = (d - 1) // 7 + 1
+        if m == 5 and week_num == 2:
+            return "Mother's Day"
+        if m == 6 and week_num == 3:
+            return "Father's Day"
+        if m == 8 and week_num == 1:
+            return "Friendship Day"
+    return None
+
+
 def get_holiday_info(date_obj: datetime.date) -> dict:
     """
-    Check if a given date is a public holiday in Telangana, India.
+    Check if a given date is a public holiday in Telangana, India,
+    OR a major commercial/cultural event that drives restaurant footfall.
     Returns dict with is_holiday, holiday_name, holiday_type.
     """
     national_cal = holidays_lib.country_holidays(COUNTRY, years=date_obj.year)
@@ -304,6 +341,14 @@ def get_holiday_info(date_obj: datetime.date) -> dict:
         return {"is_holiday": True,  "holiday_name": national_name, "holiday_type": "National"}
     if state_name:
         return {"is_holiday": True,  "holiday_name": state_name,    "holiday_type": "State"}
+
+    # ── Check commercial / cultural events ────────────────────────────────
+    commercial_name = COMMERCIAL_EVENTS.get((date_obj.month, date_obj.day))
+    if not commercial_name:
+        commercial_name = _get_variable_commercial_event(date_obj)
+    if commercial_name:
+        return {"is_holiday": True,  "holiday_name": commercial_name, "holiday_type": "Commercial/Cultural"}
+
     return     {"is_holiday": False, "holiday_name": None,           "holiday_type": None}
 
 
@@ -446,13 +491,13 @@ def get_news_headlines(date_obj: datetime.date) -> list[str]:
 # MODULE 4 — LLM ANALYSIS  (uses LLMManager for failover)
 # ═══════════════════════════════════════════════════════════════════════════
 
-def build_disruptor_prompt(
+def build_context_signals_prompt(
     date_obj:      datetime.date,
     headlines:     list[str],
     daily_revenue: float | None,
     avg_revenue:   float | None,
 ) -> str:
-    """Build the operational-disruptor prompt passed to LLMManager."""
+    """Build a prompt to identify both positive market signals and operational disruptors."""
     anomaly_ctx = ""
     if daily_revenue is not None and avg_revenue and avg_revenue > 0:
         pct   = ((daily_revenue - avg_revenue) / avg_revenue) * 100
@@ -465,22 +510,20 @@ def build_disruptor_prompt(
     headlines_block = "\n".join(f"  {i+1}. {h}" for i, h in enumerate(headlines))
 
     return textwrap.dedent(f"""
-    You are an operations analyst for QAFFEINE, a premium coffee chain with 6 outlets
-    across Hyderabad, India. Identify external "operational disruptors" — events or
-    conditions that could meaningfully increase OR reduce footfall and revenue.
+    You are a strategic business analyst for QAFFEINE, a premium coffee chain in Hyderabad. 
+    Analyze the following Hyderabad/Telangana news headlines from {date_obj.strftime('%d %b %Y')}.
     {anomaly_ctx}
-    News headlines from {date_obj.strftime('%d %b %Y')} (Hyderabad / Telangana):
-
-    {headlines_block}
 
     Task:
-    1. Identify headlines that could act as an operational disruptor for a coffee-chain
-       (road closures, strikes, infrastructure outages, festivals, large events,
-       supply chain issues, weather events, political shutdowns, IT corridor events).
-    2. For each disruptor: [Disruptor Type] — [Expected Impact] — [Headline #N].
-    3. If none: "No significant operational disruptors detected."
-    4. Respond in under 200 words. Do not repeat headlines verbatim.
-
+    1. Identify "Market Signals"—external factors affecting a coffee-chain. 
+       Look for BOTH:
+       - NEGATIVE DISRUPTORS: Road closures, strikes, power outages, political shutdowns, extreme heat/rain.
+       - POSITIVE SIGNALS: Industry trends (e.g. coffee/cafe culture news), festivals, major local events (stadium matches, concerts), infrastructure openings (new metro lines), or economic booms.
+    2. For each relevant signal: [Signal Type: Positive/Negative] — [Impact Description] — [Headline #N].
+    3. Determine the overall "Market Sentiment" (e.g. "Bullish/Optimistic due to cafe culture growth" or "Cautions due to infrastructure delays").
+    4. If none: "No significant market signals detected."
+    5. Be concise (under 200 words).
+    
     RESPONSE:
     """).strip()
 
@@ -572,7 +615,7 @@ def upsert_context(conn: sqlite3.Connection, row: dict) -> None:
 
 def get_daily_revenue_stats(conn: sqlite3.Connection) -> dict[str, float]:
     cur = conn.execute(
-        "SELECT date, ROUND(SUM(net_revenue),2) FROM fact_sales GROUP BY date ORDER BY date"
+        "SELECT SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT),2) FROM AI_TEST_INVOICEBILLREGISTER GROUP BY SUBSTR(DT, 1, 10) ORDER BY date"
     )
     return {r[0]: r[1] for r in cur.fetchall() if r[1] is not None}
 
@@ -582,7 +625,7 @@ def get_daily_revenue_stats(conn: sqlite3.Connection) -> dict[str, float]:
 # ═══════════════════════════════════════════════════════════════════════════
 
 def get_current_week_dates() -> list[datetime.date]:
-    today  = datetime.date(2026, 3, 18)
+    today  = datetime.date.today()
     monday = today - datetime.timedelta(days=today.weekday())
     return [monday + datetime.timedelta(days=i) for i in range(7)]
 
@@ -675,7 +718,7 @@ def run_context_engine() -> None:
         daily_rev = revenue_by_date.get(date_str)
 
         if headlines:
-            prompt = build_disruptor_prompt(date_obj, headlines, daily_rev, avg_revenue)
+            prompt = build_context_signals_prompt(date_obj, headlines, daily_rev, avg_revenue)
             result = llm.generate(prompt)
 
             # Print structured failover log

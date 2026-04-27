@@ -5,12 +5,13 @@ Tabbed Streamlit app: Tab 1 = KPI Dashboard, Tab 2 = AI Assistant
 Run: streamlit run app/dashboard.py
 """
 
-import sys, os, sqlite3, pathlib, re, textwrap
+import sys, os, sqlite3, pathlib, re, textwrap, html
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from dotenv import load_dotenv
+from src.config.settings import resolve_db_path
 
 # ─── Load .env and import LLMManager from context engine ─────────────────────
 _BASE_DIR  = pathlib.Path(__file__).parent.parent
@@ -21,10 +22,10 @@ load_dotenv(_ENV_PATH, override=True)
 if str(_BASE_DIR / "scripts") not in sys.path:
     sys.path.insert(0, str(_BASE_DIR / "scripts"))
 from universal_context import LLMManager
-from jarvis_brain import JarvisAgent, generate_proactive_brief, generate_anomaly_diagnosis
+from copilot_brain import CopilotAgent, generate_proactive_brief, generate_anomaly_diagnosis
 from anomaly_engine import detect_anomalies_all_outlets, get_anomaly_summary_table
 from mailer import send_morning_brief, load_notification_history, build_email_html, log_notification
-from jarvis_brain import _tool_compute_live_basket
+from copilot_brain import _tool_compute_live_basket
 
 # Phase 4.2/5 imports
 try:
@@ -54,16 +55,16 @@ def load_basket_results() -> dict:
         return json.loads(json_path.read_text(encoding="utf-8"))
     return {}
 
-# ─── Jarvis Intelligence Brief (cached 10 min) ────────────────────────────────
+# ─── Copilot Intelligence Brief (cached 10 min) ──────────────────────────────
 @st.cache_data(ttl=600)
 def get_intelligence_brief() -> dict:
     """Auto-computes anomaly + combo + market risk — no user prompt needed."""
     return generate_proactive_brief()
 
-# ─── Jarvis Agent singleton ───────────────────────────────────────────────────
+# ─── Copilot Agent singleton ───────────────────────────────────────────────────
 @st.cache_resource
-def get_jarvis() -> JarvisAgent:
-    return JarvisAgent(llm=get_llm())
+def get_copilot() -> CopilotAgent:
+    return CopilotAgent(llm=get_llm())
 
 # ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -75,7 +76,7 @@ st.set_page_config(
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 BASE    = _BASE_DIR
-DB_PATH = BASE / "database" / "sales.db"
+DB_PATH = resolve_db_path(BASE)
 
 # ─── LLM Dual-Engine (Gemini primary → OpenRouter backup) ────────────────────
 # Instantiated once at startup; shared across all Streamlit reruns via cache.
@@ -201,72 +202,53 @@ def qry(sql, params=()):
 
 # ─── DB Schema for prompt ─────────────────────────────────────────────────────
 DB_SCHEMA = """
-DATABASE: sales.db (SQLite)
+DATABASE: AI_DATABASE.DB (SQLite)
 Tables and columns (with data types):
 
-1. fact_sales  — Item-level POS transactions. Every bill line item.
-   - date           TEXT        (YYYY-MM-DD, range: 2025-12-01 to 2025-12-07)
-   - outlet_name    TEXT        (e.g. 'QAFFEINE HITECH CITY', 'QAFFEINE-BHOOJA', 'QAFFEINE SECUNDERABAD',
-                                 'QAFFEINE-GVK-ONE', 'QAFFEINE-PHOENIX', 'QAFFFEINE-MUSARAMBAGH')
-   - item_name      TEXT        (menu item name, e.g. 'CAPPUCCINO ( HOT )', 'AMERICANO')
-   - net_revenue    REAL        (net sale amount in INR for this line)
-   - quantity       REAL        (units sold)
-   - brand          TEXT        ('QAFFEINE')
-   - channel        TEXT        ('Dine-In', 'Carry-Out', 'Delivery')
-   - bill_no        TEXT        (unique bill identifier)
-   - product_group  TEXT        (menu category group)
-   - spl_category   TEXT        (special category: 'BEVERAGES', 'FOOD', etc.)
-   - basic_rate     REAL        (base price per unit)
-   - cgst           REAL        (CGST tax amount)
-   - sgst           REAL        (SGST tax amount)
-   - total_gst      REAL        (total GST)
-   - kot_time       TEXT        (KOT print timestamp)
-   - city           TEXT        ('HYDERABAD')
-   - order_taker    TEXT        (staff who took the order)
+1. AI_TEST_TAXCHARGED_REPORT  — Item-level POS transactions. Every bill line item.
+   - DT                     DATETIME      (format: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS)
+   - LOCATION_NAME          VARCHAR(100)  (e.g. 'CAKE NATION BASERA', 'TANSEN RESTAURANT', 'GUFAA')
+   - BRAND_NAME             VARCHAR(100)
+   - PRODUCT_NAME           VARCHAR(100)  (menu item name)
+   - NET_AMT                NUMERIC       (net sale amount in INR for this line)
+   - QTY                    NUMERIC       (units sold)
+   - ORDERTYPE_NAME         VARCHAR(100)  ('Dine-In/Eat-In', 'Delivery', etc.)
+   - TRNNO                  VARCHAR(25)   (unique bill identifier)
+   - GROUP_NAME             VARCHAR(100)  (menu category group)
+   - SPLCATEGORY            VARCHAR(100)  (special category, e.g. 'BEVERAGES', 'FOOD')
+   - BASICRATE              NUMERIC       (base price per unit)
+   - CGSTAMT                NUMERIC       (CGST tax amount)
+   - SGSTAMT                NUMERIC       (SGST tax amount)
+   - GSTAMT_TOTAL           NUMERIC       (total GST)
+   - ORDER_STARTTIME        DATETIME      (order start timestamp)
+   - CITY_NAME              VARCHAR(20)
 
-2. hourly_sales  — Item-level hourly breakdown (aggregated by hour slot).
-   - date           TEXT
-   - outlet_name    TEXT
-   - item_name      TEXT
-   - net_revenue    REAL
-   - quantity       INTEGER
-   - brand          TEXT
-   - wok_id         TEXT        (outlet code)
-   - hour_slot      TEXT        (e.g. '8-9', '12-13')
-   - order_type     TEXT        ('Carry-Out', 'Dine-In', 'Delivery')
-   - basic_amt      REAL
-   - void_amt       INTEGER
-   - product_id     INTEGER
-   - day_no         INTEGER     (1=Monday … 7=Sunday)
-   - day_of_week    TEXT        ('MONDAY', 'TUESDAY', …)
+2. AI_TEST_INVOICEBILLREGISTER — Top-level invoice billing data.
+   - DT                 DATETIME
+   - LOCATION_NAME      VARCHAR(50)
+   - BRAND_NAME         VARCHAR(50)
+   - TRNNO              VARCHAR(25)     (join with AI_TEST_TAXCHARGED_REPORT)
+   - NETAMT             NUMERIC
+   - ORDER_TYPE         VARCHAR(100)
+   - TOTAL_SETTLEMENT   NUMERIC
+   - DISCOUNT           NUMERIC
+   - CUSTOMER_NAME      VARCHAR(200)
+   - STORE_CITY         VARCHAR(20)
+   - BILL_AMT           NUMERIC
+   - CASH_AMT           NUMERIC
+   - CARD_AMT           NUMERIC
+   - PAYMENT_UPI        NUMERIC
+   - PAX                NUMERIC
 
-3. outlet_summary  — One row per outlet per day (daily summary from DSR).
-   - date              TEXT
-   - outlet_name       TEXT
-   - net_revenue       REAL      (total net sale for the outlet on that day)
-   - quantity          REAL      (total order count)
-   - restaurant_id     TEXT
-   - brand             TEXT
-   - city              TEXT
-   - state             TEXT
-   - gross_sale        REAL
-   - total_discount    REAL
-   - dine_in_net       REAL
-   - carry_out_net     REAL
-   - delivery_net      REAL
-   - dine_in_orders    INTEGER
-   - carry_out_orders  INTEGER
-   - delivery_orders   INTEGER
-   - pax               REAL
-   - cash_amt          INTEGER
-   - card_amt          INTEGER
-   - upi_amt           INTEGER
-   - void_order_amt    INTEGER
-   - cancel_count      INTEGER
-   - void_bill_count   INTEGER
-   - total_bill_amt    REAL
+3. AI_TEST_ONLINEORDER — Delivery lifecycle data.
+   - ORDERTIME          DATETIME
+   - RIDER_NAME         VARCHAR(250)
+   - ISORDERAPPROVED    NUMERIC(1)
+   - CANCEL_REMARK      VARCHAR(500)
+   - ORDERDELIVERED_DT  DATETIME
+   - FOODPREPTIME       INTEGER
 
-Indexed columns (fast): date, outlet_name, item_name (where present).
+Indexed columns (fast): DT, LOCATION_NAME, PRODUCT_NAME (where present), TRNNO.
 All monetary values are in Indian Rupees (INR / ₹)."""
 
 # ─── External Factors (mock enrichment for root-cause context) ─────────────────
@@ -311,9 +293,9 @@ def build_sql_prompt(user_question: str) -> str:
     - Use LIMIT 20 unless the user specifies otherwise.
     - For date filtering, dates are in 'YYYY-MM-DD' string format.
     - For top-N queries, use ORDER BY … DESC LIMIT N.
-    - Prefer fact_sales for item/bill-level questions.
-    - Prefer outlet_summary for daily outlet-level questions.
-    - Prefer hourly_sales for time-of-day questions.
+    - Prefer AI_TEST_TAXCHARGED_REPORT for item/bill-level questions.
+    - Prefer AI_TEST_INVOICEBILLREGISTER for daily/top-level bill questions.
+    - Prefer AI_TEST_ONLINEORDER for delivery/rider questions.
 
     SCHEMA:
     {DB_SCHEMA}
@@ -402,10 +384,11 @@ def gemini_insight(question: str, sql: str, df: pd.DataFrame) -> tuple[str, str,
         return f"(Insight unavailable: {exc})", "none", "unknown"
 
 # ─── Load sidebar filter data ─────────────────────────────────────────────────
-all_outlets = qry("SELECT DISTINCT outlet_name FROM fact_sales ORDER BY outlet_name;")["outlet_name"].tolist()
-dates_df    = qry("SELECT MIN(date) AS mn, MAX(date) AS mx FROM fact_sales;")
-min_date    = pd.to_datetime(dates_df["mn"].iloc[0]).date()
-max_date    = pd.to_datetime(dates_df["mx"].iloc[0]).date()
+all_outlets = qry("SELECT DISTINCT LOCATION_NAME AS outlet_name FROM AI_TEST_INVOICEBILLREGISTER ORDER BY LOCATION_NAME;")["outlet_name"].tolist()
+dates_df    = qry("SELECT SUBSTR(MIN(DT), 1, 10) AS mn, SUBSTR(MAX(DT), 1, 10) AS mx FROM AI_TEST_INVOICEBILLREGISTER;")
+# Apply safe fallbacks around dates so Pandas doesn't crash on empty DB 
+min_date    = pd.to_datetime(dates_df["mn"].iloc[0]).date() if not dates_df["mn"].isna().all() else pd.to_datetime("2026-01-01").date()
+max_date    = pd.to_datetime(dates_df["mx"].iloc[0]).date() if not dates_df["mx"].isna().all() else pd.to_datetime("2026-03-31").date()
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -413,7 +396,7 @@ with st.sidebar:
     <div style='text-align:center;padding:.8rem 0 1rem'>
         <div style='font-size:2.6rem'>☕</div>
         <div style='font-size:1.1rem;font-weight:800;color:#f1f5f9'>QAFFEINE</div>
-        <div style='font-size:.7rem;color:#64748b;letter-spacing:.15em'>ANALYTICS · JARVIS AI</div>
+        <div style='font-size:.7rem;color:#64748b;letter-spacing:.15em'>ANALYTICS · QAFFEINE COPILOT</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -432,7 +415,7 @@ with st.sidebar:
                 padding:.8rem 1rem;margin-bottom:.9rem'>
         <div style='font-size:.72rem;font-weight:800;color:#f59e0b;
                     letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem'>
-            ⚡ Jarvis Intelligence Brief
+            ⚡ QAFFEINE Intelligence Brief
         </div>
         <div style='margin-bottom:.6rem'>
             <div style='font-size:.68rem;color:#94a3b8;font-weight:700;
@@ -528,15 +511,15 @@ with st.sidebar:
             if not already:
                 st.session_state.chat_history.append({
                     "question": q, "tool_calls": [],
-                    "response": "⏳ Queued — open the Jarvis tab to execute.",
+                    "response": "⏳ Queued — open the AI Copilot tab to execute.",
                     "engine": "", "model": "", "monologue": [], "demo": True,
                 })
-        st.success("5 questions queued! Open the 🤖 Jarvis tab.")
+        st.success("5 questions queued! Open the 🤖 AI Copilot tab.")
         st.rerun()
     st.markdown("""
     <div style='font-size:.7rem;color:#475569;padding-top:.5rem;
                 border-top:1px solid rgba(255,255,255,.06)'>
-        Data: Dec 2025 · Jarvis v1.0<br>
+        Data: 2026 · QAFFEINE Copilot v2.0<br>
         Gemini 2.0 Flash ↩ OpenRouter/Llama-3.3-70B
     </div>
     """, unsafe_allow_html=True)
@@ -559,7 +542,7 @@ st.markdown("<div class='custom-divider'></div>", unsafe_allow_html=True)
 
 # ─── TABS ───────────────────────────────────────────────────────────────────
 tab_dash, tab_ai, tab_strat, tab_notify, tab_sim, tab_health = st.tabs(
-    ["📊  KPI Dashboard", "🤖  AI Assistant", "🧠  Strategic Insights",
+    ["📊  KPI Dashboard", "🤖  AI Copilot", "🧠  Strategic Insights",
      "🔔  Notifications", "🔮  Simulator", "🛡️  System Health"]
 )
 
@@ -568,54 +551,61 @@ tab_dash, tab_ai, tab_strat, tab_notify, tab_sim, tab_health = st.tabs(
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_dash:
     # ── KPI queries ───────────────────────────────────────────────────────────
+    # We query AI_TEST_INVOICEBILLREGISTER directly instead of fact_sales for speed
     kpi = qry(f"""
-        SELECT ROUND(SUM(net_revenue),2) AS total_revenue,
-               COUNT(DISTINCT bill_no)   AS total_orders,
-               ROUND(SUM(net_revenue)/NULLIF(COUNT(DISTINCT bill_no),0),2) AS aov
-        FROM fact_sales
-        WHERE outlet_name IN ({outlet_ph}) AND date BETWEEN ? AND ?
+        SELECT IFNULL(ROUND(SUM(NETAMT),2), 0) AS total_revenue,
+               COUNT(DISTINCT TRNNO)           AS total_orders,
+               IFNULL(ROUND(SUM(NETAMT)/NULLIF(COUNT(DISTINCT TRNNO),0),2), 0) AS aov,
+               IFNULL(SUM(CAST(PAX AS INTEGER)), 0) AS total_pax,
+               IFNULL(SUM(CASH_AMT), 0) AS cash,
+               IFNULL(SUM(CARD_AMT), 0) AS card,
+               IFNULL(SUM(PAYMENT_UPI), 0) AS upi
+        FROM AI_TEST_INVOICEBILLREGISTER
+        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
     """, filter_params)
 
     top5 = qry(f"""
-        SELECT item_name,
-               ROUND(SUM(net_revenue),2)   AS revenue,
-               SUM(CAST(quantity AS REAL)) AS qty
-        FROM fact_sales
-        WHERE outlet_name IN ({outlet_ph}) AND date BETWEEN ? AND ?
-          AND item_name IS NOT NULL
-        GROUP BY item_name ORDER BY revenue DESC LIMIT 5
+        SELECT PRODUCT_NAME AS item_name,
+               IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
+               SUM(CAST(QTY AS REAL))           AS qty
+        FROM AI_TEST_TAXCHARGED_REPORT
+        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
+          AND PRODUCT_NAME IS NOT NULL
+        GROUP BY PRODUCT_NAME ORDER BY revenue DESC LIMIT 5
     """, filter_params)
 
     by_outlet = qry(f"""
-        SELECT outlet_name, ROUND(SUM(net_revenue),2) AS revenue,
-               COUNT(DISTINCT bill_no) AS orders
-        FROM fact_sales
-        WHERE outlet_name IN ({outlet_ph}) AND date BETWEEN ? AND ?
-        GROUP BY outlet_name ORDER BY revenue DESC
+        SELECT LOCATION_NAME AS outlet_name, IFNULL(ROUND(SUM(NETAMT),2), 0) AS revenue,
+               COUNT(DISTINCT TRNNO) AS orders
+        FROM AI_TEST_INVOICEBILLREGISTER
+        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
+        GROUP BY LOCATION_NAME ORDER BY revenue DESC
     """, filter_params)
 
     daily = qry(f"""
-        SELECT date, ROUND(SUM(net_revenue),2) AS revenue,
-               COUNT(DISTINCT bill_no) AS orders
-        FROM fact_sales
-        WHERE outlet_name IN ({outlet_ph}) AND date BETWEEN ? AND ?
-        GROUP BY date ORDER BY date
+        SELECT SUBSTR(DT, 1, 10) AS date, IFNULL(ROUND(SUM(NETAMT),2), 0) AS revenue,
+               COUNT(DISTINCT TRNNO) AS orders
+        FROM AI_TEST_INVOICEBILLREGISTER
+        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
+        GROUP BY SUBSTR(DT, 1, 10) ORDER BY SUBSTR(DT, 1, 10)
     """, filter_params)
 
     raw_df = qry(f"""
-        SELECT date, outlet_name, item_name, net_revenue, quantity,
-               channel, bill_no, product_group, kot_time
-        FROM fact_sales
-        WHERE outlet_name IN ({outlet_ph}) AND date BETWEEN ? AND ?
-        ORDER BY date, outlet_name
+        SELECT SUBSTR(DT, 1, 10) AS date, LOCATION_NAME AS outlet_name, PRODUCT_NAME AS item_name, NET_AMT AS net_revenue, QTY AS quantity,
+               ORDERTYPE_NAME AS channel, TRNNO AS bill_no, GROUP_NAME AS product_group, ORDER_STARTTIME AS kot_time
+        FROM AI_TEST_TAXCHARGED_REPORT
+        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
+        ORDER BY SUBSTR(DT, 1, 10), LOCATION_NAME
     """, filter_params)
 
-    total_revenue = kpi["total_revenue"].iloc[0] or 0
-    total_orders  = kpi["total_orders"].iloc[0]  or 0
-    aov           = kpi["aov"].iloc[0]           or 0
+    total_revenue = float(kpi["total_revenue"].iloc[0]) if not kpi["total_revenue"].isna().all() else 0.0
+    total_orders  = int(kpi["total_orders"].iloc[0])    if not kpi["total_orders"].isna().all() else 0
+    aov           = float(kpi["aov"].iloc[0])           if not kpi["aov"].isna().all() else 0.0
+    total_pax     = int(kpi["total_pax"].iloc[0])       if not kpi["total_pax"].isna().all() else 0
+    upi           = float(kpi["upi"].iloc[0])           if not kpi["upi"].isna().all() else 0.0
 
     # ── KPI Cards ─────────────────────────────────────────────────────────────
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4, c5 = st.columns(5)
     def kpi_card(col, icon, label, value, sub):
         col.markdown(f"""
         <div class='kpi-card'>
@@ -625,9 +615,11 @@ with tab_dash:
             <div class='kpi-sub'>{sub}</div>
         </div>""", unsafe_allow_html=True)
 
-    kpi_card(c1,"💰","Total Net Revenue", f"₹{total_revenue:,.0f}", f"{len(outlet_choice)} outlet(s)")
-    kpi_card(c2,"🧾","Total Orders (Bills)", f"{total_orders:,}", "Unique bills in period")
-    kpi_card(c3,"📊","Avg Order Value", f"₹{aov:,.0f}", "Revenue ÷ unique bills")
+    kpi_card(c1,"💰","Revenue", f"₹{total_revenue:,.0f}", f"{len(outlet_choice)} outlet(s)")
+    kpi_card(c2,"🧾","Orders", f"{total_orders:,}", "Unique bills")
+    kpi_card(c3,"📈","AOV", f"₹{aov:,.0f}", "Revenue/bill")
+    kpi_card(c4,"👥","PAX", f"{total_pax:,}", "Total guests")
+    kpi_card(c5,"💳","UPI %", f"{(upi/total_revenue*100) if total_revenue else 0:.1f}%", "Cashless share")
 
     st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
 
@@ -721,15 +713,15 @@ with tab_dash:
                            mime="text/csv")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — JARVIS AI ASSISTANT  (Agentic Multi-Tool)
+# TAB 2 — QAFFEINE COPILOT  (Agentic Multi-Tool)
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_ai:
     st.markdown("""
     <div style='padding:.6rem 0 1rem'>
-        <div style='font-size:1.5rem;font-weight:800;color:#f1f5f9'>🤖 Jarvis — QAFFEINE Business Partner</div>
+        <div style='font-size:1.5rem;font-weight:800;color:#f1f5f9'>🤖 QAFFEINE Copilot — AI Business Partner</div>
         <div style='font-size:.85rem;color:#64748b;margin-top:.2rem'>
-            Agentic reasoning engine. Jarvis autonomously calls SQL, Weather, Holiday & Basket
-            tools to find the <em>why</em> behind every number.
+            Agentic reasoning engine. The Copilot autonomously calls SQL, Weather, Holiday & Basket
+            tools — backed by the context_intelligence DB — to find the <em>why</em> behind every number.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -738,7 +730,7 @@ with tab_ai:
     st.markdown(
         "<div style='font-size:.75rem;color:#64748b;font-weight:600;"
         "letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem'>"
-        "Try asking Jarvis:</div>",
+        "Try asking the Copilot:</div>",
         unsafe_allow_html=True,
     )
     suggestions = [
@@ -767,13 +759,14 @@ with tab_ai:
 
     # ── Render chat history ──────────────────────────────────────────────────
     for entry in st.session_state.chat_history:
+        safe_question = html.escape(str(entry.get("question", "")))
         st.markdown(
-            f"<div class='chat-user'>💬 {entry['question']}</div>",
+            f"<div class='chat-user'>💬 {safe_question}</div>",
             unsafe_allow_html=True,
         )
 
         if entry.get("error"):
-            st.error(f"Jarvis error: {entry['error']}")
+            st.error(f"Copilot error: {entry['error']}")
             continue
 
         # ── Engine badge ──────────────────────────────────────────────────
@@ -787,29 +780,32 @@ with tab_ai:
             engine_label = f"OpenRouter ↩ {model}"
         else:
             badge_color, badge_icon = "#94a3b8", "⚡"
-            engine_label = model or "Jarvis"
+            engine_label = model or "QAFFEINE Copilot"
 
         # ── Tool calls summary ────────────────────────────────────────────
         tool_calls = entry.get("tool_calls", [])
         if tool_calls:
             tools_used = " · ".join(
-                f"{tc.get('emoji','🔧')} {tc.get('tool','?')}" for tc in tool_calls
+                f"{tc.get('emoji','🔧')} {html.escape(str(tc.get('tool','?')))}"
+                for tc in tool_calls
             )
+            safe_engine_label = html.escape(engine_label)
             st.markdown(
                 f"<div style='font-size:.68rem;color:#64748b;margin:.2rem 0 .3rem'>"
-                f"{badge_icon} <b style='color:{badge_color}'>{engine_label}</b>"
+                f"{badge_icon} <b style='color:{badge_color}'>{safe_engine_label}</b>"
                 f" &nbsp;·&nbsp; Tools: {tools_used}</div>",
                 unsafe_allow_html=True,
             )
 
-            with st.expander("🧪 View Jarvis Thought Process", expanded=False):
+            with st.expander("🧪 View Copilot Thought Process", expanded=False):
                 for step in entry.get("monologue", []):
                     icon = "✅" if step.startswith("✅") else (
                            "❌" if step.startswith("❌") else
                            "   " if step.startswith(" ") else "")
+                    safe_step = html.escape(step)
                     st.markdown(
                         f"<div style='font-family:monospace;font-size:.75rem;"
-                        f"color:#94a3b8;padding:.1rem 0'>{step}</div>",
+                        f"color:#94a3b8;padding:.1rem 0'>{safe_step}</div>",
                         unsafe_allow_html=True,
                     )
                 for tc in tool_calls:
@@ -819,36 +815,38 @@ with tab_ai:
                     ):
                         st.code(tc.get("result", ""), language="markdown")
         elif engine_label.strip():
+            safe_engine_label = html.escape(engine_label)
             st.markdown(
                 f"<div style='font-size:.68rem;color:#64748b;margin:.2rem 0 .3rem'>"
-                f"{badge_icon} <b style='color:{badge_color}'>{engine_label}</b></div>",
+                f"{badge_icon} <b style='color:{badge_color}'>{safe_engine_label}</b></div>",
                 unsafe_allow_html=True,
             )
 
-        # ── Jarvis Response ───────────────────────────────────────────────
+        # ── Copilot Response ───────────────────────────────────────────────
         if entry.get("response"):
+            safe_response = html.escape(str(entry["response"])).replace("\n", "<br>")
             st.markdown(f"""
             <div class='chat-ai'>
                 <div style='font-size:.7rem;color:#6ee7b7;font-weight:700;
                             letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem'>
-                    🤖 Jarvis Analysis
+                    🤖 QAFFEINE Copilot Analysis
                 </div>
-                {entry['response']}
+                {safe_response}
             </div>""", unsafe_allow_html=True)
 
     # ── Chat input ───────────────────────────────────────────────────────────
-    user_q = st.chat_input("Ask Jarvis anything about your business…")
+    user_q = st.chat_input("Ask the Copilot anything about your business…")
 
     if user_q:
         entry = {"question": user_q, "tool_calls": [], "monologue": [],
                  "response": "", "engine": "", "model": "", "error": ""}
 
-        with st.status("🤖 Jarvis is investigating…", expanded=True) as status:
+        with st.status("🤖 QAFFEINE Copilot is investigating…", expanded=True) as status:
             st.write(f'🔍 Received: "{user_q[:80]}"')
 
             try:
-                jarvis = get_jarvis()
-                result = jarvis.investigate(user_q)
+                copilot = get_copilot()
+                result  = copilot.investigate(user_q)
 
                 # Stream monologue steps into st.status
                 for step in result.monologue:
@@ -1246,6 +1244,7 @@ with tab_strat:
                 result = subprocess.run(
                     [_sys.executable, script],
                     capture_output=True, text=True,
+                    timeout=120,
                 )
                 if result.returncode == 0:
                     st.success("✅ Analysis complete! Refresh the page to see updated data.")
@@ -1297,7 +1296,7 @@ with tab_notify:
         sidebar_trigger = st.session_state.pop("trigger_morning_brief", False)
 
         if send_btn or sidebar_trigger:
-            with st.status("🤖 Jarvis Morning Brief Pipeline", expanded=True) as brief_status:
+            with st.status("🤖 QAFFEINE Copilot — Morning Brief Pipeline", expanded=True) as brief_status:
                 import time as _time
 
                 # ── Step 1: Anomaly Scan ───────────────────────────────
@@ -1518,7 +1517,7 @@ with tab_sim:
         # Process natural language scenario
         if scenario_text and scenario_text.strip():
             if scenario_text != st.session_state.get("last_scenario_text", ""):
-                with st.status("🧠 Jarvis is interpreting your scenario...", expanded=True) as parse_status:
+                with st.status("🧠 QAFFEINE Copilot is interpreting your scenario...", expanded=True) as parse_status:
                     parsed = interpret_scenario_prompt(scenario_text)
                     st.write(f"🏪 **Outlet:** {parsed['outlet']}")
                     st.write(f"🌧️ **Rain:** {parsed['rain_mm']}mm  |  🌡️ **Temp:** {parsed['temp_c']}°C")
@@ -1642,12 +1641,12 @@ with tab_sim:
             st.markdown("<div class='custom-divider'></div>", unsafe_allow_html=True)
 
             # ── Narrative Analysis ─────────────────────────────────────────
-            st.markdown("<div class='section-header'>🧠 Jarvis Narrative Analysis</div>",
+            st.markdown("<div class='section-header'>🧠 QAFFEINE Copilot Narrative Analysis</div>",
                         unsafe_allow_html=True)
 
             # Build narrative context
             scenario_desc = scenario_text if scenario_text else f"{sim_rain}mm rain, {sim_temp}°C"
-            narrative_prompt = f"""You are Jarvis, an elite coffee-chain business strategist.
+            narrative_prompt = f"""You are QAFFEINE Copilot, an elite coffee-chain business strategist.
 
 A revenue simulation was run for {result['outlet']} on {result['day_of_week']}, {date_str}.
 Scenario: {scenario_desc}
@@ -1686,7 +1685,7 @@ Be concise, strategic, and data-driven. Use specific numbers from the simulation
                     <div style='font-size:.7rem;color:#a78bfa;font-weight:700;
                                 letter-spacing:.06em;text-transform:uppercase;
                                 margin-bottom:.5rem'>
-                        🧠 Jarvis Analysis · via {narrative_engine}
+                        🧠 Copilot Analysis · via {narrative_engine}
                     </div>
                     <div style='font-size:.85rem;color:#e2e8f0;line-height:1.65'>
                         {narrative_text}
@@ -1737,7 +1736,7 @@ with tab_health:
     try:
         db_t0 = _time_health.time()
         test_conn = sqlite3.connect(str(DB_PATH), timeout=3)
-        test_conn.execute("SELECT 1 FROM fact_sales LIMIT 1").fetchone()
+        test_conn.execute("SELECT 1 FROM AI_TEST_INVOICEBILLREGISTER LIMIT 1").fetchone()
         test_conn.close()
         db_ms = (_time_health.time() - db_t0) * 1000
         v1.markdown(f"""
@@ -1883,6 +1882,6 @@ with tab_health:
 st.markdown("""
 <div style='text-align:center;padding:1.5rem 0 .5rem;
             font-size:.72rem;color:#334155;letter-spacing:.05em'>
-    QAFFEINE Analytics · Streamlit · SQLite · Gemini 2.0 Flash ↩ OpenRouter/Llama-3.3-70B · ML Forecaster
+    QAFFEINE Analytics · QAFFEINE Copilot v2.0 · Gemini 2.0 Flash ↩ OpenRouter/Llama-3.3-70B · ML Forecaster
 </div>
 """, unsafe_allow_html=True)

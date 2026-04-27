@@ -1,18 +1,18 @@
 """
 QAFFEINE AI Assistant — Automated Test Harness
 ===============================================
-Runs 18 diverse business queries against sales.db,
+Runs 18 diverse business queries against AI_DATABASE.DB,
 validates results, and writes testing_log.txt.
 """
 
-import sys, sqlite3, pathlib, textwrap, json
+import os, sys, sqlite3, pathlib, textwrap, json
 from datetime import datetime
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
-BASE     = pathlib.Path(r"c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype")
-DB_PATH  = BASE / "database" / "sales.db"
+BASE     = pathlib.Path(__file__).resolve().parents[2]
+DB_PATH  = BASE / os.getenv("APP_DB_PATH", "database/AI_DATABASE.DB")
 LOG_PATH = BASE / "database" / "testing_log.txt"
 
 conn = sqlite3.connect(str(DB_PATH))

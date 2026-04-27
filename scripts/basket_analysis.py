@@ -1,7 +1,7 @@
 """
 QAFFEINE — Market Basket Analysis & Menu Engineering
 ======================================================
-Analyses fact_sales in sales.db to produce:
+Analyses transactional tables in AI_DATABASE.DB to produce:
 
   1. Product Affinity pairs      — Support, Confidence, Lift
   2. Menu Engineering Matrix     — Star / Plowhorse / Puzzle / Dog
@@ -16,13 +16,14 @@ import os, sys, sqlite3, json, itertools, math, datetime
 from pathlib import Path
 from collections import defaultdict
 from dotenv import load_dotenv
+from src.config.settings import resolve_db_path
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 BASE      = Path(__file__).resolve().parent.parent
-DB_PATH   = BASE / "database" / "sales.db"
+DB_PATH   = resolve_db_path(BASE)
 BRIEF_OUT = BASE / "database" / "strategic_brief.txt"
 JSON_OUT  = BASE / "database" / "basket_results.json"
 ENV_PATH  = BASE.parent / ".env"
@@ -47,9 +48,10 @@ def load_transactions(conn: sqlite3.Connection) -> tuple[dict, dict, dict, int]:
         item_qty     : {item_name -> total_quantity}
         total_bills  : int
     """
+    # Push GROUP BY to SQLite engine to significantly reduce Python memory footprint
     rows = conn.execute(
-        "SELECT bill_no, item_name, net_revenue, quantity FROM fact_sales "
-        "WHERE item_name IS NOT NULL AND item_name != ''"
+        "SELECT TRNNO AS bill_no, PRODUCT_NAME AS item_name, SUM(NET_AMT) AS net_revenue, SUM(QTY) AS quantity FROM AI_TEST_TAXCHARGED_REPORT "
+        "WHERE PRODUCT_NAME IS NOT NULL AND PRODUCT_NAME != '' GROUP BY TRNNO, PRODUCT_NAME"
     ).fetchall()
 
     bill_items:   dict[str, list[str]] = defaultdict(list)
@@ -64,8 +66,8 @@ def load_transactions(conn: sqlite3.Connection) -> tuple[dict, dict, dict, int]:
 
     # avg basic_rate per item (proxy for margin)
     for item, avg_price in conn.execute(
-        "SELECT item_name, AVG(basic_rate) FROM fact_sales "
-        "WHERE item_name IS NOT NULL GROUP BY item_name"
+        "SELECT PRODUCT_NAME AS item_name, AVG(BASICRATE) FROM AI_TEST_TAXCHARGED_REPORT "
+        "WHERE PRODUCT_NAME IS NOT NULL GROUP BY PRODUCT_NAME"
     ).fetchall():
         item_price[item] = float(avg_price or 0)
 
@@ -446,7 +448,7 @@ def _write_strategic_brief(r: dict) -> None:
         "",
         "─" * 68,
         "  PREPARED BY: QAFFEINE Analytics Engine",
-        f"  Data source : sales.db  |  Script: scripts/basket_analysis.py",
+        f"  Data source : AI_DATABASE.DB  |  Script: scripts/basket_analysis.py",
         "=" * 68,
         "",
     ]

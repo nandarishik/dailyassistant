@@ -1,23 +1,24 @@
 """
 QAFFEINE SQLite Database Builder
 =================================
-Creates sales.db inside QAFFEINE_Prototype/database/, loads the three
+Creates AI_DATABASE.DB inside QAFFEINE_Prototype/database/, loads the three
 cleaned CSVs, adds indexes, runs verification queries, and saves
 schema_info.txt.
 """
 
-import sys, sqlite3, pandas as pd
+import os, sys, sqlite3, pandas as pd
 from pathlib import Path
 from datetime import datetime
+from src.config.settings import resolve_db_path
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
-BASE      = Path(r"c:\Users\Admin\Desktop\BrainPowerInternship\QAFFEINE_Prototype")
+BASE      = Path(__file__).resolve().parent.parent
 PROC      = BASE / "data_processed"
 DB_DIR    = BASE / "database"
-DB_PATH   = DB_DIR / "sales.db"
+DB_PATH   = resolve_db_path(BASE)
 SCHEMA_TXT = DB_DIR / "schema_info.txt"
 
 DB_DIR.mkdir(parents=True, exist_ok=True)
@@ -159,7 +160,7 @@ log("DATABASE SCHEMA SUMMARY")
 log("=" * 70)
 
 schema_lines = []
-schema_lines.append("QAFFEINE Prototype | sales.db Schema Info")
+schema_lines.append("QAFFEINE Prototype | AI_DATABASE.DB Schema Info")
 schema_lines.append(f"Generated : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 schema_lines.append("=" * 70)
 

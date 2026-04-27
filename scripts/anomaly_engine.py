@@ -15,13 +15,14 @@ Usage:
     anomalies = detect_anomalies_all_outlets()   # returns list[dict]
 """
 
-import sqlite3, datetime, statistics
+import os, sqlite3, datetime, statistics
 from pathlib import Path
 from dataclasses import dataclass, field
+from src.config.settings import resolve_db_path
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE    = Path(__file__).resolve().parent.parent
-DB_PATH = BASE / "database" / "sales.db"
+DB_PATH = resolve_db_path(BASE)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 ROLLING_WINDOW   = 7       # days
@@ -56,29 +57,19 @@ class AnomalyRecord:
 def _fetch_outlet_daily_revenue(conn: sqlite3.Connection) -> dict[str, list[tuple[str, float]]]:
     """
     Returns {outlet_name: [(date, revenue), ...]} sorted by date.
-    Uses outlet_summary for pre-aggregated daily totals.
-    Falls back to fact_sales SUM if outlet_summary is empty.
+    Uses AI_TEST_INVOICEBILLREGISTER for pre-aggregated daily totals.
     """
-    # Try outlet_summary first (faster, pre-aggregated)
-    try:
-        rows = conn.execute("""
-            SELECT outlet_name, date, ROUND(net_revenue, 2) AS rev
-            FROM outlet_summary
-            ORDER BY outlet_name, date
-        """).fetchall()
-    except Exception:
-        rows = []
-
-    if not rows:
-        rows = conn.execute("""
-            SELECT outlet_name, date, ROUND(SUM(net_revenue), 2) AS rev
-            FROM fact_sales
-            GROUP BY outlet_name, date
-            ORDER BY outlet_name, date
-        """).fetchall()
+    rows = conn.execute("""
+        SELECT LOCATION_NAME, SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT), 2) AS rev
+        FROM AI_TEST_INVOICEBILLREGISTER
+        GROUP BY LOCATION_NAME, SUBSTR(DT, 1, 10)
+        ORDER BY LOCATION_NAME, date
+    """).fetchall()
 
     outlet_data: dict[str, list[tuple[str, float]]] = {}
     for outlet, date, rev in rows:
+        if outlet is None:
+            continue
         outlet_data.setdefault(outlet, []).append((date, rev or 0.0))
 
     return outlet_data

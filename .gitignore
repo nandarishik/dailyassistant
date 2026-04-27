@@ -1,0 +1,26 @@
+# Python cache and virtualenv
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime artifacts
+logs/
+database/*.db
+database/*.DB
+database/*.sqlite
+database/*.sqlite3
+database/context_engine_log.txt
+*.log
+
+# Tooling and editor noise
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+Thumbs.db

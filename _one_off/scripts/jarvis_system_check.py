@@ -86,7 +86,7 @@ def run_system_check():
     # ── Test 2: Individual tool smoke-test ────────────────────────────────
     section("TEST 2 — Individual Tool Smoke Tests")
 
-    test_date = "2025-12-07"   # Sunday — the anomaly day in sales.db
+    test_date = "2025-12-07"   # Sunday — the anomaly day in AI_DATABASE.DB
 
     # Tool A: SQL
     log(f"  [query_sales_db] Fetching outlet summary for {test_date} …")

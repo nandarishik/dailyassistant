@@ -29,6 +29,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import cross_val_score
 import joblib
+from src.config.settings import resolve_db_path
 
 # Holidays
 import holidays as holidays_lib
@@ -37,19 +38,21 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE       = Path(__file__).resolve().parent.parent
-DB_PATH    = BASE / "database" / "sales.db"
+DB_PATH    = resolve_db_path(BASE)
 MODEL_DIR  = BASE / "models"
 MODEL_PATH = MODEL_DIR / "revenue_forecaster.joblib"
 
 # ── Constants ──────────────────────────────────────────────────────────────────
-OUTLETS = [
-    "QAFFEINE HITECH CITY",
-    "QAFFEINE-BHOOJA",
-    "QAFFEINE SECUNDERABAD",
-    "QAFFEINE-GVK-ONE",
-    "QAFFEINE-PHOENIX",
-    "QAFFFEINE-MUSARAMBAGH",
-]
+def get_outlets():
+    try:
+        conn = sqlite3.connect(str(DB_PATH))
+        outlets = sorted([r[0] for r in conn.execute("SELECT DISTINCT LOCATION_NAME FROM AI_TEST_INVOICEBILLREGISTER WHERE LOCATION_NAME IS NOT NULL").fetchall()])
+        conn.close()
+        return outlets if outlets else ["UNKNOWN"]
+    except:
+        return ["UNKNOWN"]
+
+OUTLETS = get_outlets()
 
 # Default weather for Hyderabad December (used when API data unavailable)
 DEFAULT_TEMP_C   = 27.0
@@ -137,9 +140,10 @@ def _load_training_data() -> pd.DataFrame:
 
     # Base: outlet-day revenue
     df = pd.read_sql_query("""
-        SELECT date, outlet_name, net_revenue
-        FROM outlet_summary
-        WHERE net_revenue > 0
+        SELECT SUBSTR(DT, 1, 10) AS date, LOCATION_NAME AS outlet_name, SUM(NETAMT) AS net_revenue
+        FROM AI_TEST_INVOICEBILLREGISTER
+        GROUP BY SUBSTR(DT, 1, 10), LOCATION_NAME
+        HAVING SUM(NETAMT) > 0
         ORDER BY date, outlet_name
     """, conn)
 
@@ -568,14 +572,7 @@ def interpret_scenario_prompt(user_text: str) -> dict:
     }
 
     # Outlet matching
-    outlet_keywords = {
-        "hitech": "QAFFEINE HITECH CITY", "hi-tech": "QAFFEINE HITECH CITY",
-        "bhooja": "QAFFEINE-BHOOJA",
-        "secunderabad": "QAFFEINE SECUNDERABAD",
-        "gvk": "QAFFEINE-GVK-ONE",
-        "phoenix": "QAFFEINE-PHOENIX",
-        "musarambagh": "QAFFFEINE-MUSARAMBAGH",
-    }
+    outlet_keywords = {o.lower(): o for o in OUTLETS}
     for kw, outlet in outlet_keywords.items():
         if kw in text_lower:
             params["outlet"] = outlet

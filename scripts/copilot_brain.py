@@ -1,24 +1,26 @@
 """
-QAFFEINE Jarvis Brain  —  Agentic Intelligence Layer
-======================================================
+QAFFEINE Copilot  —  Agentic Intelligence Layer
+================================================
 Exposes:
-  - JarvisAgent          : multi-tool agentic reasoning loop
+  - CopilotAgent          : multi-tool agentic reasoning loop
   - generate_proactive_brief() : autonomous morning brief (anomaly + combo + risk)
+  - generate_anomaly_diagnosis() : per-anomaly LLM root-cause narrative
 
 Architecture — "Plan → Execute → Synthesise":
   1. LLM decides which tools are needed (JSON plan)
-  2. Tools run locally in Python (SQL / Weather / Holiday / Combos)
+  2. Tools run locally in Python  — DB-backed first, live API as fallback
   3. LLM synthesises results into a senior-level business response
 
-This design works with ANY text LLM (Gemini OR OpenRouter/Llama)
-because it uses standard text completions, not provider-specific
-native function-calling APIs.
+Context Retrieval Priority (hardened):
+  news / weather / holiday  →  context_intelligence table (pre-analysed)
+                            →  live API call only when DB row is absent
 """
 
 import os, sys, re, json, sqlite3, datetime, textwrap, requests
 from pathlib import Path
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
+from contextlib import contextmanager
 from src.config.settings import resolve_db_path
 
 # ── Paths & env ───────────────────────────────────────────────────────────────
@@ -44,20 +46,59 @@ try:
 except ImportError:
     _FORECASTER_AVAILABLE = False
 
+
 # ══════════════════════════════════════════════════════════════════════════════
-# TOOL IMPLEMENTATIONS  —  each returns a plain string summary
+# DATABASE CONNECTION HELPER  (hardened)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@contextmanager
+def _db_connect(timeout: float = 10.0):
+    """
+    Context manager for a hardened SQLite connection.
+    Ensures the connection is always closed even on exception.
+    WAL mode is enabled for concurrent read safety.
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(str(DB_PATH), timeout=timeout)
+        conn.execute("PRAGMA journal_mode=WAL;")
+        conn.execute("PRAGMA busy_timeout=5000;")
+        yield conn
+    except sqlite3.OperationalError as exc:
+        raise RuntimeError(f"Database connection failed: {exc}") from exc
+    finally:
+        if conn:
+            conn.close()
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TOOL IMPLEMENTATIONS  — each returns a plain string summary
+# Context priority: DB (context_intelligence table) → live API fallback
 # ══════════════════════════════════════════════════════════════════════════════
 
 def _tool_query_sales_db(sql: str) -> str:
     """Run a SELECT against AI_DATABASE.DB and return results as a markdown table."""
-    if not re.match(r"(?i)^\s*SELECT\b", sql.strip()):
+    query = sql.strip().rstrip(";")
+    if not re.match(r"(?i)^SELECT\b", query):
         return "ERROR: Only SELECT queries are permitted."
+    if ";" in query:
+        return "ERROR: Multiple statements are not allowed."
+    if re.search(r"(?i)\b(sqlite_master|sqlite_schema|pragma|attach|detach|load_extension)\b", query):
+        return "ERROR: Query touches restricted SQLite internals or commands."
+    if not re.search(r"(?i)\bLIMIT\s+\d+\b", query):
+        query = f"{query} LIMIT 200"
     try:
-        conn = sqlite3.connect(str(DB_PATH))
-        cur  = conn.execute(sql.strip().rstrip(";"))
-        cols = [d[0] for d in cur.description]
-        rows = cur.fetchmany(25)
-        conn.close()
+        with _db_connect() as conn:
+            # Abort runaway scans to keep the Copilot path responsive.
+            callback_count = {"n": 0}
+            max_callbacks = 25
+            def _progress_abort() -> int:
+                callback_count["n"] += 1
+                return 1 if callback_count["n"] > max_callbacks else 0
+            conn.set_progress_handler(_progress_abort, 200000)
+            cur  = conn.execute(query)
+            cols = [d[0] for d in cur.description]
+            rows = cur.fetchmany(200)
         if not rows:
             return "Query returned 0 rows."
         lines = ["| " + " | ".join(cols) + " |",
@@ -69,67 +110,162 @@ def _tool_query_sales_db(sql: str) -> str:
         return f"SQL Error: {exc}"
 
 
+def _fetch_context_row(date: str) -> dict | None:
+    """
+    Retrieve a pre-analysed context row from context_intelligence for the given date.
+    Returns None if the table doesn't exist or the date has no row.
+    """
+    try:
+        with _db_connect() as conn:
+            cur = conn.execute(
+                """
+                SELECT is_holiday, holiday_name, holiday_type,
+                       temp_max_c, precipitation_mm, weather_condition,
+                       news_headlines, news_disruptors
+                FROM   context_intelligence
+                WHERE  date = ?
+                """,
+                (date,),
+            )
+            row = cur.fetchone()
+        if row is None:
+            return None
+        cols = [
+            "is_holiday", "holiday_name", "holiday_type",
+            "temp_max_c", "precipitation_mm", "weather_condition",
+            "news_headlines", "news_disruptors",
+        ]
+        return dict(zip(cols, row))
+    except Exception:
+        return None
+
+
 def _tool_get_weather_context(date: str) -> str:
-    """Fetch WeatherAPI historical data for Hyderabad on the given date."""
+    """
+    Return weather for Hyderabad on the given date.
+    Priority: context_intelligence DB row → WeatherAPI live call.
+    """
     try:
         date_obj = datetime.date.fromisoformat(date)
     except ValueError:
         return f"Invalid date: {date!r}. Use YYYY-MM-DD."
+
+    # ── DB-first lookup ──────────────────────────────────────────────────────
+    ctx = _fetch_context_row(date)
+    if ctx and ctx.get("weather_condition") and "Unavailable" not in (ctx["weather_condition"] or ""):
+        return (
+            f"Weather for Hyderabad on {date}: "
+            f"Avg temp={ctx.get('temp_max_c', 'N/A')}°C, "
+            f"Precipitation={ctx.get('precipitation_mm', 'N/A')}mm, "
+            f"Condition={ctx['weather_condition']}  [Source: context_intelligence DB]"
+        )
+
+    # ── Live API fallback ────────────────────────────────────────────────────
     w = get_weather_context(date_obj)
     return (
         f"Weather for Hyderabad on {date}: "
-        f"Avg temp={w.get('temp_max_c','N/A')}°C, "
-        f"Precipitation={w.get('precipitation_mm','N/A')}mm, "
-        f"Condition={w.get('weather_condition','N/A')}, "
-        f"Source={w.get('source','N/A')}"
-        + (f", API error={w.get('api_error_msg','')}" if w.get("api_error_code") else "")
+        f"Avg temp={w.get('temp_max_c', 'N/A')}°C, "
+        f"Precipitation={w.get('precipitation_mm', 'N/A')}mm, "
+        f"Condition={w.get('weather_condition', 'N/A')}, "
+        f"Source={w.get('source', 'N/A')}"
+        + (f", API error={w.get('api_error_msg', '')}" if w.get("api_error_code") else "")
     )
 
 
 def _tool_get_holiday_status(date: str) -> str:
-    """Check Telangana/National holiday status for a date."""
+    """
+    Check Telangana/National holiday status for a date.
+    Priority: context_intelligence DB row → local holidays library.
+    """
     try:
         date_obj = datetime.date.fromisoformat(date)
     except ValueError:
         return f"Invalid date: {date!r}. Use YYYY-MM-DD."
+
+    # ── DB-first lookup ──────────────────────────────────────────────────────
+    ctx = _fetch_context_row(date)
+    if ctx is not None:
+        if ctx.get("is_holiday"):
+            name = ctx.get("holiday_name") or "Holiday"
+            htype = ctx.get("holiday_type") or "Public"
+            return f"{date} is a {htype} holiday: {name}  [Source: context_intelligence DB]"
+        return f"{date} is a regular trading day (no public holiday in Telangana/India).  [Source: context_intelligence DB]"
+
+    # ── Local library fallback ───────────────────────────────────────────────
     h = get_holiday_info(date_obj)
     if h["is_holiday"]:
         return f"{date} is a {h['holiday_type']} holiday: {h['holiday_name']}"
     return f"{date} is a regular trading day (no public holiday in Telangana/India)."
 
 
-def _tool_get_combo_recommendations() -> str:
-    """Return top Power Combos from the latest basket_analysis.json."""
-    json_path = BASE / "database" / "basket_results.json"
-    if not json_path.exists():
-        return "No basket analysis data. Run scripts/basket_analysis.py first."
-    data   = json.loads(json_path.read_text(encoding="utf-8"))
-    combos = data.get("power_combos", [])[:5]
-    if not combos:
-        return "No power combos computed yet."
-    lines = ["Top Power Combo Recommendations (from Market Basket Analysis):"]
-    for i, c in enumerate(combos, 1):
-        lines.append(
-            f"  #{i} {c['item_a'][:28]} + {c['item_b'][:28]}  "
-            f"Lift={c['lift']:.1f}x  Co-purchased {c['co_count']}×  "
-            f"Bundle=₹{c['bundle_price']:.0f}  AOV lift +{c['aov_lift_pct']:.1f}%"
-        )
-    return "\n".join(lines)
-
-
 def _tool_get_news_context(date: str) -> str:
-    """Fetch Hyderabad/Telangana business headlines for a date."""
+    """
+    Return enriched market signals / disruptors for the given date.
+    Priority: context_intelligence.news_disruptors (LLM-analysed) → raw live headlines.
+    """
     try:
         date_obj = datetime.date.fromisoformat(date)
     except ValueError:
         return f"Invalid date: {date!r}. Use YYYY-MM-DD."
+
+    # ── DB-first: prefer pre-analysed LLM summary ────────────────────────────
+    ctx = _fetch_context_row(date)
+    if ctx:
+        disruptors = (ctx.get("news_disruptors") or "").strip()
+        headlines_json = ctx.get("news_headlines") or "[]"
+        try:
+            headlines = json.loads(headlines_json)
+        except (json.JSONDecodeError, TypeError):
+            headlines = []
+
+        if disruptors and "No headlines" not in disruptors and "skipped" not in disruptors.lower():
+            head_block = ""
+            if headlines:
+                head_block = "\n\nSource Headlines:\n" + "\n".join(
+                    f"  {i}. {h[:100]}" for i, h in enumerate(headlines[:6], 1)
+                )
+            return (
+                f"Market Intelligence for {date}  [Source: context_intelligence DB – LLM-analysed]\n\n"
+                f"{disruptors}"
+                f"{head_block}"
+            )
+
+        if headlines:
+            lines = [f"Headlines for {date}  [Source: context_intelligence DB – raw]:"]
+            for i, h in enumerate(headlines[:8], 1):
+                lines.append(f"  {i}. {h[:100]}")
+            return "\n".join(lines)
+
+    # ── Live API fallback ────────────────────────────────────────────────────
     headlines = get_news_headlines(date_obj)
     if not headlines:
         return "No headlines retrieved."
-    lines = [f"Headlines for {date}:"]
+    lines = [f"Headlines for {date}  [Source: live NewsAPI/RSS]:"]
     for i, h in enumerate(headlines[:8], 1):
         lines.append(f"  {i}. {h[:100]}")
     return "\n".join(lines)
+
+
+def _tool_get_combo_recommendations() -> str:
+    """Return top Power Combos from the latest basket_results.json."""
+    json_path = BASE / "database" / "basket_results.json"
+    if not json_path.exists():
+        return "No basket analysis data. Run scripts/basket_analysis.py first."
+    try:
+        data   = json.loads(json_path.read_text(encoding="utf-8"))
+        combos = data.get("power_combos", [])[:5]
+        if not combos:
+            return "No power combos computed yet."
+        lines = ["Top Power Combo Recommendations (from Market Basket Analysis):"]
+        for i, c in enumerate(combos, 1):
+            lines.append(
+                f"  #{i} {c['item_a'][:28]} + {c['item_b'][:28]}  "
+                f"Lift={c['lift']:.1f}x  Co-purchased {c['co_count']}×  "
+                f"Bundle=₹{c['bundle_price']:.0f}  AOV lift +{c['aov_lift_pct']:.1f}%"
+            )
+        return "\n".join(lines)
+    except Exception as exc:
+        return f"Combo load error: {exc}"
 
 
 def _tool_compute_live_basket(
@@ -142,10 +278,8 @@ def _tool_compute_live_basket(
     """
     Compute Market Basket Analysis live from fact_sales for any custom filter.
     Returns top co-purchased pairs with Lift, Confidence, quadrant labels,
-    and suggested bundle pricing.  Works for ANY outlet / date / category.
-    All filter args are optional strings; pass empty string to skip.
+    and suggested bundle pricing.  All filter args are optional strings.
     """
-    # ── Build WHERE clause ────────────────────────────────────────────────────
     clauses: list[str] = []
     params:  list      = []
 
@@ -165,7 +299,6 @@ def _tool_compute_live_basket(
 
     where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
 
-    # ── Pull item-level bills ─────────────────────────────────────────────────
     sql = f"""
         SELECT TRNNO AS bill_no, PRODUCT_NAME AS item_name,
                SUM(NET_AMT) AS rev,
@@ -175,20 +308,18 @@ def _tool_compute_live_basket(
         GROUP  BY TRNNO, PRODUCT_NAME
     """
     try:
-        conn = sqlite3.connect(str(DB_PATH))
-        rows = conn.execute(sql, params).fetchall()
-        conn.close()
+        with _db_connect() as conn:
+            rows = conn.execute(sql, params).fetchall()
     except Exception as exc:
         return f"Live basket DB error: {exc}"
 
     if not rows:
         return "No transactions matched the specified filters."
 
-    # ── Build basket dict + item stats ────────────────────────────────────────
-    baskets: dict[str, set]       = {}   # bill_no → {item_name, ...}
-    item_rev: dict[str, float]    = {}   # item → total revenue
-    item_qty: dict[str, float]    = {}   # item → total qty
-    items_in_bills: dict[str, int] = {}  # item → distinct bill count
+    baskets: dict[str, set]        = {}
+    item_rev: dict[str, float]     = {}
+    item_qty: dict[str, float]     = {}
+    items_in_bills: dict[str, int] = {}
 
     for bill_no, item, rev, qty in rows:
         baskets.setdefault(bill_no, set()).add(item)
@@ -199,21 +330,17 @@ def _tool_compute_live_basket(
         for item in bill_items:
             items_in_bills[item] = items_in_bills.get(item, 0) + 1
 
-    total_bills  = len(baskets)
-    multi_bills  = sum(1 for b in baskets.values() if len(b) > 1)
+    total_bills = len(baskets)
+    multi_bills = sum(1 for b in baskets.values() if len(b) > 1)
 
     if total_bills < 2:
         return "Not enough transactions to compute basket analysis."
 
-    # ── Co-occurrence + Lift ──────────────────────────────────────────────────
     from itertools import combinations
-
     pair_count: dict[tuple, int] = {}
     for bill_items in baskets.values():
-        sorted_items = sorted(bill_items)   # deterministic order
-        for a, b in combinations(sorted_items, 2):
-            key = (a, b)
-            pair_count[key] = pair_count.get(key, 0) + 1
+        for a, b in combinations(sorted(bill_items), 2):
+            pair_count[(a, b)] = pair_count.get((a, b), 0) + 1
 
     if not pair_count:
         return (
@@ -221,14 +348,10 @@ def _tool_compute_live_basket(
             "(basket analysis requires multi-item transactions)."
         )
 
-    # Compute support / confidence / lift for each pair
     pairs_scored: list[dict] = []
     for (a, b), co_cnt in pair_count.items():
-        # FILTER NOISE: Exclude dead items (e.g., 0 or 1 total sales) 
-        # to prevent infinite lift values for one-off anomalies.
         if item_qty.get(a, 0) < 2 or item_qty.get(b, 0) < 2:
             continue
-            
         sup_a  = items_in_bills.get(a, 1) / total_bills
         sup_b  = items_in_bills.get(b, 1) / total_bills
         sup_ab = co_cnt / total_bills
@@ -236,11 +359,8 @@ def _tool_compute_live_basket(
         lift   = conf / sup_b   if sup_b else 0
         avg_a  = item_rev.get(a, 0) / max(item_qty.get(a, 1), 1)
         avg_b  = item_rev.get(b, 0) / max(item_qty.get(b, 1), 1)
-        
-        # Prevent zero-pricing items from showing up as bundles
         if avg_a < 10 or avg_b < 10:
             continue
-            
         pairs_scored.append({
             "a": a, "b": b, "co": co_cnt,
             "lift": round(lift, 2),
@@ -250,28 +370,21 @@ def _tool_compute_live_basket(
             "avg_b": round(avg_b, 0),
         })
 
-    # Sort by lift desc, keep top_n
     pairs_scored.sort(key=lambda x: x["lift"], reverse=True)
     top_pairs = pairs_scored[:top_n]
 
-    # ── Menu Engineering quadrants (median split) ─────────────────────────────
     qtys  = sorted(item_qty.values())
     revs  = sorted(item_rev.values())
     med_qty = qtys[len(qtys) // 2] if qtys else 1
     med_rev = revs[len(revs) // 2] if revs else 1
 
     def _quad(item: str) -> str:
-        q = item_qty.get(item, 0)
-        r = item_rev.get(item, 0)
-        if q >= med_qty and r >= med_rev:
-            return "⭐ Star"
-        if q < med_qty and r >= med_rev:
-            return "🔮 Puzzle"
-        if q >= med_qty and r < med_rev:
-            return "🐴 Plowhorse"
+        q, r = item_qty.get(item, 0), item_rev.get(item, 0)
+        if q >= med_qty and r >= med_rev:  return "⭐ Star"
+        if q <  med_qty and r >= med_rev:  return "🔮 Puzzle"
+        if q >= med_qty and r <  med_rev:  return "🐴 Plowhorse"
         return "🐕 Dog"
 
-    # ── Format output ──────────────────────────────────────────────────────────
     filter_desc_parts = []
     if outlet_filter: filter_desc_parts.append(f"Outlet: {outlet_filter}")
     if date_from:     filter_desc_parts.append(f"From: {date_from}")
@@ -287,7 +400,7 @@ def _tool_compute_live_basket(
         f"  Top {len(top_pairs)} Co-purchased Pairs (by Lift):",
     ]
     for i, p in enumerate(top_pairs, 1):
-        qa, qb = _quad(p["a"]), _quad(p["b"])
+        qa, qb  = _quad(p["a"]), _quad(p["b"])
         bundle  = round((p["avg_a"] + p["avg_b"]) * 0.85)
         lines.append(
             f"  #{i}  {p['a'][:30]} ({qa})"
@@ -298,15 +411,14 @@ def _tool_compute_live_basket(
             f"  Support={p['support']:.1f}%  Confidence={p['conf']:.0f}%"
         )
         lines.append(
-            f"       Individual: \u20b9{p['avg_a']:.0f} + \u20b9{p['avg_b']:.0f}  "
-            f"\u2192  Bundle @ 15% off: \u20b9{bundle}"
+            f"       Individual: ₹{p['avg_a']:.0f} + ₹{p['avg_b']:.0f}  "
+            f"→  Bundle @ 15% off: ₹{bundle}"
         )
         lines.append("")
 
     return "\n".join(lines)
 
 
-# ── Simulator tool wrapper ─────────────────────────────────────────────────────
 def _tool_simulate_scenario(
     outlet:  str = "QAFFEINE HITECH CITY",
     date:    str = "",
@@ -340,17 +452,38 @@ TOOL_REGISTRY: dict[str, dict] = {
     },
     "get_weather_context": {
         "fn"         : _tool_get_weather_context,
-        "description": "Get WeatherAPI historical data for Hyderabad. Arg: date (YYYY-MM-DD).",
+        "description": (
+            "Get weather data for Hyderabad on a date. "
+            "Reads from the pre-enriched context_intelligence DB first; "
+            "falls back to WeatherAPI live call if absent. Arg: date (YYYY-MM-DD)."
+        ),
         "args"       : ["date"],
         "emoji"      : "🌦️",
-        "label"      : "Investigating Hyderabad weather patterns",
+        "label"      : "Retrieving Hyderabad weather context",
     },
     "get_holiday_status": {
         "fn"         : _tool_get_holiday_status,
-        "description": "Check if a date is a Telangana/National holiday. Arg: date (YYYY-MM-DD).",
+        "description": (
+            "Check if a date is a Telangana/National holiday. "
+            "Reads from context_intelligence DB first; falls back to local library. "
+            "Arg: date (YYYY-MM-DD)."
+        ),
         "args"       : ["date"],
         "emoji"      : "📅",
         "label"      : "Checking regional holiday calendar",
+    },
+    "get_news_context": {
+        "fn"         : _tool_get_news_context,
+        "description": (
+            "Get enriched market signals & disruptors for a date. "
+            "Returns the pre-analysed LLM market intelligence from context_intelligence DB "
+            "(includes sentiment, disruptors, and positive signals). "
+            "Falls back to raw live headlines only if no DB row exists. "
+            "Arg: date (YYYY-MM-DD)."
+        ),
+        "args"       : ["date"],
+        "emoji"      : "📰",
+        "label"      : "Scanning market intelligence signals",
     },
     "get_combo_recommendations": {
         "fn"         : _tool_get_combo_recommendations,
@@ -358,13 +491,6 @@ TOOL_REGISTRY: dict[str, dict] = {
         "args"       : [],
         "emoji"      : "🎯",
         "label"      : "Pulling Power Combo recommendations",
-    },
-    "get_news_context": {
-        "fn"         : _tool_get_news_context,
-        "description": "Fetch Hyderabad/Telangana business news headlines for a date. Arg: date (YYYY-MM-DD).",
-        "args"       : ["date"],
-        "emoji"      : "📰",
-        "label"      : "Scanning market news headlines",
     },
     "compute_live_basket": {
         "fn"         : _tool_compute_live_basket,
@@ -400,8 +526,9 @@ TOOL_REGISTRY: dict[str, dict] = {
     },
 }
 
+
 # ══════════════════════════════════════════════════════════════════════════════
-# SCHEMAS → tool descriptions embedded in planner prompt
+# PROMPTS
 # ══════════════════════════════════════════════════════════════════════════════
 
 DB_SCHEMA_BRIEF = """
@@ -451,15 +578,14 @@ CRITICAL SQL RULES:
   5. Use AI_TEST_INVOICEBILLREGISTER for daily aggregate totals. Use AI_TEST_TAXCHARGED_REPORT for menu item details. Use AI_TEST_ONLINEORDER for Delivery Prep time and cancellation queries.
 """.strip()
 
-JARVIS_SYSTEM_PROMPT = f"""
-You are Jarvis, the QAFFEINE Business Partner — an elite AI strategist embedded inside a premium coffee chain's analytics platform.
+COPILOT_SYSTEM_PROMPT = f"""
+You are QAFFEINE Copilot — an elite AI business strategist embedded inside QAFFEINE's analytics platform, a premium coffee chain.
 
 Personality:
-- You have the strategic depth of a McKinsey partner, the wit of Tony Stark's Jarvis, and the directness of a growth-stage founder.
+- You have the strategic depth of a McKinsey partner and the directness of a growth-stage founder.
 - You never say "I cannot answer this" unless all tools return errors.
 - You proactively cross-reference weather, holidays, commercial events, basket data, and sales trends.
-- You identify both operational disruptors (risks) and strategic market momentum (opportunities).
-- You present findings as senior-level business insights with specific numbers, not vague summaries.
+- You show findings as senior-level business insights with specific numbers, not vague summaries.
 
 Tools available (call by returning JSON):
 {json.dumps({k: v["description"] for k, v in TOOL_REGISTRY.items()}, indent=2)}
@@ -468,7 +594,7 @@ Sales DB Knowledge:
 {DB_SCHEMA_BRIEF}
 
 Routing Rules:
-- Revenue anomaly / drop question → query_sales_db (total + per-outlet) AND get_weather_context AND get_holiday_status
+- Revenue anomaly / drop question → query_sales_db (total + per-outlet) AND get_weather_context AND get_holiday_status AND get_news_context
 - Specific date question → weather + holiday + news for that date
 - Basket / affinity / 'what sells together' for a specific outlet or date → compute_live_basket (NOT get_combo_recommendations)
 - General bundle overview, no filter → get_combo_recommendations
@@ -481,10 +607,9 @@ Routing Rules:
   - Always compare the prediction against the sunny-day baseline
 
 Monthly/Seasonal Logic:
-- If asked about a month (e.g. 'March'), use SUBSTR(DT, 1, 7) = '2026-03'. 
+- If asked about a month (e.g. 'March'), use SUBSTR(DT, 1, 7) = '2026-03'.
 - January=01, February=02, March=03, April=04, May=05, June=06, July=07, August=08, September=09, October=10, November=11, December=12.
 - Current Dataset Year is 2026.
-
 """.strip()
 
 PLANNER_PROMPT_TMPL = """
@@ -510,8 +635,6 @@ Example for 'revenue on date X':
 Example for 'lowest sales in March':
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 7)='2026-03' GROUP BY date ORDER BY total_revenue ASC LIMIT 1"}}}}
 
-  {{"tool": "query_sales_db", "args": {{"sql": "SELECT ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 10)='2026-01-01'"}}}}
-
 Available tools: {tools}
 If no tools are needed, return: []
 """
@@ -529,45 +652,46 @@ SYNTHESIS_PROMPT_TMPL = """
 Synthesise the above tool results into a senior-level business response.
 - Use ONLY numbers and facts that appear in the tool results. Do NOT invent or approximate figures.
 - STRICT LOGIC: If weather says "no precipitation", do NOT invent "showers". Never contradict the tool data.
-- STRICT RELEVANCE: If news headlines are entirely unrelated to retail/footfall (e.g. hospital inaugurations), do NOT force a connection. State explicitly that there were no relevant local events.
+- STRICT RELEVANCE: If news / market intelligence is entirely unrelated to retail/footfall, say so explicitly.
 - Lead with the key metric explicit (e.g. total revenue vs week average).
 - Max 200 words. Prose first, then 2-3 action bullets max. No JSON in the response.
 - If a tool returned an error or empty result, say so rather than guessing.
 """
 
+
 # ══════════════════════════════════════════════════════════════════════════════
-# JARVIS AGENT
+# COPILOT AGENT
 # ══════════════════════════════════════════════════════════════════════════════
 
 @dataclass
 class ToolCall:
-    tool      : str
-    args      : dict
-    result    : str  = ""
-    success   : bool = True
-    emoji     : str  = "🔧"
-    label     : str  = ""
+    tool    : str
+    args    : dict
+    result  : str  = ""
+    success : bool = True
+    emoji   : str  = "🔧"
+    label   : str  = ""
 
 
 @dataclass
-class JarvisResult:
-    query         : str
-    tool_calls    : list[ToolCall] = field(default_factory=list)
-    response      : str            = ""
-    engine        : str            = "none"
-    model         : str            = "none"
-    error         : str            = ""
-    monologue     : list[str]      = field(default_factory=list)   # thought steps
+class CopilotResult:
+    query      : str
+    tool_calls : list[ToolCall] = field(default_factory=list)
+    response   : str            = ""
+    engine     : str            = "none"
+    model      : str            = "none"
+    error      : str            = ""
+    monologue  : list[str]      = field(default_factory=list)
 
 
-class JarvisAgent:
+class CopilotAgent:
     """
-    Multi-tool agentic loop.
+    Multi-tool agentic loop for QAFFEINE Copilot.
 
     Flow:
       1. plan()      — LLM outputs JSON tool-call array
       2. execute()   — tools run locally, results collected
-      3. synthesise()— LLM produces final response with all context
+      3. synthesise()— LLM produces final business response
     """
 
     def __init__(self, llm: LLMManager | None = None):
@@ -577,7 +701,7 @@ class JarvisAgent:
     def _plan(self, query: str, monologue: list[str]) -> list[ToolCall]:
         tool_names = list(TOOL_REGISTRY.keys())
         prompt = PLANNER_PROMPT_TMPL.format(
-            system=JARVIS_SYSTEM_PROMPT,
+            system=COPILOT_SYSTEM_PROMPT,
             query=query,
             tools=", ".join(tool_names),
         )
@@ -593,7 +717,6 @@ class JarvisAgent:
             if not isinstance(plan, list):
                 plan = []
         except (json.JSONDecodeError, ValueError):
-            # Try to extract JSON array from response
             m = re.search(r"\[.*\]", raw, re.DOTALL)
             plan = json.loads(m.group(0)) if m else []
 
@@ -613,7 +736,7 @@ class JarvisAgent:
         if calls:
             monologue.append(f"📋 Plan: {' → '.join(c.tool for c in calls)}")
         else:
-            monologue.append("📋 No tools needed — responding from memory.")
+            monologue.append("📋 No tools needed — responding from knowledge.")
 
         return calls
 
@@ -626,7 +749,7 @@ class JarvisAgent:
                 call.result  = fn(**call.args)
                 call.success = True
                 monologue.append(
-                    f"   ✓ {call.tool} → {call.result[:80]}{'…' if len(call.result)>80 else ''}"
+                    f"   ✓ {call.tool} → {call.result[:80]}{'…' if len(call.result) > 80 else ''}"
                 )
             except Exception as exc:
                 call.result  = f"Tool error: {exc}"
@@ -649,7 +772,7 @@ class JarvisAgent:
             tool_results_block = "No tools were called."
 
         prompt = SYNTHESIS_PROMPT_TMPL.format(
-            system=JARVIS_SYSTEM_PROMPT,
+            system=COPILOT_SYSTEM_PROMPT,
             query=query,
             tool_results=tool_results_block,
         )
@@ -658,49 +781,45 @@ class JarvisAgent:
         return result.text, result.engine, result.model
 
     # ── Public: investigate ───────────────────────────────────────────────────
-    def investigate(self, query: str) -> JarvisResult:
-        """Full agentic loop. Returns a JarvisResult with all intermediate steps."""
-        jr       = JarvisResult(query=query)
-        monologue = jr.monologue
+    def investigate(self, query: str) -> CopilotResult:
+        """Full agentic loop. Returns a CopilotResult with all intermediate steps."""
+        cr        = CopilotResult(query=query)
+        monologue = cr.monologue
 
         monologue.append(f'🔍 Received query: "{query[:80]}"')
 
         try:
-            # Plan
-            calls = self._plan(query, monologue)
-            jr.tool_calls = calls
+            calls       = self._plan(query, monologue)
+            cr.tool_calls = calls
 
-            # Cross-referencing step log
             if len(calls) > 1:
                 monologue.append(
                     f"🔗 Cross-referencing {len(calls)} data sources: "
                     + " · ".join(c.tool for c in calls)
                 )
 
-            # Execute
             self._execute(calls, monologue)
 
-            # Synthesise
             text, engine, model = self._synthesise(query, calls, monologue)
-            jr.response = text
-            jr.engine   = engine
-            jr.model    = model
+            cr.response = text
+            cr.engine   = engine
+            cr.model    = model
             monologue.append(f"✅ Response generated via {engine}/{model}")
 
         except Exception as exc:
-            jr.error = str(exc)
+            cr.error = str(exc)
             monologue.append(f"❌ Fatal error: {exc}")
 
-        return jr
+        return cr
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# GENERATE PROACTIVE BRIEF  (sidebar Intelligence Brief)
+# PROACTIVE INTELLIGENCE BRIEF  (sidebar signal panel)
 # ══════════════════════════════════════════════════════════════════════════════
 
 def generate_proactive_brief() -> dict:
     """
-    Autonomously computes and returns a dict with 3 top intelligence signals:
+    Autonomously computes and returns 3 top intelligence signals:
       1. revenue_anomaly  — date with highest Z-Score deviation
       2. top_power_combo  — #1 untapped bundle opportunity
       3. market_risk      — latest disruptor from context_intelligence
@@ -709,18 +828,18 @@ def generate_proactive_brief() -> dict:
 
     # ── Signal 1: Revenue Z-Score Anomaly ─────────────────────────────────────
     try:
-        conn = sqlite3.connect(str(DB_PATH))
-        rows = conn.execute(
-            "SELECT date, ROUND(SUM(net_revenue),2) FROM fact_sales GROUP BY date ORDER BY date"
-        ).fetchall()
-        conn.close()
+        with _db_connect() as conn:
+            rows = conn.execute(
+                "SELECT SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT),2) "
+                "FROM AI_TEST_INVOICEBILLREGISTER GROUP BY SUBSTR(DT, 1, 10) ORDER BY date"
+            ).fetchall()
 
         if rows:
             import statistics
-            dates  = [r[0] for r in rows]
-            revs   = [r[1] for r in rows]
-            mean_r = statistics.mean(revs)
-            stdev  = statistics.stdev(revs) if len(revs) > 1 else 1
+            dates    = [r[0] for r in rows]
+            revs     = [r[1] for r in rows]
+            mean_r   = statistics.mean(revs)
+            stdev    = statistics.stdev(revs) if len(revs) > 1 else 1
             z_scores = [(d, r, (r - mean_r) / stdev) for d, r in zip(dates, revs)]
             worst    = max(z_scores, key=lambda x: abs(x[2]))
             direction = "📉 Below" if worst[2] < 0 else "📈 Above"
@@ -742,7 +861,7 @@ def generate_proactive_brief() -> dict:
     try:
         json_path = BASE / "database" / "basket_results.json"
         if json_path.exists():
-            data = json.loads(json_path.read_text(encoding="utf-8"))
+            data   = json.loads(json_path.read_text(encoding="utf-8"))
             combos = data.get("power_combos", [])
             if combos:
                 c = combos[0]
@@ -768,31 +887,27 @@ def generate_proactive_brief() -> dict:
 
     # ── Signal 3: Latest Market Risk ──────────────────────────────────────────
     try:
-        conn = sqlite3.connect(str(DB_PATH))
-        row = conn.execute(
-            "SELECT date, holiday_name, weather_condition, news_disruptors "
-            "FROM context_intelligence "
-            "WHERE news_disruptors IS NOT NULL AND news_disruptors NOT LIKE 'No headlines%' "
-            "ORDER BY date DESC LIMIT 1"
-        ).fetchone()
-        conn.close()
+        with _db_connect() as conn:
+            row = conn.execute(
+                "SELECT date, holiday_name, weather_condition, news_disruptors "
+                "FROM context_intelligence "
+                "WHERE news_disruptors IS NOT NULL AND news_disruptors NOT LIKE 'No headlines%' "
+                "ORDER BY date DESC LIMIT 1"
+            ).fetchone()
 
         if row:
-            import re
             date_str, hol, weather, disruptors = row
-            text = disruptors or ""
-            # Strip standard LLM fluff intro ("Based on the news...")
-            text = re.sub(r'(?i)^.*?(?:identified|are):\s*', '', text, flags=re.DOTALL).strip()
-            # Flatten newlines and grab a solid chunk
+            text    = disruptors or ""
+            text    = re.sub(r'(?i)^.*?(?:identified|are):\s*', '', text, flags=re.DOTALL).strip()
             snippet = text.replace('\n', ' | ')[:140]
             hol_flag = f" · 🗓️ {hol}" if hol else ""
             wth_flag = f" · 🌤️ {weather}" if weather and "Unavailable" not in (weather or "") else ""
             brief["market_risk"] = {
-                "date"     : date_str,
-                "holiday"  : hol,
-                "weather"  : weather,
+                "date"      : date_str,
+                "holiday"   : hol,
+                "weather"   : weather,
                 "disruptors": disruptors,
-                "label"    : f"{date_str}{hol_flag}{wth_flag} — {snippet}{'…' if len(disruptors or '')>140 else ''}",
+                "label"     : f"{date_str}{hol_flag}{wth_flag} — {snippet}{'…' if len(disruptors or '') > 140 else ''}",
             }
         else:
             brief["market_risk"] = {"label": "No market context data yet — run universal_context.py."}
@@ -803,12 +918,12 @@ def generate_proactive_brief() -> dict:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# AI NARRATIVE BUILDER — "Jarvis" Diagnosis Engine
+# ANOMALY DIAGNOSIS NARRATIVE
 # ══════════════════════════════════════════════════════════════════════════════
 
 DIAGNOSIS_PROMPT_TMPL = """
-You are Jarvis, the QAFFEINE senior business strategist.  You are writing a
-diagnosis paragraph for an automated morning brief email.
+You are QAFFEINE Copilot — the platform's senior business strategist.
+You are writing a diagnosis paragraph for an automated morning brief email.
 
 ANOMALY DETECTED:
   Outlet    : {outlet}
@@ -826,15 +941,15 @@ CONTEXTUAL DATA (auto-fetched):
 TASK:
 Write exactly ONE diagnostic paragraph (3-5 sentences).
 - If revenue is BELOW baseline: State the revenue drop with numbers. Cross-reference weather, holiday, and news context to identify the most probable root cause(s).
-- If revenue is ABOVE baseline (Peak): Highlight the success. Identify the key drivers (e.g. festivals, positive news like 'cafe culture growth', sunny weather, or specific commercial events like Valentine's Day).
-- If no external factor explains the deviation clearly, suggest internal operational factors (positive or negative) worth investigating.
+- If revenue is ABOVE baseline (Peak): Highlight the success. Identify the key drivers (e.g. festivals, positive news, sunny weather, or commercial events like Valentine's Day).
+- If no external factor explains the deviation clearly, suggest internal operational factors worth investigating.
 - Use confident, executive-level language. Do NOT hedge or use "I think".
-- Do NOT use markdown, bullets, or headers \u2014 pure flowing prose.
+- Do NOT use markdown, bullets, or headers — pure flowing prose.
 """.strip()
 
 
 def generate_anomaly_diagnosis(
-    anomalies: list,   # list of AnomalyRecord (or dicts with same keys)
+    anomalies: list,
     llm: "LLMManager | None" = None,
 ) -> list[dict]:
     """
@@ -853,7 +968,7 @@ def generate_anomaly_diagnosis(
     Returns
     -------
     list[dict]
-        Each dict has: date, outlet_name, z_score, severity, diagnosis (str).
+        Each dict: date, outlet_name, z_score, severity, diagnosis (str).
     """
     if llm is None:
         llm = LLMManager()
@@ -861,55 +976,51 @@ def generate_anomaly_diagnosis(
     results = []
 
     for anomaly in anomalies:
-        # Normalise: accept both dataclass and dict
         a = anomaly if isinstance(anomaly, dict) else anomaly.to_dict()
 
         date_str    = a["date"]
         outlet_name = a["outlet_name"]
 
-        # ── Contextual fetching ──────────────────────────────────────────
-        try:
-            date_obj = datetime.date.fromisoformat(date_str)
-        except ValueError:
-            date_obj = datetime.date.today()
-
         weather_ctx = _tool_get_weather_context(date_str)
         holiday_ctx = _tool_get_holiday_status(date_str)
         news_ctx    = _tool_get_news_context(date_str)
 
-        # ── Build prompt ────────────────────────────────────────────────
         prompt = DIAGNOSIS_PROMPT_TMPL.format(
-            outlet         = outlet_name,
-            date           = date_str,
-            revenue        = a.get("revenue", 0),
-            rolling_mean   = a.get("rolling_mean", 0),
-            z_score        = a.get("z_score", 0),
-            pct_deviation  = a.get("pct_deviation", 0),
-            weather_ctx    = weather_ctx,
-            holiday_ctx    = holiday_ctx,
-            news_ctx       = news_ctx,
+            outlet        = outlet_name,
+            date          = date_str,
+            revenue       = a.get("revenue", 0),
+            rolling_mean  = a.get("rolling_mean", 0),
+            z_score       = a.get("z_score", 0),
+            pct_deviation = a.get("pct_deviation", 0),
+            weather_ctx   = weather_ctx,
+            holiday_ctx   = holiday_ctx,
+            news_ctx      = news_ctx,
         )
 
-        # ── Generate diagnosis ──────────────────────────────────────────
         try:
-            result = llm.generate(prompt)
+            result         = llm.generate(prompt)
             diagnosis_text = result.text.strip()
         except Exception as exc:
             diagnosis_text = (
                 f"Diagnosis unavailable: LLM error ({exc}). "
-                f"Revenue at {outlet_name} on {date_str} was ₹{a.get('revenue',0):,.0f} "
-                f"(Z={a.get('z_score',0):.2f}, {a.get('pct_deviation',0):+.1f}% below baseline)."
+                f"Revenue at {outlet_name} on {date_str} was ₹{a.get('revenue', 0):,.0f} "
+                f"(Z={a.get('z_score', 0):.2f}, {a.get('pct_deviation', 0):+.1f}% vs baseline)."
             )
 
         results.append({
-            "date"         : date_str,
-            "outlet_name"  : outlet_name,
-            "z_score"      : a.get("z_score", 0),
-            "severity"     : a.get("severity", "WARNING"),
-            "diagnosis"    : diagnosis_text,
-            "weather_ctx"  : weather_ctx,
-            "holiday_ctx"  : holiday_ctx,
-            "news_ctx"     : news_ctx,
+            "date"       : date_str,
+            "outlet_name": outlet_name,
+            "z_score"    : a.get("z_score", 0),
+            "severity"   : a.get("severity", "WARNING"),
+            "diagnosis"  : diagnosis_text,
+            "weather_ctx": weather_ctx,
+            "holiday_ctx": holiday_ctx,
+            "news_ctx"   : news_ctx,
         })
 
     return results
+
+
+# ── Backward-compat alias (do NOT import JarvisAgent in new code) ─────────────
+JarvisAgent  = CopilotAgent
+JarvisResult = CopilotResult
