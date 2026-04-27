@@ -24,3 +24,7 @@ database/context_engine_log.txt
 .ruff_cache/
 .DS_Store
 Thumbs.db
+
+database/AI_DATABASE.DB
+database/sales.db*
+
