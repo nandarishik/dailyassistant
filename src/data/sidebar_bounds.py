@@ -31,13 +31,13 @@ def load_outlet_date_bounds(base_dir: Path) -> OutletDateBounds:
     base = Path(base_dir)
     with sqlite_connection(base) as conn:
         cur = conn.execute(
-            "SELECT DISTINCT LOCATION_NAME AS outlet_name FROM AI_TEST_INVOICEBILLREGISTER "
-            "ORDER BY LOCATION_NAME;"
+            "SELECT DISTINCT ZONE AS outlet_name FROM VIEW_AI_SALES "
+            "ORDER BY ZONE;"
         )
         outlets = [r[0] for r in cur.fetchall() if r[0]]
         cur = conn.execute(
-            "SELECT SUBSTR(MIN(DT), 1, 10) AS mn, SUBSTR(MAX(DT), 1, 10) AS mx "
-            "FROM AI_TEST_INVOICEBILLREGISTER;"
+            "SELECT SUBSTR(MIN(INVOICE_DATE), 1, 10) AS mn, SUBSTR(MAX(INVOICE_DATE), 1, 10) AS mx "
+            "FROM VIEW_AI_SALES;"
         )
         row = cur.fetchone()
     mn, mx = (row[0], row[1]) if row else (None, None)

@@ -227,7 +227,7 @@ def _tool_get_combo_recommendations() -> str:
         return f"Combo load error: {exc}"
 
 
-def _tool_compute_live_basket(
+def _tool_analyze_product_mix(
     outlet_filter: str = "",
     date_from:     str = "",
     date_to:       str = "",
@@ -243,28 +243,28 @@ def _tool_compute_live_basket(
     params:  list      = []
 
     if outlet_filter.strip():
-        clauses.append("LOCATION_NAME = ?")
+        clauses.append("ZONE = ?")
         params.append(outlet_filter.strip())
     if date_from.strip():
-        clauses.append("SUBSTR(DT, 1, 10) >= ?")
+        clauses.append("SUBSTR(INVOICE_DATE, 1, 10) >= ?")
         params.append(date_from.strip())
     if date_to.strip():
-        clauses.append("SUBSTR(DT, 1, 10) <= ?")
+        clauses.append("SUBSTR(INVOICE_DATE, 1, 10) <= ?")
         params.append(date_to.strip())
     if group_filter.strip():
-        clauses.append("(GROUP_NAME LIKE ? OR PRODUCT_NAME LIKE ?)")
+        clauses.append("(PRODUCT_CLASS LIKE ? OR PRODUCT LIKE ?)")
         like = f"%{group_filter.strip()}%"
         params.extend([like, like])
 
     where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
 
     sql = f"""
-        SELECT TRNNO AS bill_no, PRODUCT_NAME AS item_name,
+        SELECT INVOICE_NO AS bill_no, PRODUCT AS item_name,
                SUM(NET_AMT) AS rev,
-               SUM(QTY)     AS qty
-        FROM   AI_TEST_TAXCHARGED_REPORT
+               SUM(QTY_PACKS) AS qty
+        FROM   VIEW_AI_SALES
         {where}
-        GROUP  BY TRNNO, PRODUCT_NAME
+        GROUP  BY INVOICE_NO, PRODUCT
     """
     try:
         with sqlite_connection(BASE) as conn:
@@ -404,26 +404,15 @@ def _tool_simulate_scenario(
 TOOL_REGISTRY: dict[str, dict] = {
     "query_sales_db": {
         "fn"         : _tool_query_sales_db,
-        "description": "Run a SQLite SELECT on AI_DATABASE.DB. Arg: sql (string).",
+        "description": "Run a SQLite SELECT on the DMS sales database. Arg: sql (string).",
         "args"       : ["sql"],
         "emoji"      : "🗄️",
         "label"      : "Querying sales database",
     },
-    "get_weather_context": {
-        "fn"         : _tool_get_weather_context,
-        "description": (
-            "Get weather data for Hyderabad on a date. "
-            "Reads from the pre-enriched context_intelligence DB first; "
-            "falls back to WeatherAPI live call if absent. Arg: date (YYYY-MM-DD)."
-        ),
-        "args"       : ["date"],
-        "emoji"      : "🌦️",
-        "label"      : "Retrieving Hyderabad weather context",
-    },
     "get_holiday_status": {
         "fn"         : _tool_get_holiday_status,
         "description": (
-            "Check if a date is a Telangana/National holiday. "
+            "Check if a date is a India National/State holiday. "
             "Reads from context_intelligence DB first; falls back to local library. "
             "Arg: date (YYYY-MM-DD)."
         ),
@@ -444,44 +433,21 @@ TOOL_REGISTRY: dict[str, dict] = {
         "emoji"      : "📰",
         "label"      : "Scanning market intelligence signals",
     },
-    "get_combo_recommendations": {
-        "fn"         : _tool_get_combo_recommendations,
-        "description": "Return top Power Combo bundle recommendations. No args needed.",
-        "args"       : [],
-        "emoji"      : "🎯",
-        "label"      : "Pulling Power Combo recommendations",
-    },
-    "compute_live_basket": {
-        "fn"         : _tool_compute_live_basket,
+    "analyze_product_mix": {
+        "fn"         : _tool_analyze_product_mix,
         "description": (
-            "Compute Market Basket Analysis live from the DB for a custom scope. "
+            "Compute Product Mix and Cross-sell Analysis live from the DB for a custom scope. "
             "Args (all optional strings/int): "
-            "outlet_filter (e.g. 'QAFFEINE HITECH CITY'), "
+            "outlet_filter (e.g. 'East Zone'), "
             "date_from (YYYY-MM-DD), date_to (YYYY-MM-DD), "
-            "group_filter (e.g. 'COFFEE', 'SANDWICH'), "
+            "group_filter (e.g. 'Hair Oil', 'Toothpowder'), "
             "top_n (int, default 8). "
-            "Returns live co-purchase pairs with Lift, Confidence, quadrant labels "
-            "and bundle pricing. Use this instead of get_combo_recommendations "
-            "whenever the user asks about a specific outlet, date, or product category."
+            "Returns live co-purchase pairs with Lift, Confidence, and quadrant labels. "
+            "Use this whenever the user asks about product bundles, mix, or what sells together."
         ),
         "args"       : ["outlet_filter", "date_from", "date_to", "group_filter", "top_n"],
         "emoji"      : "🧮",
-        "label"      : "Computing live basket analysis",
-    },
-    "simulate_scenario": {
-        "fn"         : _tool_simulate_scenario,
-        "description": (
-            "Predict revenue for a hypothetical weather scenario using the ML forecaster. "
-            "Args: outlet (outlet name, e.g. 'QAFFEINE HITECH CITY'), "
-            "date (YYYY-MM-DD), rain_mm (string number, e.g. '15'), "
-            "temp_c (string number, e.g. '24'). "
-            "Returns predicted revenue vs sunny-day baseline with % delta. "
-            "Use this for any 'what if', 'how will', 'predict', 'forecast', "
-            "'simulate', 'thunderstorm', 'rain impact' questions."
-        ),
-        "args"       : ["outlet", "date", "rain_mm", "temp_c"],
-        "emoji"      : "🔮",
-        "label"      : "Running revenue simulation",
+        "label"      : "Computing product mix analysis",
     },
 }
 
@@ -491,54 +457,71 @@ TOOL_REGISTRY: dict[str, dict] = {
 # ══════════════════════════════════════════════════════════════════════════════
 
 DB_SCHEMA_BRIEF = """
-SQLite database: AI_DATABASE.DB
+SQLite database: AI_DMS_database.db
 
-TABLE: AI_TEST_TAXCHARGED_REPORT (item-level POS transactions. Every bill line item)
-   DT                     DATETIME      (format: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS)
-   LOCATION_NAME          VARCHAR(100)  (e.g. 'CAKE NATION BASERA', 'TANSEN RESTAURANT', 'GUFAA')
-   BRAND_NAME             VARCHAR(100)
-   PRODUCT_NAME           VARCHAR(100)  (menu item name)
-   NET_AMT                NUMERIC       (net sale amount in INR for this line. MUST SUM())
-   QTY                    NUMERIC       (units sold)
-   ORDERTYPE_NAME         VARCHAR(100)  ('Dine-In/Eat-In', 'Delivery', etc.)
-   TRNNO                  VARCHAR(25)   (unique bill identifier)
-   GROUP_NAME             VARCHAR(100)  (menu category group)
-   SPLCATEGORY            VARCHAR(100)  (special category, e.g. 'BEVERAGES', 'FOOD')
-   BASICRATE              NUMERIC       (base price per unit)
-   CGSTAMT                NUMERIC       (CGST tax amount)
-   SGSTAMT                NUMERIC       (SGST tax amount)
-   GSTAMT_TOTAL           NUMERIC       (total GST)
+TABLE: VIEW_AI_SALES (FMCG distributor secondary sales — 1 row per invoice line item / SKU)
 
-TABLE: AI_TEST_INVOICEBILLREGISTER (Top-level invoice billing data. 1 row per bill/customer)
-   DT                 DATETIME
-   LOCATION_NAME      VARCHAR(50)
-   TRNNO              VARCHAR(25)     (join with AI_TEST_TAXCHARGED_REPORT)
-   NETAMT             NUMERIC         (Use this for total daily/outlet revenue!)
-   ORDER_TYPE         VARCHAR(100)
-   DISCOUNT           NUMERIC
-   CASH_AMT           NUMERIC
-   CARD_AMT           NUMERIC
-   PAYMENT_UPI        NUMERIC
-   PAX                NUMERIC
+  -- Geography & Territory --
+  STATE              VARCHAR(50)    (e.g. 'UTTAR PRADESH', 'RAJASTHAN', 'BIHAR')
+  ZONE               VARCHAR(50)    (e.g. 'East Zone', 'Central Zone', 'North Zone 2', 'West Zone', 'North Zone 1', 'South Zone')
+  TOWN               VARCHAR(50)    (e.g. 'Jaipur', 'Badnawar', 'Patna')
 
-TABLE: AI_TEST_ONLINEORDER (Delivery lifecycle data)
-   ORDERTIME          DATETIME
-   RIDER_NAME         VARCHAR(250)
-   ISORDERAPPROVED    NUMERIC(1)
-   CANCEL_REMARK      VARCHAR(500)
-   ORDERDELIVERED_DT  DATETIME
-   FOODPREPTIME       INTEGER
+  -- Sales Hierarchy --
+  ZONAL_HEAD         VARCHAR(50)    (top-level sales leader)
+  SALES_MANAGER      VARCHAR(50)    (regional sales manager)
+  AREA_SALES_MANAGER VARCHAR(50)    (area-level manager)
+  SALES_OFFICER      VARCHAR(50)    (field-level officer)
+
+  -- Distribution --
+  STOCKIEST          VARCHAR(100)   (Super Stockist / distributor name)
+  STOCKIEST_CODE     NUMERIC(10)
+  ISR                VARCHAR(100)   (In-Store Representative name)
+  ISR_CATEGORY       VARCHAR(25)    ('REGULAR ISR', 'VSR', 'HIPO ISR', etc.)
+  BEAT               VARCHAR(50)    (sales route)
+  CHANNEL            VARCHAR(50)    (always 'Sub Stockiest' in this dataset)
+
+  -- Customer --
+  CUSTOMER_CODE      NUMERIC(10)    (unique retailer ID)
+  CUSTOMER           VARCHAR(100)   (retailer/sub-stockist name)
+  CUSTOMER_CATEGORY  VARCHAR(25)    ('Base Sub', 'Exclusive Van', 'Counter Sub')
+
+  -- Product --
+  PRODUCT            VARCHAR(100)   (full SKU name, e.g. 'ADHO 45ML+10% EXTRA...')
+  PRODUCT_CLASS      VARCHAR(25)    (top category: 'Hair Oil', 'CNO', 'CNO Gold Blue', 'Toothpowder', etc.)
+  PRODUCT_SUBCLASS   VARCHAR(25)    (sub-category: 'Light hair oil', 'Amla Oil', 'CNO', etc.)
+  CODE               VARCHAR(25)    (brand short-code: 'ADHO', 'AHO', 'CNO', 'BTP', 'BGJ', etc.)
+  PRODUCT_TYPE       VARCHAR(25)    ('OFFER' or 'Plain')
+  PRODUCT_MRP        NUMERIC(10,2)  (Maximum Retail Price)
+  MSS_TAGGING        VARCHAR(25)    ('MustSell' or NULL)
+
+  -- Invoice --
+  INVOICE_NO         VARCHAR(25)    (unique invoice identifier — use COUNT(DISTINCT INVOICE_NO) for invoice counts)
+  INVOICE_DATE       DATETIME       (format: YYYY-MM-DD)
+
+  -- Financials (per line item) --
+  QTY_CASES          NUMERIC(10,2)  (quantity in cases)
+  QTY_PACKS          NUMERIC(10,2)  (quantity in individual packs)
+  GROSS_AMT          NUMERIC(12,2)  (gross amount before discounts)
+  TAXABLE_AMT        NUMERIC(12,2)  (taxable amount after discounts)
+  NET_AMT            NUMERIC(12,2)  (** ALWAYS use SUM(NET_AMT) for revenue totals! **)
+  SCHEME_AMT         NUMERIC(10,2)  (scheme/promotional discount amount)
+  CD_AMT             NUMERIC(10,2)  (cash discount amount)
+  TOTAL_VOLUME_BILLED_LTR NUMERIC(14,2) (volume billed in litres)
 
 CRITICAL SQL RULES:
-  1. ALWAYS use SUM(NETAMT) when querying AI_TEST_INVOICEBILLREGISTER for revenue totals.
-  2. ALWAYS use dates in SUBSTR(DT, 1, 10) to format strings safely when grouping.
-  3. For 'revenue on date X' → show ALL outlets.
-  4. For anomaly/comparisons, dynamically run averages across the previous 7 days (do NOT hardcode dates).
-  5. Use AI_TEST_INVOICEBILLREGISTER for daily aggregate totals. Use AI_TEST_TAXCHARGED_REPORT for menu item details. Use AI_TEST_ONLINEORDER for Delivery Prep time and cancellation queries.
+  1. ALWAYS use SUM(NET_AMT) for revenue totals. Never use bare NET_AMT as a total.
+  2. ALWAYS use SUBSTR(INVOICE_DATE, 1, 10) for date grouping/filtering.
+  3. For 'revenue on date X' → show breakdown by STATE or ZONE.
+  4. Use COUNT(DISTINCT INVOICE_NO) for invoice/order counts.
+  5. VIEW_AI_SALES is the ONLY data table. There are no other tables.
+  6. For territory analysis: GROUP BY STATE, ZONE, TOWN, or AREA_SALES_MANAGER.
+  7. For product analysis: GROUP BY PRODUCT_CLASS, CODE, or PRODUCT.
+  8. For distribution analysis: GROUP BY STOCKIEST, ISR, or CUSTOMER.
+  9. Current dataset covers January 2026 only.
 """.strip()
 
 COPILOT_SYSTEM_PROMPT = f"""
-You are QAFFEINE Copilot — an elite AI business strategist embedded inside QAFFEINE's analytics platform, a premium coffee chain.
+You are the DMS Copilot — an elite AI business strategist for an FMCG distributor management system, analyzing secondary sales data for Bajaj Consumer Care (personal care products: hair oils, coconut oils, etc.).
 
 Priority order (when instructions conflict, follow the lower number first):
 1) **Numerical truth** — VERIFIED_NUMERIC_FACTS, PREMISE_CHECK, and tool tables override tone and user wording.
@@ -547,13 +530,13 @@ Priority order (when instructions conflict, follow the lower number first):
 4) **Personality** — strategic, direct voice only after (1)–(3) are satisfied.
 
 Non-negotiables:
-- **No causal leaps:** weather, holidays, and news are **context**, not proven causes of revenue unless a tool explicitly links them.
+- **No causal leaps:** holidays and news are **context**, not proven causes of revenue unless a tool explicitly links them.
 - **Comparisons need two numbers:** do not say "below/above average" or "dropped vs" unless both figures appear in tool results or VERIFIED_NUMERIC_FACTS.
 
 Personality:
 - You have the strategic depth of a McKinsey partner and the directness of a growth-stage founder.
 - Prefer saying what the data **does** and **does not** show over bluffing when tools are incomplete.
-- You proactively cross-reference weather, holidays, commercial events, basket data, and sales trends **when relevant**.
+- You proactively cross-reference holidays, commercial events, product mix data, and sales trends **when relevant**.
 - You show findings as senior-level business insights with specific numbers, not vague summaries.
 
 Tools available (call by returning JSON):
@@ -563,20 +546,13 @@ Sales DB Knowledge:
 {DB_SCHEMA_BRIEF}
 
 Routing Rules:
-- Revenue anomaly / drop question → query_sales_db (total + per-outlet) AND get_weather_context AND get_holiday_status AND get_news_context
-- Specific date question → weather + holiday + news for that date
-- Basket / affinity / 'what sells together' for a specific outlet or date → compute_live_basket (NOT get_combo_recommendations)
-- General bundle overview, no filter → get_combo_recommendations
-- compute_live_basket + query_sales_db can be combined freely in the same turn
-- Novel open-ended basket question (e.g. 'what food pairs with coffee?') → compute_live_basket with group_filter set
-- ANY hypothetical / what-if / predict / forecast / 'how will X affect' / 'what happens if' → simulate_scenario
-  - Translate conditions like 'thunderstorm' → rain_mm=15, temp_c=22
-  - Translate 'light rain' → rain_mm=5, 'heavy rain' → rain_mm=25
-  - Translate 'heatwave' → temp_c=42, rain_mm=0
-  - Always compare the prediction against the sunny-day baseline
+- Revenue anomaly / drop question → query_sales_db (total + per-zone) AND get_holiday_status AND get_news_context
+- Specific date question → holiday + news for that date
+- Basket / affinity / 'what sells together' for a specific zone or date → analyze_product_mix
+- analyze_product_mix + query_sales_db can be combined freely in the same turn
 
 Monthly/Seasonal Logic:
-- If asked about a month (e.g. 'March'), use SUBSTR(DT, 1, 7) = '2026-03'.
+- If asked about a month (e.g. 'March'), use SUBSTR(INVOICE_DATE, 1, 7) = '2026-03'.
 - January=01, February=02, March=03, April=04, May=05, June=06, July=07, August=08, September=09, October=10, November=11, December=12.
 - Current Dataset Year is 2026.
 """.strip()
@@ -591,43 +567,42 @@ PLANNER_PROMPT_TMPL = """
 Decide which tools to call. Return ONLY valid JSON array — no prose, no explanation, no markdown fences.
 
 SQL WRITING RULES (read before writing any SQL):
-- ALWAYS wrap revenue with SUM(): e.g. SUM(NETAMT) — never use bare columns as a total.
-- Use IFNULL(SUM(NETAMT), 0) to prevent empty crashes.
-- Never use 'date' column, use SUBSTR(DT, 1, 10).
-- SQLITE DIALECT: SQLite does NOT have `DAYOFWEEK()`. Use `STRFTIME('%w', DT)` (0=Sunday, 6=Saturday).
-- Use `COUNT(DISTINCT TRNNO)` for unique order/bill counts (never count bare rows).
+- ALWAYS wrap revenue with SUM(): e.g. SUM(NET_AMT) — never use bare columns as a total.
+- Use IFNULL(SUM(NET_AMT), 0) to prevent empty crashes.
+- Never use 'date' column, use SUBSTR(INVOICE_DATE, 1, 10).
+- SQLITE DIALECT: SQLite does NOT have `DAYOFWEEK()`. Use `STRFTIME('%w', INVOICE_DATE)` (0=Sunday, 6=Saturday).
+- Use `COUNT(DISTINCT INVOICE_NO)` for unique invoice counts (never count bare rows).
 - Always use `AVG(...)` in SQL for averages. DO NOT do math in your head later.
 - `context_intelligence` is NOT a database table. Use the `get_holiday_status` tool for holidays.
-- IMPORTANT: If asking about a specific outlet, make sure the week average query HAS the same `WHERE LOCATION_NAME='...'` filter inside the subquery so you don't compare a single outlet to the entire chain's total!
-- Use AI_TEST_INVOICEBILLREGISTER for daily/outlet totals, AI_TEST_TAXCHARGED_REPORT for item-level detail.
+- IMPORTANT: If asking about a specific zone, make sure the week average query HAS the same `WHERE ZONE='...'` filter inside the subquery so you don't compare a single zone to the entire company total!
+- VIEW_AI_SALES is the ONLY table. Use it for all queries.
 - Always alias with AS, always name columns explicitly.
 
-Example for 'revenue on date X' (per-outlet breakdown):
-  {{"tool": "query_sales_db", "args": {{"sql": "SELECT LOCATION_NAME, ROUND(SUM(NETAMT),0) AS revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 10)='2026-01-01' GROUP BY LOCATION_NAME ORDER BY revenue DESC"}}}}
+Example for 'revenue on date X' (by state):
+  {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
 
-Example for 'total chain revenue on date X' (single scalar — use when user asks total / all outlets / chain sum):
-  {{"tool": "query_sales_db", "args": {{"sql": "SELECT ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 10)='2026-02-14'"}}}}
+Example for 'total company revenue on date X' (single scalar — use when user asks total / all zones / company sum):
+  {{"tool": "query_sales_db", "args": {{"sql": "SELECT ROUND(SUM(NET_AMT),0) AS total_revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-02-14'"}}}}
 
 Example for 'lowest sales in March':
-  {{"tool": "query_sales_db", "args": {{"sql": "SELECT SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 7)='2026-03' GROUP BY date ORDER BY total_revenue ASC LIMIT 1"}}}}
+  {{"tool": "query_sales_db", "args": {{"sql": "SELECT SUBSTR(INVOICE_DATE, 1, 10) AS date, ROUND(SUM(NET_AMT),0) AS total_revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 7)='2026-03' GROUP BY date ORDER BY total_revenue ASC LIMIT 1"}}}}
 
 - IMPORTANT: To calculate averages of totals (e.g. average daily sales per day-of-week), you MUST use a CTE or Subquery to aggregate by day first, then calculate the average in the outer query (never nest AVG(SUM(...))).
 
 Example for 'average daily sales per day of week':
-  {{"tool": "query_sales_db", "args": {{"sql": "WITH DailyTotal AS (SELECT SUBSTR(DT, 1, 10) AS date_only, SUM(NETAMT) AS total FROM AI_TEST_INVOICEBILLREGISTER GROUP BY date_only) SELECT CASE STRFTIME('%w', date_only) WHEN '0' THEN 'Sunday' WHEN '1' THEN 'Monday' WHEN '2' THEN 'Tuesday' WHEN '3' THEN 'Wednesday' WHEN '4' THEN 'Thursday' WHEN '5' THEN 'Friday' WHEN '6' THEN 'Saturday' END AS day_of_week, ROUND(AVG(total),0) AS avg_daily_revenue FROM DailyTotal GROUP BY day_of_week ORDER BY avg_daily_revenue DESC"}}}}
+  {{"tool": "query_sales_db", "args": {{"sql": "WITH DailyTotal AS (SELECT SUBSTR(INVOICE_DATE, 1, 10) AS date_only, SUM(NET_AMT) AS total FROM VIEW_AI_SALES GROUP BY date_only) SELECT CASE STRFTIME('%w', date_only) WHEN '0' THEN 'Sunday' WHEN '1' THEN 'Monday' WHEN '2' THEN 'Tuesday' WHEN '3' THEN 'Wednesday' WHEN '4' THEN 'Thursday' WHEN '5' THEN 'Friday' WHEN '6' THEN 'Saturday' END AS day_of_week, ROUND(AVG(total),0) AS avg_daily_revenue FROM DailyTotal GROUP BY day_of_week ORDER BY avg_daily_revenue DESC"}}}}
 
-Example for 'top selling item per outlet':
-  {{"tool": "query_sales_db", "args": {{"sql": "WITH Ranked AS (SELECT LOCATION_NAME, PRODUCT_NAME, SUM(NET_AMT) AS revenue, ROW_NUMBER() OVER(PARTITION BY LOCATION_NAME ORDER BY SUM(NET_AMT) DESC) as rn FROM AI_TEST_TAXCHARGED_REPORT GROUP BY LOCATION_NAME, PRODUCT_NAME) SELECT LOCATION_NAME, PRODUCT_NAME, ROUND(revenue, 0) AS revenue FROM Ranked WHERE rn = 1 ORDER BY revenue DESC"}}}}
+Example for 'top selling item per zone':
+  {{"tool": "query_sales_db", "args": {{"sql": "WITH Ranked AS (SELECT ZONE, PRODUCT, SUM(NET_AMT) AS revenue, ROW_NUMBER() OVER(PARTITION BY ZONE ORDER BY SUM(NET_AMT) DESC) as rn FROM VIEW_AI_SALES GROUP BY ZONE, PRODUCT) SELECT ZONE, PRODUCT, ROUND(revenue, 0) AS revenue FROM Ranked WHERE rn = 1 ORDER BY revenue DESC"}}}}
 
 **Comparison rule —** user implies a **drop / decline / worst day** and the query contains **one** ISO date (YYYY-MM-DD):
-- Include **at least two** `query_sales_db` steps: revenue **for that date** (chain or per-outlet) **and** a **baseline across other days** (e.g. `GROUP BY SUBSTR(DT,1,10)` … `ORDER BY total_revenue DESC LIMIT 6`, or a trailing 7-day average for the same outlet filter).
-- Add `get_weather_context`, `get_holiday_status`, and optionally `get_news_context` for that date.
+- Include **at least two** `query_sales_db` steps: revenue **for that date** (company or per-zone) **and** a **baseline across other days** (e.g. `GROUP BY SUBSTR(INVOICE_DATE,1,10)` … `ORDER BY total_revenue DESC LIMIT 6`, or a trailing 7-day average for the same zone filter).
+- Add `get_holiday_status`, and optionally `get_news_context` for that date.
 
 Example JSON for "why revenue dropped on 2026-01-01" (shape only — adjust SQL to the schema):
   [
-    {{"tool": "query_sales_db", "args": {{"sql": "SELECT ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 10)='2026-01-01'"}}}},
-    {{"tool": "query_sales_db", "args": {{"sql": "SELECT SUBSTR(DT, 1, 10) AS day, ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER GROUP BY day ORDER BY total_revenue DESC LIMIT 6"}}}},
-    {{"tool": "get_weather_context", "args": {{"date": "2026-01-01"}}}},
+    {{"tool": "query_sales_db", "args": {{"sql": "SELECT ROUND(SUM(NET_AMT),0) AS total_revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01'"}}}},
+    {{"tool": "query_sales_db", "args": {{"sql": "SELECT SUBSTR(INVOICE_DATE, 1, 10) AS day, ROUND(SUM(NET_AMT),0) AS total_revenue FROM VIEW_AI_SALES GROUP BY day ORDER BY total_revenue DESC LIMIT 6"}}}},
     {{"tool": "get_holiday_status", "args": {{"date": "2026-01-01"}}}}
   ]
 
@@ -650,22 +625,22 @@ SYNTHESIS_PROMPT_TMPL = """
 {strict_mode_addon}
 
 === YOUR TASK ===
-You are a Senior Business Analyst talking directly to the Owner of QAFFEINE. 
+You are a Senior Business Analyst talking to the Regional Sales Head of Bajaj Consumer Care.
 
 STRICT RULES:
 1. NO TECHNICAL JARGON: Never mention "tools", "database", "data scope", "sql", "results", or "visibility". 
-2. BE DIRECT: Answer the question as if you are the manager of the store.
-   - Good: "We don't sell pizzas, so there were no sales for that."
-   - Bad: "Our data scope doesn't include pizzas..."
-3. WEAVE CONTEXT: If tools provide weather, news, or holidays, ALWAYS weave them into your answer. Even if the weather was just 'Sunny', mention it as a contributing factor (e.g., 'Thanks to the sunny weather and Valentine's Day celebrations...').
+2. BE DIRECT: Answer the question as if you are the manager of the territory.
+   - Good: "Hair Dye had zero net revenue this month — only 2 trial invoices were raised."
+   - Bad: "Our data scope doesn't include Hair Dye..."
+3. WEAVE CONTEXT: If tools provide news or holidays, ALWAYS weave them into your answer.
 4. PRESERVE TABLES: If the owner asks for a ranking or list, show the table.
 5. CONCISE: Be brief, but ALWAYS complete your thought and include the actual numbers requested.
 
 Example:
-Owner: "How many pizzas today?"
-You: "We don't sell pizzas, so none were sold."
+Sales Head: "How is Toothpowder performing?"
+You: "Bajaj Tooth Powder contributed ₹4.85L this month — 340 transactions across 14 states, representing just 0.14% of total secondary sales."
 
-Keep it crisp, professional, and owner-focused.
+Keep it crisp, professional, and business-focused.
 """
 
 
@@ -723,10 +698,10 @@ def _augment_plan_for_decline_single_date(query: str, calls: list[ToolCall]) -> 
     lit = "(" + ",".join("'" + str(o).replace("'", "''") + "'" for o in outlets) + ")"
     lo, hi = bounds.min_date.isoformat(), bounds.max_date.isoformat()
     sql = (
-        "SELECT SUBSTR(DT, 1, 10) AS day, IFNULL(ROUND(SUM(NETAMT), 0), 0) AS total_revenue "
-        "FROM AI_TEST_INVOICEBILLREGISTER WHERE LOCATION_NAME IN "
+        "SELECT SUBSTR(INVOICE_DATE, 1, 10) AS day, IFNULL(ROUND(SUM(NET_AMT), 0), 0) AS total_revenue "
+        "FROM VIEW_AI_SALES WHERE ZONE IN "
         + lit
-        + f" AND SUBSTR(DT, 1, 10) BETWEEN '{lo}' AND '{hi}' "
+        + f" AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN '{lo}' AND '{hi}' "
         "GROUP BY 1 ORDER BY total_revenue DESC LIMIT 6"
     )
     spec = TOOL_REGISTRY["query_sales_db"]

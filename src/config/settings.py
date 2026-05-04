@@ -11,7 +11,7 @@ class AppSettings(BaseSettings):
 
     model_config = SettingsConfigDict(extra="ignore", env_file=None)
 
-    app_db_path: str = "database/AI_DATABASE.DB"
+    app_db_path: str = "database/AI_DMS_database.db"
     # Mark II D2: try intent → template SQL before LLM planner (rollback: false).
     use_guarded_sql_pipeline: bool = False
     # Mark II D3: route Copilot through src.agents.copilot_engine (rollback: false).

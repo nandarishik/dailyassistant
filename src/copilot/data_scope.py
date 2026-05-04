@@ -39,7 +39,7 @@ def build_data_scope(
     try:
         with sqlite_connection(base_dir) as conn:
             row = conn.execute(
-                "SELECT SUBSTR(MAX(DT), 1, 10) FROM AI_TEST_INVOICEBILLREGISTER"
+                "SELECT SUBSTR(MAX(INVOICE_DATE), 1, 10) FROM VIEW_AI_SALES"
             ).fetchone()
             if row and row[0]:
                 max_invoice_date = str(row[0])
@@ -48,8 +48,8 @@ def build_data_scope(
 
     tables_hint: list[str] = []
     if any(t == "query_sales_db" for t in tool_names):
-        tables_hint.append("AI_TEST_INVOICEBILLREGISTER / AI_TEST_TAXCHARGED_REPORT (from SQL tools)")
-    if any(t in ("get_weather_context", "get_holiday_status", "get_news_context") for t in tool_names):
+        tables_hint.append("VIEW_AI_SALES (DMS secondary sales)")
+    if any(t in ("get_holiday_status", "get_news_context") for t in tool_names):
         tables_hint.append("context_intelligence (external context tools)")
 
     return {
@@ -58,9 +58,16 @@ def build_data_scope(
         "max_invoice_date": max_invoice_date,
         "tables_hint": tables_hint or ["none inferred from tool list"],
         "columns_available_summary": [
-            "invoice-level revenue (NETAMT)",
-            "orders (TRNNO)",
-            "line items (TAXCHARGED_REPORT)",
+            "line-item revenue (NET_AMT)",
+            "invoices (INVOICE_NO)",
+            "products/SKUs (PRODUCT, PRODUCT_CLASS, CODE)",
+            "territory (STATE, ZONE, TOWN)",
+            "distribution (STOCKIEST, ISR, CUSTOMER)",
+            "volume (QTY_CASES, QTY_PACKS, TOTAL_VOLUME_BILLED_LTR)",
         ],
-        "not_in_this_database": _NOT_IN_DB,
+        "not_in_this_database": [
+            "unit_cost", "gross_margin", "foot_traffic",
+            "marketing_spend", "staff_hours", "inventory_levels",
+            "return_data", "secondary_schemes",
+        ],
     }

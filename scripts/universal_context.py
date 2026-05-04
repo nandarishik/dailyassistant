@@ -555,15 +555,15 @@ def build_context_signals_prompt(
     headlines_block = "\n".join(f"  {i+1}. {h}" for i, h in enumerate(headlines))
 
     return textwrap.dedent(f"""
-    You are a strategic business analyst for QAFFEINE, a premium coffee chain in Hyderabad. 
-    Analyze the following Hyderabad/Telangana news headlines from {date_obj.strftime('%d %b %Y')}.
+    You are a strategic business analyst for Bajaj Consumer Care in India. 
+    Analyze the following national/regional news headlines from {date_obj.strftime('%d %b %Y')}.
     {anomaly_ctx}
 
     Task:
-    1. Identify "Market Signals"—external factors affecting a coffee-chain. 
+    1. Identify "Market Signals"—external factors affecting FMCG secondary sales. 
        Look for BOTH:
-       - NEGATIVE DISRUPTORS: Road closures, strikes, power outages, political shutdowns, extreme heat/rain.
-       - POSITIVE SIGNALS: Industry trends (e.g. coffee/cafe culture news), festivals, major local events (stadium matches, concerts), infrastructure openings (new metro lines), or economic booms.
+       - NEGATIVE DISRUPTORS: Road closures, transport strikes, severe weather (extreme heat/rain), or economic downturns affecting distribution.
+       - POSITIVE SIGNALS: Industry trends (e.g. personal care growth), festivals, major commercial events, or rural demand surges.
     2. For each relevant signal: [Signal Type: Positive/Negative] — [Impact Description] — [Headline #N].
     3. Determine the overall "Market Sentiment" (e.g. "Bullish/Optimistic due to cafe culture growth" or "Cautions due to infrastructure delays").
     4. If none: "No significant market signals detected."
@@ -660,7 +660,7 @@ def upsert_context(conn: sqlite3.Connection, row: dict) -> None:
 
 def get_daily_revenue_stats(conn: sqlite3.Connection) -> dict[str, float]:
     cur = conn.execute(
-        "SELECT SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT),2) FROM AI_TEST_INVOICEBILLREGISTER GROUP BY SUBSTR(DT, 1, 10) ORDER BY date"
+        "SELECT SUBSTR(INVOICE_DATE, 1, 10) AS date, ROUND(SUM(NET_AMT),2) FROM VIEW_AI_SALES GROUP BY SUBSTR(INVOICE_DATE, 1, 10) ORDER BY date"
     )
     return {r[0]: r[1] for r in cur.fetchall() if r[1] is not None}
 

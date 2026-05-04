@@ -21,12 +21,12 @@ def validate_database_path(base_dir: Path, *, require_exists: bool = True) -> Pa
     path = resolve_db_path(base_dir)
     raw = get_settings().app_db_path.strip()
     if not raw:
-        raise DatabaseConfigError("APP_DB_PATH is empty; set it to e.g. database/AI_DATABASE.DB")
+        raise DatabaseConfigError("APP_DB_PATH is empty; set it to e.g. database/AI_DMS_database.db")
     if ".." in Path(raw).parts:
         raise DatabaseConfigError("APP_DB_PATH must not contain '..' path segments")
     if require_exists and not path.is_file():
         raise DatabaseConfigError(
             f"Database file not found: {path}\n"
-            "Copy AI_DATABASE.DB into database/ or set APP_DB_PATH to the correct file."
+            "Copy AI_DMS_database.db into database/ or set APP_DB_PATH to the correct file."
         )
     return path

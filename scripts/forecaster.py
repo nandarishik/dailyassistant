@@ -150,10 +150,10 @@ def _load_training_data() -> pd.DataFrame:
 
     # Base: outlet-day revenue
     df = pd.read_sql_query("""
-        SELECT SUBSTR(DT, 1, 10) AS date, LOCATION_NAME AS outlet_name, SUM(NETAMT) AS net_revenue
-        FROM AI_TEST_INVOICEBILLREGISTER
-        GROUP BY SUBSTR(DT, 1, 10), LOCATION_NAME
-        HAVING SUM(NETAMT) > 0
+        SELECT SUBSTR(INVOICE_DATE, 1, 10) AS date, ZONE AS outlet_name, SUM(NET_AMT) AS net_revenue
+        FROM VIEW_AI_SALES
+        GROUP BY SUBSTR(INVOICE_DATE, 1, 10), ZONE
+        HAVING SUM(NET_AMT) > 0
         ORDER BY date, outlet_name
     """, conn)
 
@@ -638,12 +638,12 @@ if __name__ == "__main__":
 
     # Test scenarios
     scenarios = [
-        ("QAFFEINE HITECH CITY", "2025-12-06", 0.0,  28.0, "Sunny Saturday"),
-        ("QAFFEINE HITECH CITY", "2025-12-06", 15.0, 24.0, "Rainy Saturday"),
-        ("QAFFEINE HITECH CITY", "2025-12-07", 0.0,  28.0, "Sunny Sunday"),
-        ("QAFFEINE HITECH CITY", "2025-12-07", 25.0, 22.0, "Thunderstorm Sunday"),
-        ("QAFFEINE-PHOENIX",     "2025-12-04", 0.0,  30.0, "Sunny Thursday"),
-        ("QAFFEINE-PHOENIX",     "2025-12-04", 20.0, 23.0, "Rainy Thursday"),
+        ("East Zone", "2026-01-10", 0.0,  28.0, "Sunny Saturday"),
+        ("East Zone", "2026-01-10", 15.0, 24.0, "Rainy Saturday"),
+        ("East Zone", "2026-01-11", 0.0,  28.0, "Sunny Sunday"),
+        ("East Zone", "2026-01-11", 25.0, 22.0, "Thunderstorm Sunday"),
+        ("West Zone", "2026-01-08", 0.0,  30.0, "Sunny Thursday"),
+        ("West Zone", "2026-01-08", 20.0, 23.0, "Rainy Thursday"),
     ]
 
     for outlet, date, rain, temp, label in scenarios:

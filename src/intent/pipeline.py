@@ -87,11 +87,11 @@ def _try_match(question: str, base_dir: Path) -> IntentMatch | None:
     if len(dates) >= 2 and re.search(r"\b(compare|vs\.?|versus)\b", low):
         d1, d2 = dates[0], dates[-1]
         sql = f"""
-SELECT SUBSTR(DT, 1, 10) AS day, IFNULL(ROUND(SUM(NETAMT), 2), 0) AS total_revenue,
-       COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) IN (?, ?)
-GROUP BY SUBSTR(DT, 1, 10) ORDER BY day
+SELECT SUBSTR(INVOICE_DATE, 1, 10) AS day, IFNULL(ROUND(SUM(NET_AMT), 2), 0) AS total_revenue,
+       COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) IN (?, ?)
+GROUP BY SUBSTR(INVOICE_DATE, 1, 10) ORDER BY day
 """.strip()
         params = tuple(outlets) + (d1, d2)
         return IntentMatch("compare_two_dates", sql, d1, d2, sql_params=params)
@@ -100,16 +100,16 @@ GROUP BY SUBSTR(DT, 1, 10) ORDER BY day
     if len(dates) == 1 and _DECLINE.search(low):
         d = dates[0]
         sql_chain = f"""
-SELECT ROUND(SUM(NETAMT), 0) AS total_revenue, COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) = ?
+SELECT ROUND(SUM(NET_AMT), 0) AS total_revenue, COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) = ?
 """.strip()
         sql_outlet = f"""
-SELECT LOCATION_NAME AS outlet_name, IFNULL(ROUND(SUM(NETAMT), 2), 0) AS revenue,
-       COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) = ?
-GROUP BY LOCATION_NAME ORDER BY revenue DESC
+SELECT ZONE AS outlet_name, IFNULL(ROUND(SUM(NET_AMT), 2), 0) AS revenue,
+       COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) = ?
+GROUP BY ZONE ORDER BY revenue DESC
 """.strip()
         params_chain = tuple(outlets) + (d,)
         params_outlet = tuple(outlets) + (d,)
@@ -128,11 +128,11 @@ GROUP BY LOCATION_NAME ORDER BY revenue DESC
     if pair and re.search(r"\b(compare|vs\.?|versus)\b", low):
         a, b = pair
         sql = """
-SELECT LOCATION_NAME AS outlet_name, IFNULL(ROUND(SUM(NETAMT), 2), 0) AS revenue,
-       COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN (?, ?) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-GROUP BY LOCATION_NAME ORDER BY revenue DESC
+SELECT ZONE AS outlet_name, IFNULL(ROUND(SUM(NET_AMT), 2), 0) AS revenue,
+       COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN (?, ?) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+GROUP BY ZONE ORDER BY revenue DESC
 """.strip()
         params = (a, b, ds, de)
         return IntentMatch("outlet_comparison", sql, ds, de, sql_params=params)
@@ -140,30 +140,30 @@ GROUP BY LOCATION_NAME ORDER BY revenue DESC
     # Best / worst single day in range (or month)
     if re.search(r"\b(worst|lowest|weakest)\b.{0,40}\b(day|daily)\b|\b(lowest|worst)\s+sales\s+day\b", low):
         sql = f"""
-SELECT SUBSTR(DT, 1, 10) AS day, IFNULL(ROUND(SUM(NETAMT), 2), 0) AS total_revenue
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-GROUP BY SUBSTR(DT, 1, 10) ORDER BY total_revenue ASC LIMIT 1
+SELECT SUBSTR(INVOICE_DATE, 1, 10) AS day, IFNULL(ROUND(SUM(NET_AMT), 2), 0) AS total_revenue
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+GROUP BY SUBSTR(INVOICE_DATE, 1, 10) ORDER BY total_revenue ASC LIMIT 1
 """.strip()
         return IntentMatch("best_worst_day", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 
     if re.search(r"\b(best|highest|strongest)\b.{0,40}\b(day|daily)\b|\b(best|highest)\s+sales\s+day\b", low):
         sql = f"""
-SELECT SUBSTR(DT, 1, 10) AS day, IFNULL(ROUND(SUM(NETAMT), 2), 0) AS total_revenue
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-GROUP BY SUBSTR(DT, 1, 10) ORDER BY total_revenue DESC LIMIT 1
+SELECT SUBSTR(INVOICE_DATE, 1, 10) AS day, IFNULL(ROUND(SUM(NET_AMT), 2), 0) AS total_revenue
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+GROUP BY SUBSTR(INVOICE_DATE, 1, 10) ORDER BY total_revenue DESC LIMIT 1
 """.strip()
         return IntentMatch("best_worst_day", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 
     # Daily trend
     if re.search(r"\b(daily|day[- ]by[- ]day|each\s+day|trend)\b.{0,30}\b(revenue|sales)\b|\b(revenue|sales)\b.{0,30}\b(daily|trend)\b", low):
         sql = f"""
-SELECT SUBSTR(DT, 1, 10) AS day, IFNULL(ROUND(SUM(NETAMT), 2), 0) AS revenue,
-       COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-GROUP BY SUBSTR(DT, 1, 10) ORDER BY day
+SELECT SUBSTR(INVOICE_DATE, 1, 10) AS day, IFNULL(ROUND(SUM(NET_AMT), 2), 0) AS revenue,
+       COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+GROUP BY SUBSTR(INVOICE_DATE, 1, 10) ORDER BY day
 """.strip()
         return IntentMatch("daily_trend", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 
@@ -177,22 +177,22 @@ GROUP BY SUBSTR(DT, 1, 10) ORDER BY day
     ):
         d = dates[0]
         sql = f"""
-SELECT ROUND(SUM(NETAMT),0) AS total_revenue,
-       COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) = ?
+SELECT ROUND(SUM(NET_AMT),0) AS total_revenue,
+       COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) = ?
 """.strip()
         return IntentMatch("single_day_chain_revenue", sql, d, d, sql_params=tuple(outlets) + (d,))
 
     if re.search(r"\b(top\s+\d+|top\s+items?|best\s+sell(?:ing|ers)?)\b", low) and not re.search(r"\b(per|by|each)\s+outlet\b", low):
         sql = f"""
-SELECT PRODUCT_NAME AS item_name,
+SELECT PRODUCT AS item_name,
        IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
-       SUM(CAST(QTY AS REAL)) AS qty
-FROM AI_TEST_TAXCHARGED_REPORT
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-  AND PRODUCT_NAME IS NOT NULL
-GROUP BY PRODUCT_NAME ORDER BY revenue DESC LIMIT 5
+       SUM(QTY_PACKS) AS qty
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+  AND PRODUCT IS NOT NULL
+GROUP BY PRODUCT ORDER BY revenue DESC LIMIT 5
 """.strip()
         return IntentMatch("top_items", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 
@@ -201,11 +201,11 @@ GROUP BY PRODUCT_NAME ORDER BY revenue DESC LIMIT 5
         low,
     ) and not re.search(r"\b(product|item|selling|top|highest)\b", low):
         sql = f"""
-SELECT LOCATION_NAME AS outlet_name, IFNULL(ROUND(SUM(NETAMT),2), 0) AS revenue,
-       COUNT(DISTINCT TRNNO) AS orders
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-GROUP BY LOCATION_NAME ORDER BY revenue DESC
+SELECT ZONE AS outlet_name, IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
+       COUNT(DISTINCT INVOICE_NO) AS orders
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+GROUP BY ZONE ORDER BY revenue DESC
 """.strip()
         return IntentMatch("revenue_by_outlet", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 
@@ -214,11 +214,11 @@ GROUP BY LOCATION_NAME ORDER BY revenue DESC
         low,
     ) and not re.search(r"\b(product|item|selling|top|highest|by outlet|per outlet)\b", low):
         sql = f"""
-SELECT IFNULL(ROUND(SUM(NETAMT),2), 0) AS total_revenue,
-       COUNT(DISTINCT TRNNO) AS total_orders,
-       IFNULL(ROUND(SUM(NETAMT)/NULLIF(COUNT(DISTINCT TRNNO),0),2), 0) AS aov
-FROM AI_TEST_INVOICEBILLREGISTER
-WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
+SELECT IFNULL(ROUND(SUM(NET_AMT),2), 0) AS total_revenue,
+       COUNT(DISTINCT INVOICE_NO) AS total_orders,
+       IFNULL(ROUND(SUM(NET_AMT)/NULLIF(COUNT(DISTINCT INVOICE_NO),0),2), 0) AS aov
+FROM VIEW_AI_SALES
+WHERE ZONE IN ({ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
 """.strip()
         return IntentMatch("total_revenue", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 

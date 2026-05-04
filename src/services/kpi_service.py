@@ -48,47 +48,44 @@ def load_kpi_tab_data(
     params = list(outlets) + [date_start, date_end]
 
     sql_kpi = f"""
-        SELECT IFNULL(ROUND(SUM(NETAMT),2), 0) AS total_revenue,
-               COUNT(DISTINCT TRNNO)           AS total_orders,
-               IFNULL(ROUND(SUM(NETAMT)/NULLIF(COUNT(DISTINCT TRNNO),0),2), 0) AS aov,
-               IFNULL(SUM(CAST(PAX AS INTEGER)), 0) AS total_pax,
-               IFNULL(SUM(CASH_AMT), 0) AS cash,
-               IFNULL(SUM(CARD_AMT), 0) AS card,
-               IFNULL(SUM(PAYMENT_UPI), 0) AS upi
-        FROM AI_TEST_INVOICEBILLREGISTER
-        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
+        SELECT IFNULL(ROUND(SUM(NET_AMT),2), 0) AS total_revenue,
+               COUNT(DISTINCT INVOICE_NO)           AS total_orders,
+               IFNULL(ROUND(SUM(NET_AMT)/NULLIF(COUNT(DISTINCT INVOICE_NO),0),2), 0) AS aov,
+               IFNULL(SUM(QTY_PACKS), 0) AS total_packs,
+               IFNULL(ROUND(SUM(TOTAL_VOLUME_BILLED_LTR), 0), 0) AS total_volume_ltr
+        FROM VIEW_AI_SALES
+        WHERE ZONE IN ({outlet_ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
     """
     sql_top5 = f"""
-        SELECT PRODUCT_NAME AS item_name,
+        SELECT PRODUCT AS item_name,
                IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
-               SUM(CAST(QTY AS REAL))           AS qty
-        FROM AI_TEST_TAXCHARGED_REPORT
-        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-          AND PRODUCT_NAME IS NOT NULL
-        GROUP BY PRODUCT_NAME ORDER BY revenue DESC LIMIT 5
+               SUM(QTY_PACKS)                    AS qty
+        FROM VIEW_AI_SALES
+        WHERE ZONE IN ({outlet_ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+          AND PRODUCT IS NOT NULL
+        GROUP BY PRODUCT ORDER BY revenue DESC LIMIT 5
     """
     sql_by_outlet = f"""
-        SELECT LOCATION_NAME AS outlet_name, IFNULL(ROUND(SUM(NETAMT),2), 0) AS revenue,
-               COUNT(DISTINCT TRNNO) AS orders
-        FROM AI_TEST_INVOICEBILLREGISTER
-        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-        GROUP BY LOCATION_NAME ORDER BY revenue DESC
+        SELECT ZONE AS outlet_name, IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
+               COUNT(DISTINCT INVOICE_NO) AS orders
+        FROM VIEW_AI_SALES
+        WHERE ZONE IN ({outlet_ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+        GROUP BY ZONE ORDER BY revenue DESC
     """
     sql_daily = f"""
-        SELECT SUBSTR(DT, 1, 10) AS date, IFNULL(ROUND(SUM(NETAMT),2), 0) AS revenue,
-               COUNT(DISTINCT TRNNO) AS orders
-        FROM AI_TEST_INVOICEBILLREGISTER
-        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-        GROUP BY SUBSTR(DT, 1, 10) ORDER BY SUBSTR(DT, 1, 10)
+        SELECT SUBSTR(INVOICE_DATE, 1, 10) AS date, IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
+               COUNT(DISTINCT INVOICE_NO) AS orders
+        FROM VIEW_AI_SALES
+        WHERE ZONE IN ({outlet_ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+        GROUP BY SUBSTR(INVOICE_DATE, 1, 10) ORDER BY SUBSTR(INVOICE_DATE, 1, 10)
     """
     sql_raw = f"""
-        SELECT SUBSTR(DT, 1, 10) AS date, LOCATION_NAME AS outlet_name, PRODUCT_NAME AS item_name,
-               NET_AMT AS net_revenue, QTY AS quantity,
-               ORDERTYPE_NAME AS channel, TRNNO AS bill_no, GROUP_NAME AS product_group,
-               ORDER_STARTTIME AS kot_time
-        FROM AI_TEST_TAXCHARGED_REPORT
-        WHERE LOCATION_NAME IN ({outlet_ph}) AND SUBSTR(DT, 1, 10) BETWEEN ? AND ?
-        ORDER BY SUBSTR(DT, 1, 10), LOCATION_NAME
+        SELECT SUBSTR(INVOICE_DATE, 1, 10) AS date, ZONE AS outlet_name, PRODUCT AS item_name,
+               NET_AMT AS net_revenue, QTY_PACKS AS quantity,
+               CHANNEL AS channel, INVOICE_NO AS bill_no, PRODUCT_CLASS AS product_group
+        FROM VIEW_AI_SALES
+        WHERE ZONE IN ({outlet_ph}) AND SUBSTR(INVOICE_DATE, 1, 10) BETWEEN ? AND ?
+        ORDER BY SUBSTR(INVOICE_DATE, 1, 10), ZONE
     """
     with sqlite_connection(base_dir) as conn:
         kpi = pd.read_sql_query(sql_kpi, conn, params=params)

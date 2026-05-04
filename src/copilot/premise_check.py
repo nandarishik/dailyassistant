@@ -55,17 +55,17 @@ def compute_premise_check(question: str, base_dir: Path) -> dict[str, Any] | Non
     params: list[Any] = list(outlets)
 
     if window == "month":
-        extra = " AND SUBSTR(DT, 1, 7) = ? "
+        extra = " AND SUBSTR(INVOICE_DATE, 1, 7) = ? "
         params.append(target[:7])
     elif window == "last90":
-        extra = " AND SUBSTR(DT, 1, 10) >= date(?, '-90 days') "
+        extra = " AND SUBSTR(INVOICE_DATE, 1, 10) >= date(?, '-90 days') "
         params.append(target)
 
     sql = f"""
 WITH daily AS (
-  SELECT SUBSTR(DT, 1, 10) AS d, ROUND(SUM(NETAMT), 2) AS rev
-  FROM AI_TEST_INVOICEBILLREGISTER
-  WHERE LOCATION_NAME IN ({ph}) {extra}
+  SELECT SUBSTR(INVOICE_DATE, 1, 10) AS d, ROUND(SUM(NET_AMT), 2) AS rev
+  FROM VIEW_AI_SALES
+  WHERE ZONE IN ({ph}) {extra}
   GROUP BY 1
 ),
 ranked AS (

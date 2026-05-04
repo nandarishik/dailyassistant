@@ -93,7 +93,7 @@ with st.sidebar:
 
 
     # ── Filters ───────────────────────────────────────────────────────────
-    outlet_choice = st.multiselect("Select Outlet", options=all_outlets,
+    outlet_choice = st.multiselect("Select Zone", options=all_outlets,
                                    default=all_outlets)
     date_range = st.date_input("Date Range", value=(min_date, max_date),
                                min_value=min_date, max_value=max_date)
@@ -117,7 +117,7 @@ date_end     = str(date_range[1])
 # ─── Page header ──────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div class='page-title'>☕ QAFFEINE Analytics</div>
-<div class='page-sub'>Multi-Outlet Dashboard · {date_start} → {date_end} · {len(outlet_choice)} outlet(s)</div>
+<div class='page-sub'>Multi-Zone Dashboard · {date_start} → {date_end} · {len(outlet_choice)} zone(s)</div>
 """, unsafe_allow_html=True)
 st.markdown("<div class='custom-divider'></div>", unsafe_allow_html=True)
 
@@ -146,8 +146,8 @@ with tab_dash:
     total_revenue = float(kpi["total_revenue"].iloc[0]) if not kpi["total_revenue"].isna().all() else 0.0
     total_orders  = int(kpi["total_orders"].iloc[0])    if not kpi["total_orders"].isna().all() else 0
     aov           = float(kpi["aov"].iloc[0])           if not kpi["aov"].isna().all() else 0.0
-    total_pax     = int(kpi["total_pax"].iloc[0])       if not kpi["total_pax"].isna().all() else 0
-    upi           = float(kpi["upi"].iloc[0])           if not kpi["upi"].isna().all() else 0.0
+    total_packs   = int(kpi["total_packs"].iloc[0])     if not kpi["total_packs"].isna().all() else 0
+    total_vol     = float(kpi["total_volume_ltr"].iloc[0]) if not kpi["total_volume_ltr"].isna().all() else 0.0
 
     # ── KPI Cards ─────────────────────────────────────────────────────────────
     c1, c2, c3, c4, c5 = st.columns(5)
@@ -160,11 +160,11 @@ with tab_dash:
             <div class='kpi-sub'>{sub}</div>
         </div>""", unsafe_allow_html=True)
 
-    kpi_card(c1,"💰","Revenue", f"₹{total_revenue:,.0f}", f"{len(outlet_choice)} outlet(s)")
+    kpi_card(c1,"💰","Revenue", f"₹{total_revenue:,.0f}", f"{len(outlet_choice)} zone(s)")
     kpi_card(c2,"🧾","Orders", f"{total_orders:,}", "Unique bills")
     kpi_card(c3,"📈","AOV", f"₹{aov:,.0f}", "Revenue/bill")
-    kpi_card(c4,"👥","PAX", f"{total_pax:,}", "Total guests")
-    kpi_card(c5,"💳","UPI %", f"{(upi/total_revenue*100) if total_revenue else 0:.1f}%", "Cashless share")
+    kpi_card(c4,"📦","Packs", f"{total_packs:,}", "Total packs sold")
+    kpi_card(c5,"🛢️","Volume", f"{total_vol:,.0f} L", "Total liters billed")
 
     st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
 
@@ -195,10 +195,10 @@ with tab_dash:
             st.plotly_chart(fig, width="stretch")
 
     with cr:
-        st.markdown("<div class='section-header'>🏪 Revenue by Outlet</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>🏪 Revenue by Zone</div>", unsafe_allow_html=True)
         if not by_outlet.empty:
             COLORS = ["#f59e0b","#10b981","#3b82f6","#8b5cf6","#ef4444","#06b6d4"]
-            shorts = by_outlet["outlet_name"].str.replace("QAFFEINE","Q",regex=False)
+            shorts = by_outlet["outlet_name"]
             fig2 = go.Figure(go.Bar(
                 x=by_outlet["revenue"], y=shorts, orientation="h",
                 marker=dict(color=COLORS[:len(by_outlet)]),
@@ -239,9 +239,9 @@ with tab_dash:
             </div>""", unsafe_allow_html=True)
 
     with br:
-        st.markdown("<div class='section-header'>📋 Outlet Performance Summary</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>📋 Zone Performance Summary</div>", unsafe_allow_html=True)
         disp = by_outlet.copy()
-        disp.columns = ["Outlet","Revenue (₹)","Orders"]
+        disp.columns = ["Zone","Revenue (₹)","Orders"]
         disp["Revenue (₹)"] = disp["Revenue (₹)"].apply(lambda x: f"₹{x:,.2f}")
         st.dataframe(disp, width="stretch", hide_index=True, height=280)
 
@@ -302,9 +302,9 @@ with tab_ai:
     suggestions = [
         "Which day of the week has our highest average sales?",
         "Why was revenue so high on Feb 14th?",
-        "Rank our top 5 outlets by total revenue this year.",
-        "What are our top 3 selling items across the entire chain?",
-        "How much discount did we give at Tansen Restaurant in March?",
+        "Rank our top 5 zones by total revenue this year.",
+        "What are our top 3 selling items across the entire company?",
+        "How is the East Zone performing this month?",
         "Compare our total revenue between February and March.",
     ]
     sg1, sg2, sg3 = st.columns(3)

@@ -65,10 +65,10 @@ def _fetch_outlet_daily_revenue(conn: sqlite3.Connection) -> dict[str, list[tupl
     Uses AI_TEST_INVOICEBILLREGISTER for pre-aggregated daily totals.
     """
     rows = conn.execute("""
-        SELECT LOCATION_NAME, SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT), 2) AS rev
-        FROM AI_TEST_INVOICEBILLREGISTER
-        GROUP BY LOCATION_NAME, SUBSTR(DT, 1, 10)
-        ORDER BY LOCATION_NAME, date
+        SELECT ZONE, SUBSTR(INVOICE_DATE, 1, 10) AS date, ROUND(SUM(NET_AMT), 2) AS rev
+        FROM VIEW_AI_SALES
+        GROUP BY ZONE, SUBSTR(INVOICE_DATE, 1, 10)
+        ORDER BY ZONE, date
     """).fetchall()
 
     outlet_data: dict[str, list[tuple[str, float]]] = {}
