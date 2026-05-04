@@ -184,7 +184,7 @@ WHERE LOCATION_NAME IN ({ph}) AND SUBSTR(DT, 1, 10) = ?
 """.strip()
         return IntentMatch("single_day_chain_revenue", sql, d, d, sql_params=tuple(outlets) + (d,))
 
-    if re.search(r"\b(top\s+\d+|top\s+items?|best\s+sell(?:ing|ers)?)\b", low):
+    if re.search(r"\b(top\s+\d+|top\s+items?|best\s+sell(?:ing|ers)?)\b", low) and not re.search(r"\b(per|by|each)\s+outlet\b", low):
         sql = f"""
 SELECT PRODUCT_NAME AS item_name,
        IFNULL(ROUND(SUM(NET_AMT),2), 0) AS revenue,
@@ -197,9 +197,9 @@ GROUP BY PRODUCT_NAME ORDER BY revenue DESC LIMIT 5
         return IntentMatch("top_items", sql, ds, de, sql_params=tuple(outlets) + (ds, de))
 
     if re.search(
-        r"\b(by|per)\s+outlet\b|\boutlet\b.{0,48}\b(revenue|sales|performance)\b|\b(revenue|sales)\b.{0,48}\boutlet\b",
+        r"\b(by|per|each)\s+outlet\b|\boutlet\b.{0,48}\b(revenue|sales|performance)\b|\b(revenue|sales)\b.{0,48}\boutlet\b",
         low,
-    ):
+    ) and not re.search(r"\b(product|item|selling|top|highest)\b", low):
         sql = f"""
 SELECT LOCATION_NAME AS outlet_name, IFNULL(ROUND(SUM(NETAMT),2), 0) AS revenue,
        COUNT(DISTINCT TRNNO) AS orders
@@ -212,7 +212,7 @@ GROUP BY LOCATION_NAME ORDER BY revenue DESC
     if re.search(
         r"\b(total|overall|chain|aggregate)\b.{0,40}\b(revenue|sales|net)\b|\b(revenue|sales)\b.{0,40}\b(total|overall|chain)\b",
         low,
-    ):
+    ) and not re.search(r"\b(product|item|selling|top|highest|by outlet|per outlet)\b", low):
         sql = f"""
 SELECT IFNULL(ROUND(SUM(NETAMT),2), 0) AS total_revenue,
        COUNT(DISTINCT TRNNO) AS total_orders,

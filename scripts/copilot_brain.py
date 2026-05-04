@@ -594,6 +594,10 @@ SQL WRITING RULES (read before writing any SQL):
 - ALWAYS wrap revenue with SUM(): e.g. SUM(NETAMT) — never use bare columns as a total.
 - Use IFNULL(SUM(NETAMT), 0) to prevent empty crashes.
 - Never use 'date' column, use SUBSTR(DT, 1, 10).
+- SQLITE DIALECT: SQLite does NOT have `DAYOFWEEK()`. Use `STRFTIME('%w', DT)` (0=Sunday, 6=Saturday).
+- Use `COUNT(DISTINCT TRNNO)` for unique order/bill counts (never count bare rows).
+- Always use `AVG(...)` in SQL for averages. DO NOT do math in your head later.
+- `context_intelligence` is NOT a database table. Use the `get_holiday_status` tool for holidays.
 - IMPORTANT: If asking about a specific outlet, make sure the week average query HAS the same `WHERE LOCATION_NAME='...'` filter inside the subquery so you don't compare a single outlet to the entire chain's total!
 - Use AI_TEST_INVOICEBILLREGISTER for daily/outlet totals, AI_TEST_TAXCHARGED_REPORT for item-level detail.
 - Always alias with AS, always name columns explicitly.
@@ -606,6 +610,14 @@ Example for 'total chain revenue on date X' (single scalar — use when user ask
 
 Example for 'lowest sales in March':
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT SUBSTR(DT, 1, 10) AS date, ROUND(SUM(NETAMT),0) AS total_revenue FROM AI_TEST_INVOICEBILLREGISTER WHERE SUBSTR(DT, 1, 7)='2026-03' GROUP BY date ORDER BY total_revenue ASC LIMIT 1"}}}}
+
+- IMPORTANT: To calculate averages of totals (e.g. average daily sales per day-of-week), you MUST use a CTE or Subquery to aggregate by day first, then calculate the average in the outer query (never nest AVG(SUM(...))).
+
+Example for 'average daily sales per day of week':
+  {{"tool": "query_sales_db", "args": {{"sql": "WITH DailyTotal AS (SELECT SUBSTR(DT, 1, 10) AS date_only, SUM(NETAMT) AS total FROM AI_TEST_INVOICEBILLREGISTER GROUP BY date_only) SELECT CASE STRFTIME('%w', date_only) WHEN '0' THEN 'Sunday' WHEN '1' THEN 'Monday' WHEN '2' THEN 'Tuesday' WHEN '3' THEN 'Wednesday' WHEN '4' THEN 'Thursday' WHEN '5' THEN 'Friday' WHEN '6' THEN 'Saturday' END AS day_of_week, ROUND(AVG(total),0) AS avg_daily_revenue FROM DailyTotal GROUP BY day_of_week ORDER BY avg_daily_revenue DESC"}}}}
+
+Example for 'top selling item per outlet':
+  {{"tool": "query_sales_db", "args": {{"sql": "WITH Ranked AS (SELECT LOCATION_NAME, PRODUCT_NAME, SUM(NET_AMT) AS revenue, ROW_NUMBER() OVER(PARTITION BY LOCATION_NAME ORDER BY SUM(NET_AMT) DESC) as rn FROM AI_TEST_TAXCHARGED_REPORT GROUP BY LOCATION_NAME, PRODUCT_NAME) SELECT LOCATION_NAME, PRODUCT_NAME, ROUND(revenue, 0) AS revenue FROM Ranked WHERE rn = 1 ORDER BY revenue DESC"}}}}
 
 **Comparison rule —** user implies a **drop / decline / worst day** and the query contains **one** ISO date (YYYY-MM-DD):
 - Include **at least two** `query_sales_db` steps: revenue **for that date** (chain or per-outlet) **and** a **baseline across other days** (e.g. `GROUP BY SUBSTR(DT,1,10)` … `ORDER BY total_revenue DESC LIMIT 6`, or a trailing 7-day average for the same outlet filter).
@@ -632,30 +644,31 @@ SYNTHESIS_PROMPT_TMPL = """
 === TOOL RESULTS ===
 {tool_results}
 
-=== VERIFIED_NUMERIC_FACTS (DO NOT CONTRADICT; DO NOT RE-SUM MANUALLY) ===
+=== VERIFIED_NUMERIC_FACTS ===
 {verified_block}
 
-=== PREMISE_CHECK (server rank vs decline wording; do not contradict) ===
-{premise_block}
-
-=== DATA_SCOPE (warehouse coverage, date window guess, freshness) ===
-{data_scope_block}
-
 {strict_mode_addon}
-=== YOUR TASK ===
-Synthesise into a senior-level business response using **exactly these Markdown headings** in order:
-**Data facts:** — numbers only from tools and VERIFIED_NUMERIC_FACTS / PREMISE_CHECK (no new arithmetic across outlet rows for chain totals).
-**Scope:** — what DATA_SCOPE says is available / not in DB; state `max_invoice_date` if present.
-**Context (secondary):** — weather, holiday, news from tools only; do **not** introduce new currency amounts here unless repeating a figure from Data facts.
-**Possible explanations:** — clearly labeled hypotheses only; no "because of rain/holiday" unless tools support linkage.
 
-Rules:
-- If PREMISE_CHECK includes `"premise_conflict": true`, the **very first sentence** must correct the user's decline framing using rank / total_days / day_revenue from PREMISE_CHECK.
-- Use ONLY numbers that appear in tool results or VERIFIED_NUMERIC_FACTS.column_sums. Do NOT invent figures.
-- STRICT LOGIC: If weather says "no precipitation", do NOT invent "showers". Never contradict tool data.
-- Max 200 words after the headings. End with at most 2–3 action bullets. No JSON in the response.
-- If a tool returned an error or empty result, say so rather than guessing.
+=== YOUR TASK ===
+You are a Senior Business Analyst talking directly to the Owner of QAFFEINE. 
+
+STRICT RULES:
+1. NO TECHNICAL JARGON: Never mention "tools", "database", "data scope", "sql", "results", or "visibility". 
+2. BE DIRECT: Answer the question as if you are the manager of the store.
+   - Good: "We don't sell pizzas, so there were no sales for that."
+   - Bad: "Our data scope doesn't include pizzas..."
+3. WEAVE CONTEXT: If tools provide weather, news, or holidays, ALWAYS weave them into your answer. Even if the weather was just 'Sunny', mention it as a contributing factor (e.g., 'Thanks to the sunny weather and Valentine's Day celebrations...').
+4. PRESERVE TABLES: If the owner asks for a ranking or list, show the table.
+5. CONCISE: Be brief, but ALWAYS complete your thought and include the actual numbers requested.
+
+Example:
+Owner: "How many pizzas today?"
+You: "We don't sell pizzas, so none were sold."
+
+Keep it crisp, professional, and owner-focused.
 """
+
+
 
 
 # ══════════════════════════════════════════════════════════════════════════════

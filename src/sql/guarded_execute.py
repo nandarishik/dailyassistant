@@ -26,7 +26,7 @@ def fetch_select_as_markdown(
     *,
     row_cap: int = 200,
     progress_nudge: int = 200_000,
-    max_progress_callbacks: int = 25,
+    max_progress_callbacks: int = 250,
 ) -> str:
     """
     Validate SQL, enforce LIMIT, execute, return markdown table or an error string.
@@ -70,7 +70,7 @@ def fetch_select_as_markdown_params(
     *,
     row_cap: int = 200,
     progress_nudge: int = 200_000,
-    max_progress_callbacks: int = 25,
+    max_progress_callbacks: int = 250,
 ) -> str:
     """
     Same as fetch_select_as_markdown but with bound parameters (intent templates).

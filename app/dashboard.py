@@ -89,44 +89,8 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    # ══ QAFFEINE INTELLIGENCE BRIEF ═══════════════════════════════════════
-    brief = get_intelligence_brief()
-    anomaly = brief.get("revenue_anomaly", {})
-    z       = anomaly.get("z_score", 0)
-    acolor  = "#ef4444" if z < -1 else ("#10b981" if z > 1 else "#f59e0b")
-    combo = brief.get("top_power_combo", {})
-    risk = brief.get("market_risk", {})
-    risk_label = risk.get('label', 'Run universal_context.py')[:110]
+    # (Intelligence Brief removed for clean UI)
 
-    st.markdown(f"""
-    <div style='background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.1));
-                border:1px solid rgba(245,158,11,.35);border-radius:14px;
-                padding:.8rem 1rem;margin-bottom:.9rem'>
-        <div style='font-size:.72rem;font-weight:800;color:#f59e0b;
-                    letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem'>
-            ⚡ QAFFEINE Intelligence Brief
-        </div>
-        <div style='margin-bottom:.6rem'>
-            <div style='font-size:.68rem;color:#94a3b8;font-weight:700;
-                        letter-spacing:.06em;text-transform:uppercase'>📊 Revenue Anomaly</div>
-            <div style='font-size:.78rem;color:{acolor};font-weight:600;
-                        margin-top:.15rem;line-height:1.4'>{anomaly.get('label','Computing…')}</div>
-        </div>
-        <div style='margin-bottom:.6rem;
-                    border-top:1px solid rgba(255,255,255,.07);padding-top:.55rem'>
-            <div style='font-size:.68rem;color:#94a3b8;font-weight:700;
-                        letter-spacing:.06em;text-transform:uppercase'>🎯 Top Bundle Opportunity</div>
-            <div style='font-size:.78rem;color:#a5b4fc;font-weight:600;
-                        margin-top:.15rem;line-height:1.4'>{combo.get('label','Run basket_analysis.py')}</div>
-        </div>
-        <div style='border-top:1px solid rgba(255,255,255,.07);padding-top:.55rem'>
-            <div style='font-size:.68rem;color:#94a3b8;font-weight:700;
-                        letter-spacing:.06em;text-transform:uppercase'>🌐 Latest Market Signal</div>
-            <div style='font-size:.75rem;color:#cbd5e1;margin-top:.15rem;
-                        line-height:1.45'>{risk_label}{'…' if len(risk.get('label',''))>110 else ''}</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
     # ── Filters ───────────────────────────────────────────────────────────
     outlet_choice = st.multiselect("Select Outlet", options=all_outlets,
@@ -136,80 +100,10 @@ with st.sidebar:
 
     st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
 
-    # ══ COMMUNICATION CENTER ═════════════════════════════════════════════
-    st.markdown("""
-    <div style='border-top:1px solid rgba(255,255,255,.06);padding-top:.8rem;margin-top:.4rem'>
-        <div style='font-size:.72rem;font-weight:800;color:#a78bfa;
-                    letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem'>
-            🔔 Communication Center
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("📧 Send Manual Morning Brief", use_container_width=True, type="primary"):
-        st.session_state["trigger_morning_brief"] = True
-        st.rerun()
-
-    # Show last 5 alerts
-    alert_history = load_notification_history(last_n=5)
-    if alert_history:
-        st.markdown("""
-        <div style='font-size:.68rem;font-weight:700;color:#64748b;
-                    letter-spacing:.06em;text-transform:uppercase;margin-top:.6rem;
-                    margin-bottom:.3rem'>Recent Alerts</div>
-        """, unsafe_allow_html=True)
-        import pandas as _pd_sidebar
-        hist_df = _pd_sidebar.DataFrame(alert_history)
-        if "timestamp" in hist_df.columns:
-            display_cols = [c for c in ["timestamp", "anomaly_count", "email_status", "root_cause_summary"] if c in hist_df.columns]
-            st.dataframe(
-                hist_df[display_cols],
-                width="stretch",
-                hide_index=True,
-                height=min(len(hist_df) * 40 + 40, 220),
-            )
-    else:
-        st.markdown(
-            "<div style='font-size:.72rem;color:#475569;margin-top:.4rem'>"
-            "No alerts sent yet.</div>",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
-
-    # ── Demo Mode ─────────────────────────────────────────────────────────
-    DEMO_QUESTIONS = [
-        "Why did revenue drop on Dec 7th at HITECH CITY? Check weather and news.",
-        "What are the top 3 selling items at QAFFEINE HITECH CITY?",
-        "Which outlet had the highest revenue on Dec 6th and why?",
-        "Compare dine-in vs carry-out vs delivery revenue per outlet",
-        "Recommend the best bundle offers based on our basket data",
-    ]
-
-    st.markdown("""
-    <div style='border-top:1px solid rgba(255,255,255,.06);padding-top:.6rem;margin-top:.4rem'>
-        <div style='font-size:.72rem;font-weight:700;color:#f59e0b;letter-spacing:.08em;
-                    text-transform:uppercase;margin-bottom:.5rem'>🎤 Demo Mode</div>
-    </div>
-    """, unsafe_allow_html=True)
-    if st.button("🚀 Launch Demo (5 Questions)", use_container_width=True):
-        if "chat_history" not in st.session_state:
-            st.session_state.chat_history = []
-        for q in DEMO_QUESTIONS:
-            already = any(e["question"] == q for e in st.session_state.chat_history)
-            if not already:
-                st.session_state.chat_history.append({
-                    "question": q, "tool_calls": [],
-                    "response": "⏳ Queued — open the AI Copilot tab to execute.",
-                    "engine": "", "model": "", "monologue": [], "demo": True,
-                })
-        st.success("5 questions queued! Open the 🤖 AI Copilot tab.")
-        st.rerun()
     st.markdown("""
     <div style='font-size:.7rem;color:#475569;padding-top:.5rem;
                 border-top:1px solid rgba(255,255,255,.06)'>
-        Data: 2026 · QAFFEINE Copilot v2.0<br>
-        Gemini 2.0 Flash ↩ OpenRouter/Llama-3.3-70B
+        Data: 2026 · QAFFEINE Copilot v2.0
     </div>
     """, unsafe_allow_html=True)
 
@@ -406,12 +300,12 @@ with tab_ai:
         unsafe_allow_html=True,
     )
     suggestions = [
-        "Why did revenue drop on Dec 7th? Check weather and news.",
-        "Which outlet is underperforming and why?",
-        "What bundles should we promote this week?",
-        "Compare Hitech City vs Secunderabad revenue on Dec 6th",
-        "Tell me about the Hitech City dip — investigate everything.",
-        "Which items should we remove from the menu?",
+        "Which day of the week has our highest average sales?",
+        "Why was revenue so high on Feb 14th?",
+        "Rank our top 5 outlets by total revenue this year.",
+        "What are our top 3 selling items across the entire chain?",
+        "How much discount did we give at Tansen Restaurant in March?",
+        "Compare our total revenue between February and March.",
     ]
     sg1, sg2, sg3 = st.columns(3)
     for i, col in enumerate([sg1, sg2, sg3, sg1, sg2, sg3]):

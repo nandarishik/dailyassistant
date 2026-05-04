@@ -13,13 +13,13 @@ class AppSettings(BaseSettings):
 
     app_db_path: str = "database/AI_DATABASE.DB"
     # Mark II D2: try intent → template SQL before LLM planner (rollback: false).
-    use_guarded_sql_pipeline: bool = True
+    use_guarded_sql_pipeline: bool = False
     # Mark II D3: route Copilot through src.agents.copilot_engine (rollback: false).
     use_new_copilot_engine: bool = True
     # Wall-clock cap for the legacy LLM loop (intent path ignores this).
     copilot_timeout_seconds: float = 120.0
     # Append correction footer when prose implies a chain total larger than digest (Phase 4).
-    copilot_numeric_validation: bool = True
+    copilot_numeric_validation: bool = False
     # Shorter answers + sectioned structure for client demos (optional).
     copilot_strict_demo_mode: bool = False
     # Append JSONL rows to var/copilot_traces/copilot.jsonl (Phase 14).

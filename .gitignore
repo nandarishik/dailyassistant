@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database files (large binaries)
+database/*.db
+database/*.DB
+database/*.db-shm
+database/*.db-wal
+
+# Models (trained artifacts)
+models/
+
+# Scratch / one-off scripts
+scratch/
+_one_off/logs/
+
+# Environment
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+desktop.ini
+Thumbs.db
+.DS_Store
