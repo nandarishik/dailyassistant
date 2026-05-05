@@ -39,11 +39,34 @@ DB_PATH  = resolve_db_path(BASE)
 LOG_PATH = BASE / "database" / "context_engine_log.txt"
 _ENV_LOAD_PATHS = load_app_dotenv(BASE)
 
-# ── API Keys -----------------------------------------------------------------
-WEATHERAPI_KEY  = os.getenv("WEATHERAPI_KEY",     "").strip()
-NEWS_API_KEY    = os.getenv("NEWS_API_KEY",        "").strip()
-GEMINI_KEY      = os.getenv("GEMINI_API_KEY",      "").strip()
-OPENROUTER_KEY  = os.getenv("OPENROUTER_API_KEY",  "").strip()
+# ── API Keys & Streamlit Integration ─────────────────────────────────────────
+def _get_secret(env_name: str, streamlit_path: list[str]) -> str:
+    """Helper to get secret from Streamlit Cloud (nested TOML) or local .env."""
+    # 1. Try Streamlit Secrets (Nested)
+    try:
+        import streamlit as st
+        val = st.secrets
+        for key in streamlit_path:
+            val = val[key]
+        if val: return str(val).strip()
+    except:
+        pass
+
+    # 2. Try Streamlit Secrets (Flat fallback)
+    try:
+        import streamlit as st
+        if env_name in st.secrets:
+            return str(st.secrets[env_name]).strip()
+    except:
+        pass
+
+    # 3. Local Environment Fallback
+    return os.getenv(env_name, "").strip()
+
+WEATHERAPI_KEY  = _get_secret("WEATHERAPI_KEY",    ["weatherapi", "key"])
+NEWS_API_KEY    = _get_secret("NEWS_API_KEY",       ["newsapi",    "key"])
+GEMINI_KEY      = _get_secret("GEMINI_API_KEY",     ["gemini",     "api_key"])
+OPENROUTER_KEY  = _get_secret("OPENROUTER_API_KEY", ["openrouter", "api_key"])
 
 # ── Constants ----------------------------------------------------------------
 CITY        = "Hyderabad"
