@@ -16,8 +16,10 @@ DASHBOARD_CSS = """
   --color-success: #10b981;
 }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-
+html, body, [class*="css"] { 
+    font-family: 'Inter', sans-serif; 
+    color: var(--color-text-primary) !important; 
+}
 .stApp {
     background: linear-gradient(135deg, var(--color-bg) 0%, #302b63 50%, #24243e 100%);
     min-height: 100vh;
@@ -87,7 +89,7 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     background: rgba(255,255,255,.06);
     border: 1px solid rgba(255,255,255,.1);
     border-radius: 4px 16px 16px 16px;
-    padding: .8rem 1.1rem; margin: .5rem 0; color:#e2e8f0;
+    padding: .8rem 1.1rem; margin: .5rem 0; color: #e2e8f0 !important;
     font-size:.9rem; max-width:85%;
 }
 .sql-block {
