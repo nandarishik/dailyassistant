@@ -9,6 +9,14 @@ import sys, os, pathlib, html
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+
+# ─── Path setup (must run before any src.* imports) ──────────────────────────
+_BASE_DIR  = pathlib.Path(__file__).parent.parent
+if str(_BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(_BASE_DIR))
+if str(_BASE_DIR / "scripts") not in sys.path:
+    sys.path.insert(0, str(_BASE_DIR / "scripts"))
+
 from src.app.styles import DASHBOARD_CSS
 from src.config.env import load_app_dotenv
 from src.config.runtime_check import DatabaseConfigError, validate_database_path
@@ -17,12 +25,8 @@ from src.services.kpi_service import load_kpi_tab_data, load_sidebar_filter_opti
 from src.services.query_service import investigate_copilot_for_ui
 
 # ─── Load .env and import LLMManager from context engine ─────────────────────
-_BASE_DIR  = pathlib.Path(__file__).parent.parent
 load_app_dotenv(_BASE_DIR)
 
-# Make scripts/ importable
-if str(_BASE_DIR / "scripts") not in sys.path:
-    sys.path.insert(0, str(_BASE_DIR / "scripts"))
 from universal_context import LLMManager
 from copilot_brain import generate_proactive_brief, generate_anomaly_diagnosis
 from anomaly_engine import detect_anomalies_all_outlets, get_anomaly_summary_table
