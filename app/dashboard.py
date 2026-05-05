@@ -27,7 +27,7 @@ from universal_context import LLMManager
 from copilot_brain import generate_proactive_brief, generate_anomaly_diagnosis
 from anomaly_engine import detect_anomalies_all_outlets, get_anomaly_summary_table
 from mailer import send_morning_brief, load_notification_history, build_email_html, log_notification
-from copilot_brain import _tool_compute_live_basket
+from copilot_brain import _tool_analyze_product_mix
 
 # Phase 4.2/5 imports
 try:
@@ -49,7 +49,7 @@ def get_intelligence_brief() -> dict:
 
 # ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="QAFFEINE Analytics",
+    page_title="Bajaj DMS Analytics",
     page_icon="☕",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -83,9 +83,9 @@ max_date = _filter_opts.max_date
 with st.sidebar:
     st.markdown("""
     <div style='text-align:center;padding:.8rem 0 1rem'>
-        <div style='font-size:2.6rem'>☕</div>
-        <div style='font-size:1.1rem;font-weight:800;color:#f1f5f9'>QAFFEINE</div>
-        <div style='font-size:.7rem;color:#64748b;letter-spacing:.15em'>ANALYTICS · QAFFEINE COPILOT</div>
+        <div style='font-size:2.6rem'>🏢</div>
+        <div style='font-size:1.1rem;font-weight:800;color:#f1f5f9'>BAJAJ DMS</div>
+        <div style='font-size:.7rem;color:#64748b;letter-spacing:.15em'>ANALYTICS · BAJAJ COPILOT</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -103,7 +103,7 @@ with st.sidebar:
     st.markdown("""
     <div style='font-size:.7rem;color:#475569;padding-top:.5rem;
                 border-top:1px solid rgba(255,255,255,.06)'>
-        Data: 2026 · QAFFEINE Copilot v2.0
+        Data: 2026 · Bajaj Copilot v2.0
     </div>
     """, unsafe_allow_html=True)
 
@@ -116,17 +116,16 @@ date_end     = str(date_range[1])
 
 # ─── Page header ──────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div class='page-title'>☕ QAFFEINE Analytics</div>
+<div class='page-title'>🏢 Bajaj DMS Analytics</div>
 <div class='page-sub'>Multi-Zone Dashboard · {date_start} → {date_end} · {len(outlet_choice)} zone(s)</div>
 """, unsafe_allow_html=True)
 st.markdown("<div class='custom-divider'></div>", unsafe_allow_html=True)
 
 # ─── TABS ───────────────────────────────────────────────────────────────────
-tab_dash, tab_ai, tab_notify, tab_sim = st.tabs(
+tab_dash, tab_ai, tab_sim = st.tabs(
     [
         "📊  KPI Dashboard",
         "🤖  AI Copilot",
-        "🔔  Notifications",
         "🔮  Simulator",
     ]
 )
@@ -258,12 +257,12 @@ with tab_dash:
                            mime="text/csv")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — QAFFEINE COPILOT  (Agentic Multi-Tool)
+# TAB 2 — Bajaj Copilot  (Agentic Multi-Tool)
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_ai:
     st.markdown("""
     <div style='padding:.6rem 0 1rem'>
-        <div style='font-size:1.5rem;font-weight:800;color:#f1f5f9'>🤖 QAFFEINE Copilot — AI Business Partner</div>
+        <div style='font-size:1.5rem;font-weight:800;color:#f1f5f9'>🤖 Bajaj Copilot — AI Business Partner</div>
         <div style='font-size:.85rem;color:#64748b;margin-top:.2rem'>
             Agentic reasoning engine. The Copilot autonomously calls SQL, Weather, Holiday & Basket
             tools — backed by the context_intelligence DB — to find the <em>why</em> behind every number.
@@ -279,7 +278,7 @@ with tab_ai:
     pending_q = st.session_state.pop("copilot_question_pending", None)
     if pending_q:
         try:
-            with st.status("🤖 QAFFEINE Copilot is investigating…", expanded=True) as _pending_status:
+            with st.status("🤖 Bajaj Copilot is investigating…", expanded=True) as _pending_status:
                 st.write(f'🔍 Received: "{pending_q[:80]}"')
                 _entry = investigate_copilot_for_ui(pending_q)
                 for _step in _entry.get("monologue", []):
@@ -301,7 +300,7 @@ with tab_ai:
     )
     suggestions = [
         "Which day of the week has our highest average sales?",
-        "Why was revenue so high on Feb 14th?",
+        "Why was revenue so high on Jan 31st?",
         "Rank our top 5 zones by total revenue this year.",
         "What are our top 3 selling items across the entire company?",
         "How is the East Zone performing this month?",
@@ -339,7 +338,7 @@ with tab_ai:
                         engine_label = "Intent SQL (guarded template)"
                     else:
                         badge_color, badge_icon = "#94a3b8", "⚡"
-                        engine_label = model or "QAFFEINE Copilot"
+                        engine_label = model or "Bajaj Copilot"
 
                     tool_calls = entry.get("tool_calls", [])
                     if tool_calls:
@@ -383,7 +382,7 @@ with tab_ai:
                         )
 
                     if entry.get("response"):
-                        st.markdown("**QAFFEINE Copilot**")
+                        st.markdown("**Bajaj Copilot**")
                         st.markdown(str(entry["response"]))
 
                     _evc = entry.get("evidence") or {}
@@ -420,7 +419,7 @@ with tab_ai:
 
     if user_q:
         try:
-            with st.status("🤖 QAFFEINE Copilot is investigating…", expanded=True) as status:
+            with st.status("🤖 Bajaj Copilot is investigating…", expanded=True) as status:
                 st.write(f'🔍 Received: "{user_q[:80]}"')
                 entry = investigate_copilot_for_ui(user_q)
                 for step in entry.get("monologue", []):
@@ -448,9 +447,9 @@ with tab_ai:
             st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 — NOTIFICATION CENTER
+# TAB 3 — NOTIFICATION CENTER (Commented out)
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_notify:
+if False: # with tab_notify:
     import json as _jn
     import datetime as _dt_notify
 
@@ -491,7 +490,7 @@ with tab_notify:
         sidebar_trigger = st.session_state.pop("trigger_morning_brief", False)
 
         if send_btn or sidebar_trigger:
-            with st.status("🤖 QAFFEINE Copilot — Morning Brief Pipeline", expanded=True) as brief_status:
+            with st.status("🤖 Bajaj Copilot — Morning Brief Pipeline", expanded=True) as brief_status:
                 import time as _time
 
                 # ── Step 1: Anomaly Scan ───────────────────────────────
@@ -528,7 +527,7 @@ with tab_notify:
                 st.write("🎯 **Step 3/4** — Computing recovery bundle recommendations...")
                 recommendations = ""
                 try:
-                    recommendations = _tool_compute_live_basket(
+                    recommendations = _tool_analyze_product_mix(
                         outlet_filter="", date_from="", date_to="",
                         group_filter="", top_n=5,
                     )
@@ -719,7 +718,7 @@ with tab_sim:
 
         scenario_text = st.text_input(
             "Describe a scenario",
-            placeholder="e.g. 'Heavy rain on a Friday at Bhooja' or 'Thunderstorm at Hitech City this Saturday'",
+            placeholder="e.g. 'Heavy rain on a Friday in East Zone' or 'Thunderstorm in West Zone this Saturday'",
             key="scenario_chat_input",
             label_visibility="collapsed",
         )
@@ -729,7 +728,7 @@ with tab_sim:
             if scenario_text != st.session_state.get("last_scenario_text", ""):
                 try:
                     with st.status(
-                        "🧠 QAFFEINE Copilot is interpreting your scenario...", expanded=True
+                        "🧠 Bajaj Copilot is interpreting your scenario...", expanded=True
                     ) as parse_status:
                         parsed = interpret_scenario_prompt(scenario_text)
                         st.write(f"🏪 **Outlet:** {parsed['outlet']}")
@@ -867,12 +866,12 @@ with tab_sim:
             st.markdown("<div class='custom-divider'></div>", unsafe_allow_html=True)
 
             # ── Narrative Analysis ─────────────────────────────────────────
-            st.markdown("<div class='section-header'>🧠 QAFFEINE Copilot Narrative Analysis</div>",
+            st.markdown("<div class='section-header'>🧠 Bajaj Copilot Narrative Analysis</div>",
                         unsafe_allow_html=True)
 
             # Build narrative context
             scenario_desc = scenario_text if scenario_text else f"{sim_rain}mm rain, {sim_temp}°C"
-            narrative_prompt = f"""You are QAFFEINE Copilot, an elite coffee-chain business strategist.
+            narrative_prompt = f"""You are Bajaj Copilot, an elite coffee-chain business strategist.
 
 A revenue simulation was run for {result['outlet']} on {result['day_of_week']}, {date_str}.
 Scenario: {scenario_desc}
@@ -943,6 +942,6 @@ Be concise, strategic, and data-driven. Use specific numbers from the simulation
 st.markdown("""
 <div style='text-align:center;padding:1.5rem 0 .5rem;
             font-size:.72rem;color:#334155;letter-spacing:.05em'>
-    QAFFEINE Analytics · QAFFEINE Copilot v2.0 · Gemini 2.0 Flash ↩ OpenRouter/Llama-3.3-70B · ML Forecaster
+    QAFFEINE Analytics · Bajaj Copilot v2.0 · Gemini 2.0 Flash ↩ OpenRouter/Llama-3.3-70B · ML Forecaster
 </div>
 """, unsafe_allow_html=True)

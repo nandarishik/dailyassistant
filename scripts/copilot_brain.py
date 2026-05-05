@@ -487,6 +487,7 @@ TABLE: VIEW_AI_SALES (FMCG distributor secondary sales — 1 row per invoice lin
 
   -- Product --
   PRODUCT            VARCHAR(100)   (full SKU name, e.g. 'ADHO 45ML+10% EXTRA...')
+  CLUB_SKU           VARCHAR(25)    (grouping of similar SKUs)
   PRODUCT_CLASS      VARCHAR(25)    (top category: 'Hair Oil', 'CNO', 'CNO Gold Blue', 'Toothpowder', etc.)
   PRODUCT_SUBCLASS   VARCHAR(25)    (sub-category: 'Light hair oil', 'Amla Oil', 'CNO', etc.)
   CODE               VARCHAR(25)    (brand short-code: 'ADHO', 'AHO', 'CNO', 'BTP', 'BGJ', etc.)
@@ -577,6 +578,7 @@ SQL WRITING RULES (read before writing any SQL):
 - IMPORTANT: If asking about a specific zone, make sure the week average query HAS the same `WHERE ZONE='...'` filter inside the subquery so you don't compare a single zone to the entire company total!
 - VIEW_AI_SALES is the ONLY table. Use it for all queries.
 - Always alias with AS, always name columns explicitly.
+- CASE INSENSITIVITY: SQLite string matching is case-sensitive! Always use UPPER(column) = UPPER('value') or LIKE '%value%' when filtering string columns like ISR, ZONE, STOCKIEST, PRODUCT, BEAT.
 
 Example for 'revenue on date X' (by state):
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
