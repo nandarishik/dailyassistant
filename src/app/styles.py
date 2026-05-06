@@ -24,9 +24,14 @@ html, body {
 .stMarkdown, p, li, span.st-emotion-cache-10trblm, .kpi-value, .chat-ai, .chat-user, .page-title, .section-header { 
     color: #ffffff !important; 
 }
-/* Ensure Streamlit buttons and pills remain readable (Dark text) */
-button p, .st-emotion-cache-12w0qpk, [data-testid="stSidebar"] span {
+/* Ensure Streamlit buttons and pills remain readable with consistent colors */
+button, [data-testid="baseButton-secondary"], [data-testid="stSidebar"] div[data-baseweb="tag"] {
+    background-color: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+}
+button p, button span, [data-testid="stSidebar"] span, [data-testid="baseButton-secondary"] p {
     color: #1e293b !important;
+    font-weight: 600 !important;
 }
 .stApp {
     background: linear-gradient(135deg, var(--color-bg) 0%, #302b63 50%, #24243e 100%);
