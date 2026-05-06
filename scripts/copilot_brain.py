@@ -505,7 +505,8 @@ TABLE: VIEW_AI_SALES (FMCG distributor secondary sales — 1 row per invoice lin
   GROSS_AMT          NUMERIC(12,2)  (gross amount before discounts)
   TAXABLE_AMT        NUMERIC(12,2)  (taxable amount after discounts)
   NET_AMT            NUMERIC(12,2)  (** ALWAYS use SUM(NET_AMT) for revenue totals! **)
-  SCHEME_AMT         NUMERIC(10,2)  (scheme/promotional discount amount)
+  SCHEME_AMT         NUMERIC(10,2)  (SKU Scheme / SKU-level promotional discount)
+  GRP_SCHEME_AMT     NUMERIC(10,2)  (Group Scheme / Basket-level promotional discount)
   CD_AMT             NUMERIC(10,2)  (cash discount amount)
   TOTAL_VOLUME_BILLED_LTR NUMERIC(14,2) (volume billed in litres)
 
@@ -519,6 +520,7 @@ CRITICAL SQL RULES:
   7. For product analysis: GROUP BY PRODUCT_CLASS, CODE, or PRODUCT.
   8. For distribution analysis: GROUP BY STOCKIEST, ISR, or CUSTOMER.
   9. Current dataset covers January 2026 only.
+  10. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER).
 """.strip()
 
 COPILOT_SYSTEM_PROMPT = f"""
@@ -579,6 +581,11 @@ SQL WRITING RULES (read before writing any SQL):
 - VIEW_AI_SALES is the ONLY table. Use it for all queries.
 - Always alias with AS, always name columns explicitly.
 - CASE INSENSITIVITY: SQLite string matching is case-sensitive! Always use UPPER(column) = UPPER('value') or LIKE '%value%' when filtering string columns like ISR, ZONE, STOCKIEST, PRODUCT, BEAT.
+- GRAND TOTALS: Never guess or manually sum partial results (e.g. top 10 rows) to state a grand total. If you need the total revenue for the whole company or a specific period, run a dedicated SQL query for it.
+- CRORE CONVERSION: 1 Crore (Cr) = 10,000,000 (10 Million). 1 Lakh = 100,000. Always divide the raw SQL result by 10,000,000 to get Crores. Be extremely precise with this math.
+- DATASET RANGE: The sales data ONLY exists for January 2026 (up to 2026-01-31). If the user asks for 'today' or any current date, you MUST use '2026-01-31' as the anchor date, but you MUST mention in your response that you are showing results for January 31st (the latest data point).
+- COUNTING RULE: For 'ECO', 'Billed Outlets', or 'Billed Customers', ALWAYS use `COUNT(DISTINCT CUSTOMER)` to get the accurate count (5460 for January). Avoid `CUSTOMER_CODE` for counting.
+- SCHEME MAPPING: Use `SCHEME_AMT` for 'SKU Scheme' or 'Scheme'. Use `GRP_SCHEME_AMT` ONLY when the user says 'Group Scheme' or 'Grp Scheme'.
 
 Example for 'revenue on date X' (by state):
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
