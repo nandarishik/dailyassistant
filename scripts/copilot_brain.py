@@ -582,10 +582,11 @@ SQL WRITING RULES (read before writing any SQL):
 - Always alias with AS, always name columns explicitly.
 - CASE INSENSITIVITY: SQLite string matching is case-sensitive! Always use UPPER(column) = UPPER('value') or LIKE '%value%' when filtering string columns like ISR, ZONE, STOCKIEST, PRODUCT, BEAT.
 - GRAND TOTALS: Never guess or manually sum partial results (e.g. top 10 rows) to state a grand total. If you need the total revenue for the whole company or a specific period, run a dedicated SQL query for it.
-- CRORE CONVERSION: 1 Crore (Cr) = 10,000,000 (10 Million). 1 Lakh = 100,000. Always divide the raw SQL result by 10,000,000 to get Crores. Be extremely precise with this math.
+- CRORE CONVERSION: 1 Crore (Cr) = 10,000,000 (Ten Million). 1 Lakh = 100,000. ALWAYS divide the raw SQL result by 10,000,000 to get Crores. (e.g., 11,500,000 is 1.15 Cr, NOT 11.5 Cr).
 - DATASET RANGE: The sales data ONLY exists for January 2026 (up to 2026-01-31). If the user asks for 'today' or any current date, you MUST use '2026-01-31' as the anchor date, but you MUST mention in your response that you are showing results for January 31st (the latest data point).
 - COUNTING RULE: For 'ECO', 'Billed Outlets', or 'Billed Customers', ALWAYS use `COUNT(DISTINCT CUSTOMER)` to get the accurate count (5460 for January). Avoid `CUSTOMER_CODE` for counting.
 - SCHEME MAPPING: Use `SCHEME_AMT` for 'SKU Scheme' or 'Scheme'. Use `GRP_SCHEME_AMT` ONLY when the user says 'Group Scheme' or 'Grp Scheme'.
+- FILTER STRINGS: When filtering for names like ISR or Zone, do NOT include the word 'ISR' or 'Zone' in the string value. (e.g., for 'Vacant ISR', use `UPPER(ISR) = 'VACANT'`).
 
 Example for 'revenue on date X' (by state):
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
