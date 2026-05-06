@@ -24,17 +24,17 @@ html, body {
 .stMarkdown, p, li, span.st-emotion-cache-10trblm, .kpi-value, .chat-ai, .chat-user, .page-title, .section-header { 
     color: #ffffff !important; 
 }
-/* Ensure Streamlit buttons and pills remain readable with consistent colors */
+/* Force consistent DARK theme for buttons and pills across all systems */
 button, [data-testid="baseButton-secondary"], [data-testid="stSidebar"] div[data-baseweb="tag"] {
-    background-color: rgba(255,255,255,0.9) !important;
-    border: 1px solid rgba(0,0,0,0.1) !important;
+    background-color: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
 }
 button p, button span, [data-testid="stSidebar"] span, [data-testid="baseButton-secondary"] p {
-    color: #1e293b !important;
-    font-weight: 600 !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
 }
 .stApp {
-    background: linear-gradient(135deg, var(--color-bg) 0%, #302b63 50%, #24243e 100%);
+    background: #0f0c29 !important;
     min-height: 100vh;
 }
 .main .block-container { padding: 1.5rem 2.5rem 2rem; max-width: 1400px; }
