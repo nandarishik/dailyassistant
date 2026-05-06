@@ -39,11 +39,11 @@ button p, button span, [data-testid="stSidebar"] span, [data-testid="baseButton-
 }
 .main .block-container { padding: 1.5rem 2.5rem 2rem; max-width: 1400px; }
 
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-    border-right: 1px solid rgba(255,255,255,0.12);
+[data-testid="stSidebar"], section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
+    border-right: 1px solid rgba(255,255,255,0.12) !important;
 }
-[data-testid="stSidebar"] * { color: #ffffff !important; }
+[data-testid="stSidebar"] *, section[data-testid="stSidebar"] * { color: #ffffff !important; }
 [data-testid="stSidebar"] label {
     color: #94a3b8 !important; font-size: 0.78rem;
     font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;

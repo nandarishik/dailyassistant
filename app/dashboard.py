@@ -265,13 +265,8 @@ with tab_dash:
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_ai:
     st.markdown("""
-    <div style='padding:.6rem 0 1rem'>
+    <div style='padding:.6rem 0 .4rem'>
         <div style='font-size:1.5rem;font-weight:800;color:#f1f5f9'>🤖 Bajaj Copilot — AI Business Partner</div>
-        <div style='font-size:.85rem;color:#64748b;margin-top:.2rem'>
-            Agentic reasoning engine. The Copilot autonomously calls SQL, Weather, Holiday & Basket
-            tools — backed by the context_intelligence DB — to find the <em>why</em> behind every number.
-            High-confidence questions can run through a <strong>guarded intent → SQL</strong> path first.
-        </div>
     </div>
     """, unsafe_allow_html=True)
 
