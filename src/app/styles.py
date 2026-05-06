@@ -16,9 +16,17 @@ DASHBOARD_CSS = """
   --color-success: #10b981;
 }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-html, body, .main, .stMarkdown, p, .kpi-value, .chat-ai, .chat-user { 
+html, body { 
     font-family: 'Inter', sans-serif; 
+    background-color: var(--color-bg);
+}
+/* Target AI response text and specific containers only */
+.stMarkdown, p, li, span.st-emotion-cache-10trblm, .kpi-value, .chat-ai, .chat-user, .page-title, .section-header { 
     color: #ffffff !important; 
+}
+/* Ensure Streamlit buttons and pills remain readable (Dark text) */
+button p, .st-emotion-cache-12w0qpk, [data-testid="stSidebar"] span {
+    color: #1e293b !important;
 }
 .stApp {
     background: linear-gradient(135deg, var(--color-bg) 0%, #302b63 50%, #24243e 100%);
