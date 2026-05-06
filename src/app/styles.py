@@ -16,31 +16,24 @@ DASHBOARD_CSS = """
   --color-success: #10b981;
 }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-html, body { 
-    font-family: 'Inter', sans-serif; 
-    background-color: var(--color-bg);
+
+/* GLOBAL THEME FORCE (Dark background, White font) */
+html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"], header {
+    font-family: 'Inter', sans-serif !important;
+    background: #0f0c29 !important;
+    background-color: #0f0c29 !important;
+    color: #ffffff !important;
 }
-/* Target AI response text and specific containers only */
-.stMarkdown, p, li, span.st-emotion-cache-10trblm, .kpi-value, .chat-ai, .chat-user, .page-title, .section-header { 
+
+/* AI Markdown and Prose text visibility */
+.stMarkdown, p, li, h1, h2, h3, .kpi-value, .chat-ai, .chat-user, .page-title, .section-header { 
     color: #ffffff !important; 
 }
-/* Force consistent DARK theme for buttons and pills across all systems */
-button, [data-testid="baseButton-secondary"], [data-testid="stSidebar"] div[data-baseweb="tag"] {
-    background-color: rgba(255,255,255,0.1) !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-}
-button p, button span, [data-testid="stSidebar"] span, [data-testid="baseButton-secondary"] p {
-    color: #ffffff !important;
-    font-weight: 500 !important;
-}
-.stApp {
-    background: #0f0c29 !important;
-    min-height: 100vh;
-}
-.main .block-container { padding: 1.5rem 2.5rem 2rem; max-width: 1400px; }
 
-[data-testid="stSidebar"], section[data-testid="stSidebar"] {
+/* SIDEBAR FORCE DARK */
+[data-testid="stSidebar"], section[data-testid="stSidebar"], [data-testid="stSidebarNav"] {
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
+    background-color: #1a1a2e !important;
     border-right: 1px solid rgba(255,255,255,0.12) !important;
 }
 [data-testid="stSidebar"] *, section[data-testid="stSidebar"] * { color: #ffffff !important; }
@@ -48,6 +41,24 @@ button p, button span, [data-testid="stSidebar"] span, [data-testid="baseButton-
     color: #94a3b8 !important; font-size: 0.78rem;
     font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
 }
+
+/* BUTTONS & PILLS (Dark background with White text) */
+button, [data-testid="baseButton-secondary"], [data-testid="stSidebar"] div[data-baseweb="tag"] {
+    background-color: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+}
+/* HOVER STATE (Darker highlight) */
+button:hover, [data-testid="baseButton-secondary"]:hover {
+    background-color: rgba(255,255,255,0.2) !important;
+    border: 1px solid rgba(255,255,255,0.4) !important;
+}
+button p, button span, [data-testid="stSidebar"] span, [data-testid="baseButton-secondary"] p {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+.main .block-container { padding: 1.5rem 2.5rem 2rem; max-width: 1400px; }
+
 
 .stTabs [data-baseweb="tab-list"]  {
     background: rgba(255,255,255,0.06);
