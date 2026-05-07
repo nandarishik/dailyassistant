@@ -3,6 +3,7 @@ QAFFEINE Sales Dashboard — v2 with Gemini AI Assistant
 =======================================================
 Tabbed Streamlit app: Tab 1 = KPI Dashboard, Tab 2 = AI Assistant
 Run: streamlit run app/dashboard.py
+# Last Updated: 2026-05-07T17:35:00
 """
 
 import sys, os, pathlib, html

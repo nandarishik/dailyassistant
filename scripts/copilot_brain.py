@@ -908,6 +908,7 @@ class CopilotAgent:
         monologue = cr.monologue
 
         monologue.append(f'🔍 Received query: "{query[:80]}"')
+        monologue.append("🏷️ Agent Engine: QAFFEINE-v2.1-HARDENED")
 
         try:
             calls = self._plan(query, monologue)
