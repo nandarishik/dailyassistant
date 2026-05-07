@@ -761,8 +761,8 @@ class CopilotAgent:
         result = self._llm.generate(
             base_prompt,
             temperature=0.15,
-            max_output_tokens=120,
-            max_tokens=120,
+            max_output_tokens=512,
+            max_tokens=512,
         )
         # Capture fallback logs in monologue
         for log_entry in result.fallback_log:
@@ -911,8 +911,8 @@ class CopilotAgent:
         result = self._llm.generate(
             prompt,
             temperature=0.35,
-            max_output_tokens=120,
-            max_tokens=120,
+            max_output_tokens=512,
+            max_tokens=512,
         )
         # Capture fallback logs in monologue
         for log_entry in result.fallback_log:
