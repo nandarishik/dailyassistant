@@ -519,7 +519,8 @@ CRITICAL SQL RULES:
   6. For territory analysis: GROUP BY STATE, ZONE, TOWN, or AREA_SALES_MANAGER.
   7. For product analysis: GROUP BY PRODUCT_CLASS, CODE, or PRODUCT.
   8. For distribution analysis: GROUP BY STOCKIEST, ISR, or CUSTOMER.
-  9. Current dataset covers January 2026 only.
+  9. Historical dataset range: 2026-01-01 to 2026-01-31 ONLY.
+  10. Any date after 2026-01-31 (including {today}) is OUTSIDE the data scope and has ZERO records in the database.
   10. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER), Total beats = COUNT(DISTINCT BEAT), Route = BEAT, Secondary = SUM(NET_AMT), Secondary Sales = SUM(NET_AMT).
 """.strip()
 
@@ -590,7 +591,8 @@ SQL WRITING RULES (read before writing any SQL):
 - STOCKIEST MATCHING: Stockiest names in the DB often have bracketed suffixes like '[INDORE]'. ALWAYS use `LIKE '%name%'` instead of `=` for Stockiest filters to ensure matches.
 
 - SECONDARY SALES: When the user asks for 'Secondary' or 'Secondary Sales', they mean `SUM(NET_AMT)`.
-- TEMPORAL ANCHOR (TODAY): Use the actual current date for 'today' queries ({today}). If the SQL result is 0 or NULL, explicitly tell the user that "Real-time data for {today} is not yet synchronized" and that the current warehouse records are available up to January 31st, 2026.
+- TEMPORAL ANCHOR (TODAY): Use the actual current date for 'today' queries ({today}). 
+- DO NOT SUBSTITUTE: Never substitute '2026-01-31' for 'today'. If you query for {today} and get 0 or NULL, you must report 0/NULL. Do not 'help' the user by showing January data instead.
 - PERSONAL PRONOUNS ('MY'): If the user asks for 'my sales' or 'my secondary', they are requesting the total company-wide or zone-specific revenue for the current scope. Do not look for a user named 'My'.
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
 
@@ -755,8 +757,8 @@ class CopilotAgent:
         result = self._llm.generate(
             base_prompt,
             temperature=0.15,
-            max_output_tokens=1024,
-            max_tokens=1024,
+            max_output_tokens=120,
+            max_tokens=120,
         )
         # Capture fallback logs in monologue
         for log_entry in result.fallback_log:
@@ -905,8 +907,8 @@ class CopilotAgent:
         result = self._llm.generate(
             prompt,
             temperature=0.35,
-            max_output_tokens=2048,
-            max_tokens=2048,
+            max_output_tokens=120,
+            max_tokens=120,
         )
         # Capture fallback logs in monologue
         for log_entry in result.fallback_log:

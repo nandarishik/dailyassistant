@@ -52,16 +52,6 @@ def _resolve_dates(question: str, base_dir: Path) -> tuple[str, str]:
         return min(dates[0], dates[-1]), max(dates[0], dates[-1])
     if len(dates) == 1:
         return dates[0], dates[0]
-    
-    # Handle relative keywords
-    low = question.lower()
-    if "today" in low:
-        today = datetime.date.today().isoformat()
-        return today, today
-    if "yesterday" in low:
-        yesterday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
-        return yesterday, yesterday
-
     return lo, hi
 
 
