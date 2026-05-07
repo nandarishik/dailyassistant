@@ -583,14 +583,14 @@ SQL WRITING RULES (read before writing any SQL):
 - CASE INSENSITIVITY: SQLite string matching is case-sensitive! Always use UPPER(column) = UPPER('value') or LIKE '%value%' when filtering string columns like ISR, ZONE, STOCKIEST, PRODUCT, BEAT.
 - GRAND TOTALS: Never guess or manually sum partial results (e.g. top 10 rows) to state a grand total. If you need the total revenue for the whole company or a specific period, run a dedicated SQL query for it.
 - CRORE CONVERSION: 1 Crore (Cr) = 10,000,000 (Ten Million). 1 Lakh = 100,000. ALWAYS divide the raw SQL result by 10,000,000 to get Crores. (e.g., 11,500,000 is 1.15 Cr, NOT 11.5 Cr).
-- DATASET RANGE: The sales data ONLY exists for January 2026 (up to 2026-01-31). If the user asks for 'today' or any current date, you MUST use '2026-01-31' as the anchor date, but you MUST mention in your response that you are showing results for January 31st (the latest data point).
+- DATASET RANGE: The sales data ONLY exists for January 2026 (up to 2026-01-31). If the user asks for 'today' or any current date, use the actual date ({today}). If no data exists for that date, report the result as 0 or 'Data not available' and inform the user that the historical dataset currently ends on Jan 31st, 2026.
 - COUNTING RULE: For 'ECO', 'Billed Outlets', or 'Billed Customers', ALWAYS use `COUNT(DISTINCT CUSTOMER)` to get the accurate count (5460 for January). Avoid `CUSTOMER_CODE` for counting.
 - SCHEME MAPPING: Use `SCHEME_AMT` for 'SKU Scheme' or 'Scheme'. Use `GRP_SCHEME_AMT` ONLY when the user says 'Group Scheme' or 'Grp Scheme'.
 - FILTER STRINGS: When filtering for names like ISR, Zone, Distributor, or DB, do NOT include the words 'ISR', 'Zone', 'Distributor', or 'DB' in the string value if they are being used as a category label. (e.g., for 'Distributor Delight Agencies', use `STOCKIEST LIKE '%DELIGHT AGENCIES%'`).
 - STOCKIEST MATCHING: Stockiest names in the DB often have bracketed suffixes like '[INDORE]'. ALWAYS use `LIKE '%name%'` instead of `=` for Stockiest filters to ensure matches.
 
 - SECONDARY SALES: When the user asks for 'Secondary' or 'Secondary Sales', they mean `SUM(NET_AMT)`.
-- TEMPORAL ANCHOR (TODAY): The dataset is static. 'Today' or 'current sales' MUST ALWAYS be mapped to '2026-01-31'. NEVER use the actual current date (e.g., 2026-05-07) as it will return 0 results.
+- TEMPORAL ANCHOR (TODAY): Use the actual current date for 'today' queries ({today}). If the SQL result is 0 or NULL, explicitly tell the user that "Real-time data for {today} is not yet synchronized" and that the current warehouse records are available up to January 31st, 2026.
 - PERSONAL PRONOUNS ('MY'): If the user asks for 'my sales' or 'my secondary', they are requesting the total company-wide or zone-specific revenue for the current scope. Do not look for a user named 'My'.
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
 
@@ -748,6 +748,7 @@ class CopilotAgent:
             system=COPILOT_SYSTEM_PROMPT,
             query=query,
             tools=", ".join(tool_names),
+            today=datetime.date.today().strftime("%Y-%m-%d"),
         )
         monologue.append("🧠 Planning which tools to invoke…")
         result = self._llm.generate(
@@ -888,6 +889,7 @@ class CopilotAgent:
             premise_block=premise_block,
             data_scope_block=data_scope_block,
             strict_mode_addon=strict_mode_addon,
+            today=datetime.date.today().strftime("%Y-%m-%d"),
         )
         monologue.append("💡 Synthesising insights…")
         result = self._llm.generate(
