@@ -758,6 +758,15 @@ class CopilotAgent:
             max_output_tokens=1024,
             max_tokens=1024,
         )
+        # Capture fallback logs in monologue
+        for log_entry in result.fallback_log:
+            if "[WARNING]" in log_entry or "[ERROR]" in log_entry:
+                monologue.append(f"  {log_entry}")
+
+        if result.engine == "none":
+            monologue.append("❌ All LLM engines failed.")
+            return []
+
         raw = re.sub(r"```(?:json)?", "", result.text.strip(), flags=re.IGNORECASE).strip().strip("`").strip()
         plan = parse_planner_tool_plan(raw)
         if not plan:
@@ -899,6 +908,11 @@ class CopilotAgent:
             max_output_tokens=2048,
             max_tokens=2048,
         )
+        # Capture fallback logs in monologue
+        for log_entry in result.fallback_log:
+            if "[WARNING]" in log_entry or "[ERROR]" in log_entry:
+                monologue.append(f"  {log_entry}")
+
         return result.text, result.engine, result.model
 
     # ── Public: investigate ───────────────────────────────────────────────────
