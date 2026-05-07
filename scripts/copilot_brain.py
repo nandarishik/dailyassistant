@@ -519,11 +519,8 @@ CRITICAL SQL RULES:
   6. For territory analysis: GROUP BY STATE, ZONE, TOWN, or AREA_SALES_MANAGER.
   7. For product analysis: GROUP BY PRODUCT_CLASS, CODE, or PRODUCT.
   8. For distribution analysis: GROUP BY STOCKIEST, ISR, or CUSTOMER.
-  9. HISTORICAL RANGE: 2026-01-01 to 2026-01-31.
-  10. CURRENT DATE: Today is {today}.
-  11. DATA VACUUM: There is NO data for {today}. Any query for {today} will return 0.
-  12. PROHIBITION: Never use '2026-01-31' if the user says 'today'. 'Today' is {today}.
-  13. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER), Total beats = COUNT(DISTINCT BEAT), Route = BEAT, Secondary = SUM(NET_AMT), Secondary Sales = SUM(NET_AMT).
+  9. Current dataset covers January 2026 only.
+  10. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER), Total beats = COUNT(DISTINCT BEAT), Route = BEAT, Secondary = SUM(NET_AMT), Secondary Sales = SUM(NET_AMT).
 """.strip()
 
 COPILOT_SYSTEM_PROMPT = f"""
@@ -585,16 +582,18 @@ SQL WRITING RULES (read before writing any SQL):
 - Always alias with AS, always name columns explicitly.
 - CASE INSENSITIVITY: SQLite string matching is case-sensitive! Always use UPPER(column) = UPPER('value') or LIKE '%value%' when filtering string columns like ISR, ZONE, STOCKIEST, PRODUCT, BEAT.
 - GRAND TOTALS: Never guess or manually sum partial results (e.g. top 10 rows) to state a grand total. If you need the total revenue for the whole company or a specific period, run a dedicated SQL query for it.
-- CRORE CONVERSION: 1 Crore (Cr) = 10,000,000 (Ten Million). 1 Lakh = 100,000. ALWAYS divide the raw SQL result by 10,000,000 to get Crores. (e.g., 11,500,000 is 1.15 Cr, NOT 11.5 Cr).
+- CRORE CONVERSION: 1 Crore (Cr) = 10,000,000 (Ten Million). 1 Lakh = 100,000. ALWAYS divide the raw SQL result by 10,000,000 to get Crores. 
+  * Example: 96,804,111 raw is 9.68 Cr. (NOT 96.8 Cr).
+  * Example: 339,010,000 raw is 33.9 Cr. (NOT 339 Cr).
 - DATASET RANGE: The sales data ONLY exists for January 2026 (up to 2026-01-31). If the user asks for 'today' or any current date, use the actual date ({today}). If no data exists for that date, report the result as 0 or 'Data not available' and inform the user that the historical dataset currently ends on Jan 31st, 2026.
+- MULTI-DATE RULE: If the user asks for multiple specific dates (e.g. '14th, 21st, and 28th'), you MUST return a separate JSON tool call for EACH date. Do NOT try to combine them into one query unless specifically asked for a total.
 - COUNTING RULE: For 'ECO', 'Billed Outlets', or 'Billed Customers', ALWAYS use `COUNT(DISTINCT CUSTOMER)` to get the accurate count (5460 for January). Avoid `CUSTOMER_CODE` for counting.
 - SCHEME MAPPING: Use `SCHEME_AMT` for 'SKU Scheme' or 'Scheme'. Use `GRP_SCHEME_AMT` ONLY when the user says 'Group Scheme' or 'Grp Scheme'.
 - FILTER STRINGS: When filtering for names like ISR, Zone, Distributor, or DB, do NOT include the words 'ISR', 'Zone', 'Distributor', or 'DB' in the string value if they are being used as a category label. (e.g., for 'Distributor Delight Agencies', use `STOCKIEST LIKE '%DELIGHT AGENCIES%'`).
 - STOCKIEST MATCHING: Stockiest names in the DB often have bracketed suffixes like '[INDORE]'. ALWAYS use `LIKE '%name%'` instead of `=` for Stockiest filters to ensure matches.
 
 - SECONDARY SALES: When the user asks for 'Secondary' or 'Secondary Sales', they mean `SUM(NET_AMT)`.
-- TEMPORAL ANCHOR (TODAY): Use the actual current date for 'today' queries ({today}). 
-- DO NOT SUBSTITUTE: Never substitute '2026-01-31' for 'today'. If you query for {today} and get 0 or NULL, you must report 0/NULL. Do not 'help' the user by showing January data instead.
+- TEMPORAL ANCHOR (TODAY): Use the actual current date for 'today' queries ({today}). If the SQL result is 0 or NULL, explicitly tell the user that "Real-time data for {today} is not yet synchronized" and that the current warehouse records are available up to January 31st, 2026.
 - PERSONAL PRONOUNS ('MY'): If the user asks for 'my sales' or 'my secondary', they are requesting the total company-wide or zone-specific revenue for the current scope. Do not look for a user named 'My'.
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
 
@@ -640,6 +639,13 @@ SYNTHESIS_PROMPT_TMPL = """
 {verified_block}
 
 {strict_mode_addon}
+
+=== SYNTHESIS RULES ===
+1. UNIT CONSISTENCY: Always cross-reference the raw numeric value from SQL with your Crore/Lakh conversion. 
+   - 1 Crore (Cr) = 10,000,000. 
+   - If the raw SQL says 96,804,111, that is 9.68 Cr. Do NOT report it as 96.8 Cr.
+2. ZERO HALLUCINATION: Only report numbers that are present in the TOOL RESULTS or VERIFIED_NUMERIC_FACTS. If a tool was only called for one date (e.g. Jan 14), do NOT provide numbers for other dates (e.g. Jan 21) unless they were explicitly returned by a tool.
+3. DATASET LIMIT: If the user asks for a date outside January 2026 (e.g. Today: {today}), explicitly state that the current dataset only goes up to Jan 31st, 2026.
 
 === YOUR TASK ===
 You are a Senior Business Analyst talking to the Regional Sales Head of Bajaj Consumer Care.
@@ -749,13 +755,11 @@ class CopilotAgent:
     # ── Step 1: Plan ──────────────────────────────────────────────────────────
     def _plan(self, query: str, monologue: list[str]) -> list[ToolCall]:
         tool_names = list(TOOL_REGISTRY.keys())
-        today_str = datetime.date.today().strftime("%Y-%m-%d")
-        monologue.append(f"📅 Actual system date: {today_str}")
         base_prompt = PLANNER_PROMPT_TMPL.format(
-            system=COPILOT_SYSTEM_PROMPT.format(today=today_str),
+            system=COPILOT_SYSTEM_PROMPT,
             query=query,
             tools=", ".join(tool_names),
-            today=today_str,
+            today=datetime.date.today().strftime("%Y-%m-%d"),
         )
         monologue.append("🧠 Planning which tools to invoke…")
         result = self._llm.generate(
