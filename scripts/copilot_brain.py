@@ -519,9 +519,11 @@ CRITICAL SQL RULES:
   6. For territory analysis: GROUP BY STATE, ZONE, TOWN, or AREA_SALES_MANAGER.
   7. For product analysis: GROUP BY PRODUCT_CLASS, CODE, or PRODUCT.
   8. For distribution analysis: GROUP BY STOCKIEST, ISR, or CUSTOMER.
-  9. Historical dataset range: 2026-01-01 to 2026-01-31 ONLY.
-  10. Any date after 2026-01-31 (including {today}) is OUTSIDE the data scope and has ZERO records in the database.
-  10. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER), Total beats = COUNT(DISTINCT BEAT), Route = BEAT, Secondary = SUM(NET_AMT), Secondary Sales = SUM(NET_AMT).
+  9. HISTORICAL RANGE: 2026-01-01 to 2026-01-31.
+  10. CURRENT DATE: Today is {today}.
+  11. DATA VACUUM: There is NO data for {today}. Any query for {today} will return 0.
+  12. PROHIBITION: Never use '2026-01-31' if the user says 'today'. 'Today' is {today}.
+  13. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER), Total beats = COUNT(DISTINCT BEAT), Route = BEAT, Secondary = SUM(NET_AMT), Secondary Sales = SUM(NET_AMT).
 """.strip()
 
 COPILOT_SYSTEM_PROMPT = f"""
@@ -747,11 +749,13 @@ class CopilotAgent:
     # ── Step 1: Plan ──────────────────────────────────────────────────────────
     def _plan(self, query: str, monologue: list[str]) -> list[ToolCall]:
         tool_names = list(TOOL_REGISTRY.keys())
+        today_str = datetime.date.today().strftime("%Y-%m-%d")
+        monologue.append(f"📅 Actual system date: {today_str}")
         base_prompt = PLANNER_PROMPT_TMPL.format(
-            system=COPILOT_SYSTEM_PROMPT,
+            system=COPILOT_SYSTEM_PROMPT.format(today=today_str),
             query=query,
             tools=", ".join(tool_names),
-            today=datetime.date.today().strftime("%Y-%m-%d"),
+            today=today_str,
         )
         monologue.append("🧠 Planning which tools to invoke…")
         result = self._llm.generate(
