@@ -8,6 +8,7 @@ via `guarded_execute` (parameterized where possible).
 
 from __future__ import annotations
 
+import datetime
 import hashlib
 import re
 from dataclasses import dataclass
@@ -51,6 +52,16 @@ def _resolve_dates(question: str, base_dir: Path) -> tuple[str, str]:
         return min(dates[0], dates[-1]), max(dates[0], dates[-1])
     if len(dates) == 1:
         return dates[0], dates[0]
+    
+    # Handle relative keywords
+    low = question.lower()
+    if "today" in low:
+        today = datetime.date.today().isoformat()
+        return today, today
+    if "yesterday" in low:
+        yesterday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
+        return yesterday, yesterday
+
     return lo, hi
 
 
@@ -81,7 +92,9 @@ def _try_match(question: str, base_dir: Path) -> IntentMatch | None:
     if not outlets:
         return None
     ph = _outlet_placeholders(len(outlets))
-    dates = _extract_dates(q)
+    # Fallback to LLM if any resolved date is outside historical bounds
+    if ds > bounds.max_date.isoformat() or de > bounds.max_date.isoformat():
+        return None
 
     # Compare two explicit ISO dates
     if len(dates) >= 2 and re.search(r"\b(compare|vs\.?|versus)\b", low):
