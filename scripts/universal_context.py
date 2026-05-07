@@ -129,9 +129,12 @@ class LLMManager:
     # ── OpenRouter fallback chain (benchmarked 2026-03-18) ─────────────────
     # Ranked by: cost-to-performance × context window × reasoning quality
     OPENROUTER_MODELS = [
-        "meta-llama/llama-3.3-70b-instruct",   # #1: cost-optimal, strong reasoning
-        "mistralai/mistral-small-2603",          # #2: 262k ctx, long-form analysis
-        "deepseek/deepseek-chat",                # #3: 163k ctx, last-resort safety net
+        "meta-llama/llama-3.3-70b-instruct",   # Paid #1
+        "mistralai/mistral-small-2603",          # Paid #2
+        "deepseek/deepseek-chat",                # Paid #3
+        "meta-llama/llama-3.3-70b-instruct:free", # Free #1
+        "meta-llama/llama-3.2-3b-instruct:free", # Free #2
+        "openrouter/free",                        # Auto-select free
     ]
 
     OPENROUTER_BASE = "https://openrouter.ai/api/v1/chat/completions"
