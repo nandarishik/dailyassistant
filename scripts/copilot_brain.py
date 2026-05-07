@@ -520,7 +520,7 @@ CRITICAL SQL RULES:
   7. For product analysis: GROUP BY PRODUCT_CLASS, CODE, or PRODUCT.
   8. For distribution analysis: GROUP BY STOCKIEST, ISR, or CUSTOMER.
   9. Current dataset covers January 2026 only.
-  10. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER).
+  10. BUSINESS SYNONYMS: ECO = Effectively Covered Outlet (COUNT(DISTINCT CUSTOMER)), Distributor = STOCKIEST, DB = STOCKIEST, Billed Customers/Outlets = COUNT(DISTINCT CUSTOMER), Total beats = COUNT(DISTINCT BEAT), Route = BEAT, Secondary = SUM(NET_AMT), Secondary Sales = SUM(NET_AMT).
 """.strip()
 
 COPILOT_SYSTEM_PROMPT = f"""
@@ -586,9 +586,12 @@ SQL WRITING RULES (read before writing any SQL):
 - DATASET RANGE: The sales data ONLY exists for January 2026 (up to 2026-01-31). If the user asks for 'today' or any current date, you MUST use '2026-01-31' as the anchor date, but you MUST mention in your response that you are showing results for January 31st (the latest data point).
 - COUNTING RULE: For 'ECO', 'Billed Outlets', or 'Billed Customers', ALWAYS use `COUNT(DISTINCT CUSTOMER)` to get the accurate count (5460 for January). Avoid `CUSTOMER_CODE` for counting.
 - SCHEME MAPPING: Use `SCHEME_AMT` for 'SKU Scheme' or 'Scheme'. Use `GRP_SCHEME_AMT` ONLY when the user says 'Group Scheme' or 'Grp Scheme'.
-- FILTER STRINGS: When filtering for names like ISR or Zone, do NOT include the word 'ISR' or 'Zone' in the string value. (e.g., for 'Vacant ISR', use `UPPER(ISR) = 'VACANT'`).
+- FILTER STRINGS: When filtering for names like ISR, Zone, Distributor, or DB, do NOT include the words 'ISR', 'Zone', 'Distributor', or 'DB' in the string value if they are being used as a category label. (e.g., for 'Distributor Delight Agencies', use `STOCKIEST LIKE '%DELIGHT AGENCIES%'`).
+- STOCKIEST MATCHING: Stockiest names in the DB often have bracketed suffixes like '[INDORE]'. ALWAYS use `LIKE '%name%'` instead of `=` for Stockiest filters to ensure matches.
 
-Example for 'revenue on date X' (by state):
+- SECONDARY SALES: When the user asks for 'Secondary' or 'Secondary Sales', they mean `SUM(NET_AMT)`.
+- TEMPORAL ANCHOR (TODAY): The dataset is static. 'Today' or 'current sales' MUST ALWAYS be mapped to '2026-01-31'. NEVER use the actual current date (e.g., 2026-05-07) as it will return 0 results.
+- PERSONAL PRONOUNS ('MY'): If the user asks for 'my sales' or 'my secondary', they are requesting the total company-wide or zone-specific revenue for the current scope. Do not look for a user named 'My'.
   {{"tool": "query_sales_db", "args": {{"sql": "SELECT STATE, ROUND(SUM(NET_AMT),0) AS revenue FROM VIEW_AI_SALES WHERE SUBSTR(INVOICE_DATE, 1, 10)='2026-01-01' GROUP BY STATE ORDER BY revenue DESC"}}}}
 
 Example for 'total company revenue on date X' (single scalar — use when user asks total / all zones / company sum):

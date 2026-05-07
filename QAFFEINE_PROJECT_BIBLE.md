@@ -1,109 +1,130 @@
-# 📖 The QAFFEINE Project Bible: Bajaj DMS Intelligence Platform
+# 📖 The QAFFEINE Project : Bajaj DMS Intelligence Platform
 
 This document serves as the absolute technical reference for the **Bajaj DMS Analytics & AI Copilot** (QAFFEINE). It details the database architecture, agentic reasoning loops, tool integration, and the end-to-end flow of data from raw sales records to AI-driven business insights.
 
 ---
 
-## 1. Core Architecture Overview
-QAFFEINE is built on a **"Plan → Execute → Synthesise"** agentic pattern. It is designed to act as a Senior Business Analyst that bridges the gap between raw SQL data and strategic context (weather, news, holidays).
+## 1. System Connectivity Graph
 
-### High-Level Component Stack:
-*   **UI Layer:** Streamlit (`app/dashboard.py`)
-*   **Intelligence Layer:** Copilot Agent (`scripts/copilot_brain.py`)
-*   **Context Layer:** Universal Context Engine (`scripts/universal_context.py`)
-*   **Data Layer:** SQLite (`AI_DMS_database.db`)
-*   **Logic Layer:** Python Services (`src/services/`, `src/data/`)
+```mermaid
+graph TD
+    User([User]) <--> Dashboard[Streamlit Dashboard /app/dashboard.py]
+    Dashboard <--> Service[Query Service /src/services/query_service.py]
+    Service <--> Agent[Copilot Agent /scripts/copilot_brain.py]
+    
+    subgraph "The Intelligence Brain"
+        Agent -- Plan --> Planner[LLM Planner]
+        Agent -- Execute --> Tools[Python Toolset]
+        Agent -- Synthesise --> Synthesiser[LLM Senior Analyst]
+        Synthesiser -- Guardrails --> PostCheck[Post-Check Engine /src/copilot/]
+    end
+
+    subgraph "External Signals (Context)"
+        Tools <--> Context[Universal Context /scripts/universal_context.py]
+        Context <--> NewsAPI[NewsAPI / RSS]
+        Context <--> WeatherAPI[WeatherAPI]
+        Context <--> Holidays[Python Holidays Library]
+    end
+
+    subgraph "Data & Analytics"
+        Tools <--> DB[(SQLite AI_DMS_database.db)]
+        Tools <--> Basket[Basket Analysis /scripts/basket_analysis.py]
+        Tools <--> Forecaster[ML Forecaster /scripts/forecaster.py]
+        Anomaly[Anomaly Engine] <--> DB
+        Anomaly -- Flags --> Dashboard
+    end
+
+    DB -- View --> VIEW_AI_SALES
+    DB -- Cache --> context_intelligence
+```
 
 ---
 
-## 2. The Database Schema
-The system relies on two primary tables in `AI_DMS_database.db`.
+## 2. Core Architecture: The Agentic Loop
 
-### A. `VIEW_AI_SALES` (The Secondary Sales Engine)
-This is a flattened view of all secondary sales transactions for January 2026.
-*   **Revenue:** `NET_AMT` (Always use `SUM(NET_AMT)`).
-*   **Hierarchy:** `ZONE`, `STATE`, `TOWN`, `SALES_MANAGER`, `ISR`.
-*   **Distribution:** `STOCKIEST` (Distributor), `BEAT` (Route), `CUSTOMER` (Retailer).
-*   **Product:** `PRODUCT_CLASS` (Category), `CODE` (Brand), `PRODUCT` (SKU).
-*   **Discounts:** `SCHEME_AMT` (SKU Level), `GRP_SCHEME_AMT` (Group/Basket Level).
-
-### B. `context_intelligence` (The External Signal Table)
-Stores pre-fetched and analysed context for specific dates to avoid repeated API calls.
-*   `date`: YYYY-MM-DD
-*   `is_holiday`: Boolean flag for Indian regional/national holidays.
-*   `weather_condition`: Max Temp / Precipitation.
-*   `news_headlines`: Curated business/macro news for that date.
-
----
-
-## 3. The Copilot Agent (The "Brain")
-The logic resides in `scripts/copilot_brain.py` under the `CopilotAgent` class.
+QAFFEINE operates on a **"Plan → Execute → Synthesise"** pattern, designed to mimic a high-level Business Analyst.
 
 ### Phase 1: Planning (`_plan`)
-The LLM receives the user's query and the `DB_SCHEMA_BRIEF`. It outputs a JSON array of tool calls.
-*   **Expert Rules:** If the user asks for "today," the planner anchors the date to **2026-01-31**.
-*   **Synonym Logic:** It maps "ECO" to `COUNT(DISTINCT CUSTOMER)` and "DB" to the `STOCKIEST` column.
+The LLM (Gemini 1.5 Pro or Llama-3) receives the user query, the DB schema, and the Tool Registry.
+*   **Temporal Anchor:** If the user mentions "today," the system hardcodes the context to **2026-01-31** (the latest data point).
+*   **JSON Strategy:** It outputs a raw JSON array of tool calls.
+*   **Multi-Step:** A single query like "Why did sales drop?" triggers a plan with SQL (actuals), SQL (baseline), Holiday check, and News check.
 
 ### Phase 2: Execution (`_execute`)
-The system runs the planned tools locally.
-*   **`query_sales_db(sql)`**: Executes the SQL and returns a formatted Markdown table.
-*   **`get_holiday_status(date)`**: Checks if the date was a holiday (disruption factor).
-*   **`get_news_context(date)`**: Fetches headlines to find macro causes for sales trends.
-*   **`analyze_product_mix(zone/date)`**: Performs a "What Sells Together" basket analysis.
+The `CopilotAgent` runs the tools sequentially.
+*   **`query_sales_db`**: Executes SQL via a guarded execution layer (`src/sql/guarded_execute.py`).
+*   **`get_holiday_status`**: First checks the `context_intelligence` table; if missing, calls the local library.
+*   **`get_news_context`**: Retrieves pre-analysed LLM disruptor summaries from the DB or fetches live headlines.
+*   **`analyze_product_mix`**: Runs a live Market Basket Analysis (Lift/Confidence) on the current filtered dataset.
 
-### Phase 3: Synthesis (`_synthesise`)
-The LLM receives the raw tool results + the original query. It uses the **Senior Analyst Voice** to weave a narrative.
-*   **Math Guardrail:** It is strictly forbidden from "guessing" totals. It must use the `SUM()` provided by the SQL tool.
-*   **Crore Rule:** All figures are converted to "Cr" using a `10,000,000` divisor.
-
----
-
-## 4. End-to-End Dry Run: "Why did sales drop in East Zone on Jan 15th?"
-
-1.  **UI Entry:** User types the question into the AI Assistant tab.
-2.  **Service Call:** `dashboard.py` calls `investigate_copilot_for_ui()`.
-3.  **The Plan:** The Planner decides it needs:
-    *   `query_sales_db`: Total revenue for East Zone on Jan 15th.
-    *   `query_sales_db`: Revenue for East Zone on the 5 days prior (benchmark).
-    *   `get_holiday_status`: Check if Jan 15th was a festival (e.g., Makar Sankranti).
-    *   `get_news_context`: Check for transport strikes or regional events.
-4.  **The Execution:**
-    *   SQL reveals a 40% drop vs. the 5-day average.
-    *   Holiday tool confirms **Makar Sankranti** in Bihar/West Bengal (East Zone).
-    *   News tool identifies regional weather alerts.
-5.  **The Synthesis:** The AI generates a response:
-    > "East Zone saw a 40% revenue dip on Jan 15th (₹22L vs ₹38L avg). This correlates directly with the Makar Sankranti festival which halted primary distribution, compounded by heavy rain alerts reported in the regional news."
+### Phase 3: Synthesis & Hardening (`_synthesise`)
+The LLM receives the raw tool results and applies **Intelligence Hardening** rules.
+*   **Senior Analyst Voice:** No technical jargon (no mention of "SQL" or "Tools").
+*   **Numeric Truth:** Every number must be sourced from a tool result.
+*   **Crore Rule:** Automatic conversion of large figures to "Cr" (Ten Million) or "Lakh" (Hundred Thousand).
 
 ---
 
-## 5. Directory & File Map
+## 3. Trust & Integrity Guardrails (The "Hardening" Layer)
 
-| Path | Purpose |
+Located in `src/copilot/`, these modules ensure the AI doesn't hallucinate or mislead.
+
+### A. Premise Correction (`premise_check.py`)
+If a user asks "Why did sales drop on Jan 15th?", the system automatically ranks Jan 15th against all other days.
+*   **The "Peak" Signal:** If Jan 15th was actually a **top-3 revenue day**, the AI is *forced* to start its response by correcting the user: *"Actually, January 15th was a high-performance day (Ranked #2 this month)..."*
+
+### B. Numeric Verification (`numeric_postcheck.py`)
+*   **Logic:** The system extracts every currency figure from the AI's final narrative.
+*   **Total Check:** It compares the AI's mentioned "Total Revenue" against the actual `SUM(NET_AMT)` from the SQL tool.
+*   **The Footer:** If the AI hallucinates a number (e.g., states ₹50L when the table shows ₹30L), a **Correction Footer** is automatically appended to the chat bubble.
+
+### C. Causal Validation (`causal_postcheck.py`)
+*   **Logic:** Detects causal language like *"because of the rain"* or *"due to the holiday"*.
+*   **Integrity:** If the AI makes a causal claim but the Tool results didn't actually confirm that factor (e.g., weather was "Clear"), it appends a disclaimer: *"Causal links to weather are not proven by invoice tables alone."*
+
+---
+
+## 4. The Data Engine (Database Schema)
+
+The platform relies on `AI_DMS_database.db`, featuring a high-performance flattened view.
+
+### A. `VIEW_AI_SALES` (The Fact Engine)
+*   **Financials:** `NET_AMT` (Revenue - **ALWAYS use SUM**), `GROSS_AMT`, `TAXABLE_AMT`.
+*   **Discounts:** `SCHEME_AMT` (SKU Level), `GRP_SCHEME_AMT` (Basket Level).
+*   **Hierarchy:** `ZONE`, `STATE`, `TOWN`, `ZONAL_HEAD`, `SALES_MANAGER`, `AREA_SALES_MANAGER`.
+*   **Distribution:** `STOCKIEST` (Distributor), `BEAT` (Route), `CUSTOMER` (Retailer), `ISR` (Sales Rep).
+*   **Product:** `PRODUCT_CLASS` (Category), `CODE` (Brand), `PRODUCT` (SKU), `PRODUCT_MRP`.
+*   **Time:** `INVOICE_DATE` (Always filtered via `SUBSTR(INVOICE_DATE, 1, 10)`).
+
+### B. `context_intelligence` (The Signal Cache)
+*   `news_disruptors`: LLM-distilled business impact of the day's news.
+*   `is_holiday`: Boolean flag for market closures.
+
+---
+
+## 5. Advanced Intelligence Components
+
+*   **Anomaly Engine (`scripts/anomaly_engine.py`)**: Uses Statistical Z-Scores to flag revenue drops.
+*   **Revenue Forecaster (`scripts/forecaster.py`)**: ML-based XGBoost model for "What-If" scenarios.
+*   **Basket Analysis (`scripts/basket_analysis.py`)**: Computes **Lift**, **Confidence**, and **Support** for SKU bundles.
+
+---
+
+## 6. Directory & File Map
+
+| Path | Responsibility |
 | :--- | :--- |
-| `app/dashboard.py` | Main entry point. Handles Tab 1 (KPIs) and Tab 2 (Chat). |
-| `scripts/copilot_brain.py` | The core Agentic loop (Plan/Execute/Synthesise). |
-| `scripts/universal_context.py` | Fetches News, Weather, and Holidays. Handles LLM Failover. |
-| `src/services/query_service.py` | The bridge between the UI and the AI Agent. |
-| `src/app/styles.py` | Forces the Dark/Premium theme and UI consistency. |
-| `src/data/access/db.py` | Safe SQLite connection management. |
-| `scripts/anomaly_engine.py` | Statistical Z-Score detection for revenue drops. |
+| `app/dashboard.py` | UI Entry Point (Streamlit). |
+| `scripts/copilot_brain.py` | Main Agent logic & Tool implementations. |
+| `scripts/universal_context.py` | LLM Gateway & External Context (Weather/News). |
+| `scripts/anomaly_engine.py` | Statistical outlier detection. |
+| `scripts/forecaster.py` | Predictive ML modeling & Scenario parsing. |
+| `src/services/` | Business logic bridge between UI and AI. |
+| `src/copilot/` | **The Hardening Layer** (numeric_postcheck, premise_check, etc.). |
+| `src/sql/` | Security layer for SQL generation and execution. |
+| `src/data/access/db.py` | Thread-safe SQLite connection manager. |
 
 ---
 
-## 6. Key Configuration (Environment)
-The system uses `.env` and `st.secrets` to manage:
-*   `OPENROUTER_API_KEY`: Primary engine (Llama-3/Claude).
-*   `GOOGLE_API_KEY`: Fallback engine (Gemini 1.5 Pro).
-*   `NEWS_API_KEY`: For real-time market signals.
-*   `WEATHER_API_KEY`: For correlation analysis.
-
----
-
-## 7. Developer Guardrails
-*   **Numeric Truth:** Every number in the chat must be traced back to an SQL result.
-*   **No Placeholders:** Never use "Dummy Data" in responses. If data is missing, the AI must state it.
-*   **Security:** SQL queries are "Select-Only" and never allow `DROP` or `UPDATE` commands.
-
----
-**Document Status:** Current (Verified May 2026)  
-**Maintainer:** QAFFEINE Engineering Team
+**Document Status:** Comprehensive (Verified May 2026)  
+**Maintained by:** QAFFEINE Intelligence Team (Antigravity AI)
